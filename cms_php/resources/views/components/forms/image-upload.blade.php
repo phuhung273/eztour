@@ -1,12 +1,12 @@
 <div x-data="{photoName: null, photoPreview: null}" class="col-span-6 ml-2 sm:col-span-4 md:mr-3">
     <!-- Photo File Input -->
     <input {{ $attributes }} type="file" class="hidden" x-ref="photo" x-on:change="
-                        photoName = $refs.photo.files[0].name;
-                        const reader = new FileReader();
-                        reader.onload = (e) => {
-                            photoPreview = e.target.result;
-                        };
-                        reader.readAsDataURL($refs.photo.files[0]);
+        photoName = $refs.photo.files[0].name;
+        const reader = new FileReader();
+        reader.onload = (e) => {
+        photoPreview = e.target.result;
+        };
+        reader.readAsDataURL($refs.photo.files[0]);
     ">
 
     <div class="text-center">
@@ -18,7 +18,7 @@
         </div>
         <!-- New Profile Photo Preview -->
         <div class="mt-2" x-show="photoPreview" style="display: none;">
-            <span class="block w-10/12 m-auto shadow"
+            <span class="block w-10/12 h-40 m-auto shadow"
                 x-bind:style="'background-size: cover; background-repeat: no-repeat; background-position: center center; background-image: url(\'' + photoPreview + '\');'"
                 style="background-size: cover; background-repeat: no-repeat; background-position: center center; background-image: url('null');">
             </span>
@@ -31,6 +31,6 @@
     </div>
 </div>
 
-@push('js')
+@push('scripts')
 <script src="https://cdn.jsdelivr.net/gh/alpine-collective/alpine-magic-helpers@0.3.x/dist/index.js"></script>
 @endpush
