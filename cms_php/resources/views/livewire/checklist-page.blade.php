@@ -5,7 +5,7 @@
             <form wire:submit.prevent="submit">
                 <x-forms.form-group label="Message">
 
-                    <x-forms.input-text wire:model="content" />
+                    <x-forms.input-text wire:model.defer="content" />
 
                     @error('content')
                     <x-forms.error-text :error="$message" />
@@ -15,11 +15,11 @@
 
                 <x-forms.form-group>
 
-                    <x-forms.checkbox wire:model="done" label="Done" />
+                    <x-forms.checkbox wire:model.defer="done" label="Done" />
 
                 </x-forms.form-group>
 
-                <x-forms.btn-submit text="Submit" />
+                <x-app-button text="Submit" purpose="submit" />
             </form>
         </div>
     </div>

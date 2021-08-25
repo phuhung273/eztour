@@ -1,17 +1,10 @@
-<div x-data="{photoName: null, photoPreview: null}" class="col-span-6 ml-2 sm:col-span-4 md:mr-3">
+<div x-data="imageUploadData" class="col-span-6 ml-2 sm:col-span-4 md:mr-3">
     <!-- Photo File Input -->
-    <input {{ $attributes }} type="file" class="hidden" x-ref="photo" x-on:change="
-        photoName = $refs.photo.files[0].name;
-        const reader = new FileReader();
-        reader.onload = (e) => {
-            photoPreview = e.target.result;
-        };
-        reader.readAsDataURL($refs.photo.files[0]);
-    ">
+    <input {{ $attributes }} type="file" x-ref="photo" class="hidden" x-on:change="changeImage">
 
     <div class="text-center">
         <!-- Current Photo -->
-        <div class="mt-2" x-show="! photoPreview" wire:ignore>
+        <div class="mt-2" x-show="!photoPreview" wire:ignore>
             <div class="w-10/12 m-auto">
                 <img class="object-cover" src="{{ asset('img/placeholder-image.png') }} " />
             </div>
@@ -20,7 +13,7 @@
         <div class="mt-2" x-show="photoPreview" wire:ignore>
             <span class="block w-10/12 h-40 m-auto shadow"
                 x-bind:style="'background-size: cover; background-repeat: no-repeat; background-position: center center; background-image: url(\'' + photoPreview + '\');'"
-                style="background-size: cover; background-repeat: no-repeat; background-position: center center; background-image: url('null');">
+                style="background-size: cover; background-repeat: no-repeat; background-position: center center;">
             </span>
         </div>
         <button type="button"
@@ -30,3 +23,22 @@
         </button>
     </div>
 </div>
+
+@push('scripts')
+<script>
+    document.addEventListener('alpine:init', () => {
+        Alpine.data('imageUploadData', () => ({
+            photoName: null,
+            photoPreview: null,
+            changeImage(e){
+                this.photoName = e.target.files[0].name;
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    this.photoPreview = e.target.result;
+                };
+                reader.readAsDataURL(e.target.files[0]);
+            }
+        }))
+    })
+</script>
+@endpush

@@ -24,8 +24,9 @@ class SchedulePage extends Component
     public $day = self::DEFAULT_DAY;
     public $from = self::DEFAULT_FROM;
     public $to = self::DEFAULT_TO;
-    
+
     public $locations;
+    public $max_day;
 
     protected $rules = [
         'label' => 'required|min:5',
@@ -38,8 +39,8 @@ class SchedulePage extends Component
 
 
     public function mount() {
-        // $this->locations = Location::all();
-        $this->locations = collect([]);
+        $this->locations = Location::all();
+        $this->max_day = $this->locations->reduce(fn($last, $item) => $item->day > $last ? $item->day : $last, 0);
     }
 
     public function submit()
@@ -64,7 +65,21 @@ class SchedulePage extends Component
         $location->save();
 
         $this->locations->push($location);
+
+        $this->max_day = $this->max_day < $this->day ? $this->day : $this->max_day;
+
+        $this->resetForm();
     }
+
+    private function resetForm() {
+        $this->image = null;
+        $this->label = null;
+        $this->description = null;
+        $this->day = self::DEFAULT_DAY;
+        $this->from = self::DEFAULT_FROM;
+        $this->to = self::DEFAULT_TO;
+    }
+
 
     public function changeImage($imageName){
         $this->image = $imageName;

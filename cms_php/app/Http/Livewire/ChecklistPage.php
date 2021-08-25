@@ -34,6 +34,13 @@ class ChecklistPage extends Component
         $todo->save();
 
         $this->todos->push($todo);
+
+        $this->resetForm();
+    }
+
+    private function resetForm() {
+        $this->content = null;
+        $this->done = null;
     }
 
     public function render()
