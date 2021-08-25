@@ -4,20 +4,20 @@
         photoName = $refs.photo.files[0].name;
         const reader = new FileReader();
         reader.onload = (e) => {
-        photoPreview = e.target.result;
+            photoPreview = e.target.result;
         };
         reader.readAsDataURL($refs.photo.files[0]);
     ">
 
     <div class="text-center">
-        <!-- Current Profile Photo -->
-        <div class="mt-2" x-show="! photoPreview">
+        <!-- Current Photo -->
+        <div class="mt-2" x-show="! photoPreview" wire:ignore>
             <div class="w-10/12 m-auto">
                 <img class="object-cover" src="{{ asset('img/placeholder-image.png') }} " />
             </div>
         </div>
-        <!-- New Profile Photo Preview -->
-        <div class="mt-2" x-show="photoPreview" style="display: none;">
+        <!-- New Photo Preview -->
+        <div class="mt-2" x-show="photoPreview" wire:ignore>
             <span class="block w-10/12 h-40 m-auto shadow"
                 x-bind:style="'background-size: cover; background-repeat: no-repeat; background-position: center center; background-image: url(\'' + photoPreview + '\');'"
                 style="background-size: cover; background-repeat: no-repeat; background-position: center center; background-image: url('null');">
@@ -30,7 +30,3 @@
         </button>
     </div>
 </div>
-
-@push('scripts')
-<script src="https://cdn.jsdelivr.net/gh/alpine-collective/alpine-magic-helpers@0.3.x/dist/index.js"></script>
-@endpush

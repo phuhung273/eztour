@@ -16,19 +16,11 @@
     <!-- Styles -->
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <link rel="stylesheet" href="{{ asset('css/tailwind.output.css') }}" />
-    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
-    <script src="{{asset('js/init-alpine.js')}}" defer></script>
+    {{-- <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script> --}}
+    <script defer src="https://unpkg.com/alpinejs@3.2.4/dist/cdn.min.js"></script>
 
     @livewireStyles
     @stack('styles')
-
-    <script>
-        import Turbolinks from 'turbolinks';
-        Turbolinks.start()
-    </script>
-
-    <!-- Scripts -->
-    {{-- <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.6.0/dist/alpine.js" defer></script> --}}
 </head>
 
 <body>
@@ -55,6 +47,8 @@
 
         @livewireScripts
     </div>
+
+    <script src="{{ asset('js/init-alpine.js') }}"></script>
 </body>
 
 </html>

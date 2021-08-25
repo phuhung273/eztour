@@ -5,7 +5,7 @@
             <form wire:submit.prevent="submit" enctype="multipart/form-data">
                 <x-forms.form-group label="Location">
 
-                    <x-forms.image-upload wire:model="image" />
+                    <x-forms.image-upload wire:model.defer="image" />
                     @error('image')
                     <x-forms.error-text :error="$message" />
                     @enderror
@@ -14,7 +14,7 @@
 
                 <x-forms.form-group label="Location">
 
-                    <x-forms.input-text wire:model="label" />
+                    <x-forms.input-text wire:model.defer="label" />
 
                     @error('label')
                     <x-forms.error-text :error="$message" />
@@ -24,7 +24,7 @@
 
                 <x-forms.form-group label="Description">
 
-                    <x-forms.input-text wire:model="description" />
+                    <x-forms.input-text wire:model.defer="description" />
 
                     @error('description')
                     <x-forms.error-text :error="$message" />
@@ -34,9 +34,7 @@
 
                 <x-forms.form-group label="Day">
 
-                    {{-- <x-forms.input-number wire:model.increment="$increment" /> --}}
-
-                    @livewire('forms.input-number')
+                    <x-forms.input-number wire:model.defer="day" />
 
                     @error('day')
                     <x-forms.error-text :error="$message" />
@@ -46,7 +44,7 @@
 
                 <x-forms.form-group label="From (hour)">
 
-                    <x-forms.time-picker wire:model="from" />
+                    <x-forms.time-picker wire:model.defer="from" />
 
                     @error('from')
                     <x-forms.error-text :error="$message" />
@@ -56,7 +54,7 @@
 
                 <x-forms.form-group label="To (hour)">
 
-                    <x-forms.time-picker wire:model="to" />
+                    <x-forms.time-picker wire:model.defer="to" />
 
                     @error('to')
                     <x-forms.error-text :error="$message" />

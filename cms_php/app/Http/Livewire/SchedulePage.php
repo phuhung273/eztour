@@ -2,20 +2,28 @@
 
 namespace App\Http\Livewire;
 
+use App\Helpers\TimeHelper;
 use App\Models\Location;
 use Livewire\Component;
 use Livewire\WithFileUploads;
+
+
 
 class SchedulePage extends Component
 {
     use WithFileUploads;
 
+    const IMAGE_STORAGE_DIRECTORY   = 'public/img/locations';
+    const DEFAULT_DAY               = 1;
+    const DEFAULT_FROM              = '6:00 AM';
+    const DEFAULT_TO                = '9:00 AM';
+
     public $image;
     public $label;
     public $description;
-    public $day = 0;
-    public $from;
-    public $to;
+    public $day = self::DEFAULT_DAY;
+    public $from = self::DEFAULT_FROM;
+    public $to = self::DEFAULT_TO;
     
     public $locations;
 
@@ -23,12 +31,11 @@ class SchedulePage extends Component
         'label' => 'required|min:5',
         'image' => 'image|max:1024',
         'description' => 'required|min:5',
-        'day' => 'required|digits',
+        'day' => 'required',
         'from' => 'required',
         'to' => 'required',
     ];
 
-    const IMAGE_STORAGE_DIRECTORY = 'public/img/locations';
 
     public function mount() {
         // $this->locations = Location::all();
@@ -45,12 +52,13 @@ class SchedulePage extends Component
         $this->image->storeAs(self::IMAGE_STORAGE_DIRECTORY, $image_name);
 
         $location = new Location([
-            'image' => $this->image,
+            'image' => $image_name,
             'name' => $this->label,
             'description' => $this->description,
             'day' => $this->day,
-            'from' => $this->from,
-            'to' => $this->to,
+            'from' => TimeHelper::gia2his($this->from),
+            'to' => TimeHelper::gia2his($this->to),
+            'tour_id' => 1
         ]);
 
         $location->save();
@@ -58,9 +66,8 @@ class SchedulePage extends Component
         $this->locations->push($location);
     }
 
-    public function increment()
-    {
-        $this->day++;
+    public function changeImage($imageName){
+        $this->image = $imageName;
     }
 
     public function render()
