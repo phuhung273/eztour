@@ -7,9 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Location extends Model
 {
-    protected $fillable = ['name', 'image', 'day', 'tour_id', 'description', 'from', 'to'];
-
     use HasFactory;
+
+    protected $fillable = ['name', 'image', 'day', 'tour_id', 'description', 'from', 'to'];
 
     public $timestamps = false;
 

@@ -17,17 +17,17 @@ class _AnnouncementScreenState extends State<AnnouncementScreen> {
 
   final service = AnnouncementService(Dio(BaseOptions(contentType: "application/json")));
 
-  // List<Todo> _todos = [];
+  List<Todo> _todos = [];
 
-  List<Todo> _todos = [
-      Todo(id: 1, message: "Design", done: true),
-      Todo(id: 2, message: "Code", done: false),
-      Todo(id: 3, message: "Review", done: false),
-  ];
+  // List<Todo> _todos = [
+  //     Todo(id: 1, message: "Design", done: true),
+  //     Todo(id: 2, message: "Code", done: false),
+  //     Todo(id: 3, message: "Review", done: false),
+  // ];
 
   @override
   void initState() {
-    // _getTodoList();
+    _getTodoList();
 
     super.initState();
   }

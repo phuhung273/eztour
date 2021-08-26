@@ -7,9 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Greeting extends Model
 {
-    protected $fillable = ['message', 'alarm_time'];
-
     use HasFactory;
+    
+    protected $fillable = ['message', 'alarm_time'];
 
     public $timestamps = false;
 

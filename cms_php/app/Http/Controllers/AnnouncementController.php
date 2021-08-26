@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Todo;
+use App\Models\Announcement;
 use Illuminate\Http\Request;
 
-class TodoController extends Controller
+class AnnouncementController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,10 +14,10 @@ class TodoController extends Controller
      */
     public function index()
     {
-        $data = Todo::all();
+        $data = Announcement::all();
 
         return [
-            'todos' => $data,
+            'announcements' => $data,
         ];
     }
 
@@ -47,7 +47,7 @@ class TodoController extends Controller
 
         $input['done'] = $request->has('done');
 
-        Todo::create($input);
+        Announcement::create($input);
 
         return redirect()->route('todos.view');
     }
@@ -55,10 +55,10 @@ class TodoController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Todo  $todo
+     * @param  \App\Models\Announcement  $announcement
      * @return \Illuminate\Http\Response
      */
-    public function show(Todo $todo)
+    public function show(Announcement $announcement)
     {
         //
     }
@@ -66,10 +66,10 @@ class TodoController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Todo  $todo
+     * @param  \App\Models\Announcement  $announcement
      * @return \Illuminate\Http\Response
      */
-    public function edit(Todo $todo)
+    public function edit(Announcement $announcement)
     {
         //
     }
@@ -78,10 +78,10 @@ class TodoController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Todo  $todo
+     * @param  \App\Models\Announcement  $announcement
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Todo $todo)
+    public function update(Request $request, Announcement $announcement)
     {
         //
     }
@@ -89,12 +89,12 @@ class TodoController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Todo  $todo
+     * @param  \App\Models\Announcement  $announcement
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Todo $todo)
+    public function destroy(Announcement $announcement)
     {
-        $todo->delete();
+        $announcement->delete();
         return back();
     }
 }

@@ -13,7 +13,7 @@ class SchedulePage extends Component
 {
     use WithFileUploads;
 
-    const IMAGE_STORAGE_DIRECTORY   = 'public/img/locations';
+    const IMAGE_STORAGE_DIRECTORY   = 'public/img/data';
     const DEFAULT_DAY               = 1;
     const DEFAULT_FROM              = '6:00 AM';
     const DEFAULT_TO                = '9:00 AM';
@@ -25,13 +25,13 @@ class SchedulePage extends Component
     public $from = self::DEFAULT_FROM;
     public $to = self::DEFAULT_TO;
 
-    public $locations;
+    public $data;
     public $max_day;
 
     protected $rules = [
-        'label' => 'required|min:5',
+        'label' => 'required|min:4',
         'image' => 'image|max:1024',
-        'description' => 'required|min:5',
+        'description' => 'required|min:4',
         'day' => 'required',
         'from' => 'required',
         'to' => 'required',
@@ -39,8 +39,8 @@ class SchedulePage extends Component
 
 
     public function mount() {
-        $this->locations = Location::all();
-        $this->max_day = $this->locations->reduce(fn($last, $item) => $item->day > $last ? $item->day : $last, 0);
+        $this->data = Location::all();
+        $this->max_day = $this->data->reduce(fn($last, $item) => $item->day > $last ? $item->day : $last, 0);
     }
 
     public function submit()
@@ -52,7 +52,7 @@ class SchedulePage extends Component
         $image_name = $this->image->getClientOriginalName();
         $this->image->storeAs(self::IMAGE_STORAGE_DIRECTORY, $image_name);
 
-        $location = new Location([
+        $item = new Location([
             'image' => $image_name,
             'name' => $this->label,
             'description' => $this->description,
@@ -62,9 +62,9 @@ class SchedulePage extends Component
             'tour_id' => 1
         ]);
 
-        $location->save();
+        $item->save();
 
-        $this->locations->push($location);
+        $this->data->push($item);
 
         $this->max_day = $this->max_day < $this->day ? $this->day : $this->max_day;
 

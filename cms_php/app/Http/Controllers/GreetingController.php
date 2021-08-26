@@ -42,7 +42,7 @@ class GreetingController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'message' => 'required|min:5',
+            'message' => 'required|min:4',
             'alarm_time' => 'required',
         ]);
 

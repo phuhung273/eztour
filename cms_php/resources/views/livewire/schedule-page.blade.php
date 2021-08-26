@@ -12,7 +12,7 @@
 
                 </x-forms.form-group>
 
-                <x-forms.form-group label="Location">
+                <x-forms.form-group label="Label">
 
                     <x-forms.input-text wire:model.defer="label" />
 
@@ -87,8 +87,8 @@
                         </div>
                 </div>
 
-                @foreach ($locations as $location)
-                @if ($location->day == $i)
+                @foreach ($data as $item)
+                @if ($item->day == $i)
                 <div class="flex">
                     <div class="relative">
                         {{-- Straight line --}}
@@ -100,7 +100,7 @@
                     </div>
 
                     <div class="flex-grow pl-4">
-                        <x-location-card :location="$location" />
+                        <x-location-card :location="$item" />
                     </div>
                 </div>
                 @endif

@@ -46,8 +46,8 @@ class LocationController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|min:5',
-            'description' => 'required|min:5',
+            'name' => 'required|min:4',
+            'description' => 'required|min:4',
             'day' => 'required',
             'from' => 'required',
             'to' => 'required',

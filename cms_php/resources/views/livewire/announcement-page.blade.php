@@ -13,12 +13,6 @@
 
                 </x-forms.form-group>
 
-                <x-forms.form-group>
-
-                    <x-forms.checkbox wire:model.defer="done" label="Done" />
-
-                </x-forms.form-group>
-
                 <x-app-button text="Submit" purpose="submit" />
             </form>
         </div>
@@ -27,7 +21,7 @@
     <div class="col-span-2">
         <div class="px-4 py-3 mb-8 bg-white rounded-lg shadow-md">
 
-            <x-checklist-table :data="$data" />
+            <x-announcement-table :data="$data" />
         </div>
     </div>
 </div>
