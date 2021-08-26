@@ -3,10 +3,16 @@ import 'package:eztour_traveller/Screens/Home/home_screen.dart';
 import 'package:eztour_traveller/Screens/Schedule/schedule_screen.dart';
 import 'package:eztour_traveller/screens/Announcement/announcement_screen.dart';
 import 'package:eztour_traveller/screens/ScheduleDetail/schedule_detail.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class MainScreen extends StatefulWidget {
-  const MainScreen({Key? key}) : super(key: key);
+  const MainScreen({
+    this.payload,
+    Key? key,
+  }) : super(key: key);
+
+  final String? payload;
 
   @override
   _MainScreenState createState() => _MainScreenState();
@@ -16,12 +22,23 @@ class _MainScreenState extends State<MainScreen> {
 
   List<Widget> pageList = [
     HomeScreen(),
-    // ScheduleDetail(),
-    ScheduleScreen(),
+    ScheduleDetail(),
+    // ScheduleScreen(),
     AnnouncementScreen()
   ];
 
   int _pageIndex = 0;
+
+  @override
+  void initState() {
+    if(widget.payload != null){
+      setState(() {
+        _pageIndex = 2;
+      });
+    }
+
+    super.initState();
+  }
 
   BottomNavigationBar _buildBottomNavigationBar() {
     return BottomNavigationBar(

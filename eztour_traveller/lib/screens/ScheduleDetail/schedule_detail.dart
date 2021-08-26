@@ -1,5 +1,7 @@
 
+import 'package:eztour_traveller/notifications/notification_api.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 class ScheduleDetail extends StatefulWidget {
   const ScheduleDetail({Key? key}) : super(key: key);
@@ -9,6 +11,7 @@ class ScheduleDetail extends StatefulWidget {
 }
 
 class _ScheduleDetailState extends State<ScheduleDetail> {
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -28,17 +31,14 @@ class _ScheduleDetailState extends State<ScheduleDetail> {
               borderRadius: BorderRadius.circular(32.0)
             ),
           ),
-          ListView.builder(
-            shrinkWrap: true,
-            physics: NeverScrollableScrollPhysics(),
-            itemCount: 20,
-            itemBuilder: (context, index){
-              return Container(
-                color: index.isOdd ? Colors.white : Colors.black12,
-                height: 100.0,
-                child: Center(
-                  child: Text('$index', textScaleFactor: 5),
-                ),
+          ElevatedButton(
+            child: Text('Click me'),
+            onPressed: (){
+              NotificationApi.showScheduledNotification(
+                title: 'This is title',
+                body: 'This is body',
+                payload: 'this is payload',
+                time: Time(21, 47)
               );
             },
           )

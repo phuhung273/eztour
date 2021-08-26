@@ -1,5 +1,4 @@
-import 'package:eztour_traveller/Screens/Main/main_screen.dart';
-import 'package:eztour_traveller/screens/Login/login_screen.dart';
+import 'package:eztour_traveller/screens/Splash/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:eztour_traveller/constants.dart';
 
@@ -16,8 +15,7 @@ class MyApp extends StatelessWidget {
         primaryColor: kPrimaryColor,
         scaffoldBackgroundColor: Colors.white,
       ),
-      // home: MainScreen(),
-      home: LoginScreen(),
+      home: SplashScreen(),
     );
   }
 }
