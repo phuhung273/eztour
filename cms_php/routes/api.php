@@ -1,5 +1,10 @@
 <?php
 
+use App\Http\Controllers\AnnouncementController;
+use App\Http\Controllers\GreetingController;
+use App\Http\Controllers\LocationController;
+use App\Http\Controllers\MobileHomeController;
+use App\Http\Controllers\TodoController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -16,4 +21,37 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
+});
+
+Route::name('api.')->group(function() {
+
+    Route::name('locations.')->group(function() {
+        Route::prefix('locations')->group(function() {
+            Route::get('/', [LocationController::class, 'index'])->name('index');
+        });
+    });
+
+    Route::name('greetings.')->group(function() {
+        Route::prefix('greetings')->group(function() {
+            Route::get('/', [GreetingController::class, 'index'])->name('index');
+        });
+    });
+
+    Route::name('todos.')->group(function() {
+        Route::prefix('todos')->group(function() {
+            Route::get('/', [TodoController::class, 'index'])->name('index');
+        });
+    });
+
+    Route::name('announcements.')->group(function() {
+        Route::prefix('announcements')->group(function() {
+            Route::get('/', [AnnouncementController::class, 'index'])->name('index');
+        });
+    });
+
+    Route::name('home.')->group(function() {
+        Route::prefix('home')->group(function() {
+            Route::post('/', [MobileHomeController::class, 'index'])->name('index');
+        });
+    });
 });

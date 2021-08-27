@@ -45,11 +45,9 @@ class AnnouncementController extends Controller
 
         $input = $request->all();
 
-        $input['done'] = $request->has('done');
-
         Announcement::create($input);
 
-        return redirect()->route('todos.view');
+        return back();
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Announcement;
 use App\Models\Greeting;
 use App\Models\Todo;
 use Illuminate\Http\Request;
@@ -25,11 +26,14 @@ class MobileHomeController extends Controller
 
         $greeting_message = Greeting::getSuitableMessage($local_time);
 
-        $todos = Todo::all();
+        $todos = Todo::limit(3)->get();
+
+        $announcements = Announcement::limit(3)->get();
 
         return [
             'greeting' => $greeting_message,
             'todos' => $todos,
+            'announcements' => $announcements,
         ];
     }
 }

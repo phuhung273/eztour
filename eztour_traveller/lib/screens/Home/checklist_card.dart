@@ -1,14 +1,19 @@
 
-import 'package:eztour_traveller/schema/announcement/announcement.dart';
+import 'package:eztour_traveller/schema/checklist/todo.dart';
 import 'package:flutter/material.dart';
 
-class AnnouncementCard extends StatelessWidget {
-  final List<Announcement> announcements;
+class ChecklistCard extends StatelessWidget {
+  final List<Todo> todos;
 
-  const AnnouncementCard({
+  const ChecklistCard({
     Key? key,
-    required this.announcements,
+    required this.todos,
   }) : super(key: key);
+
+  Widget _buildCheckIcon(bool done){
+    return done ? Icon(Icons.check_circle, color: Colors.green, size: 32)
+        : Icon(Icons.radio_button_unchecked, color: Colors.grey, size: 32);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +24,7 @@ class AnnouncementCard extends StatelessWidget {
           shrinkWrap: true,
           physics: NeverScrollableScrollPhysics(),
           padding: const EdgeInsets.all(8),
-          itemCount: announcements.length,
+          itemCount: todos.length,
           itemBuilder: (BuildContext context, int index) {
             return Container(
               margin: EdgeInsets.all(8),
@@ -29,7 +34,8 @@ class AnnouncementCard extends StatelessWidget {
               ),
               child:  ListTile(
                 contentPadding: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-                title: Text(announcements[index].message, style: TextStyle(fontSize: 20)),
+                title: Text(todos[index].message, style: TextStyle(fontSize: 20)),
+                trailing: _buildCheckIcon(todos[index].done),
               ),
             );
           },

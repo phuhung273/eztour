@@ -13,7 +13,7 @@ class SchedulePage extends Component
 {
     use WithFileUploads;
 
-    const IMAGE_STORAGE_DIRECTORY   = 'public/img/data';
+    const IMAGE_STORAGE_DIRECTORY   = 'public/img/locations';
     const DEFAULT_DAY               = 1;
     const DEFAULT_FROM              = '6:00 AM';
     const DEFAULT_TO                = '9:00 AM';

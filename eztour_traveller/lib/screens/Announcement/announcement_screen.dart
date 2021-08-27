@@ -1,8 +1,8 @@
 
 import 'package:eztour_traveller/datasource/remote/announcement_service.dart';
-import 'package:eztour_traveller/schema/announcement/todo.dart';
-import 'package:eztour_traveller/schema/announcement/todo_list_request.dart';
-import 'package:eztour_traveller/schema/announcement/todo_list_response.dart';
+import 'package:eztour_traveller/schema/announcement/announcement.dart';
+import 'package:eztour_traveller/schema/announcement/announcement_list_request.dart';
+import 'package:eztour_traveller/schema/announcement/announcement_list_response.dart';
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 
@@ -17,12 +17,12 @@ class _AnnouncementScreenState extends State<AnnouncementScreen> {
 
   final service = AnnouncementService(Dio(BaseOptions(contentType: "application/json")));
 
-  List<Todo> _todos = [];
+  List<Announcement> _announcements = [];
 
-  // List<Todo> _todos = [
-  //     Todo(id: 1, message: "Design", done: true),
-  //     Todo(id: 2, message: "Code", done: false),
-  //     Todo(id: 3, message: "Review", done: false),
+  // List<Announcement> _announcements = [
+  //   Announcement(id: 1, message: "Design"),
+  //   Announcement(id: 2, message: "Code"),
+  //   Announcement(id: 3, message: "Review"),
   // ];
 
   @override
@@ -34,26 +34,14 @@ class _AnnouncementScreenState extends State<AnnouncementScreen> {
 
   void _getTodoList() async {
     try {
-      TodoListResponse response = await service.getTodoList(TodoListRequest());
+      AnnouncementListResponse response = await service.getAnnouncementList(AnnouncementListRequest());
 
       setState(() {
-        _todos = response.todos;
+        _announcements = response.announcements;
       });
     } catch(e) {
       print('Error: $e');
     }
-  }
-
-
-  void _toggleTodo(int index){
-    setState(() {
-      _todos[index].done = !_todos[index].done;
-    });
-  }
-
-  Widget _buildCheckIcon(bool done){
-    return done ? Icon(Icons.check_circle, color: Colors.green, size: 32)
-        : Icon(Icons.radio_button_unchecked, color: Colors.grey, size: 32);
   }
 
   @override
@@ -69,7 +57,7 @@ class _AnnouncementScreenState extends State<AnnouncementScreen> {
             shrinkWrap: true,
             physics: NeverScrollableScrollPhysics(),
             padding: const EdgeInsets.all(8),
-            itemCount: _todos.length,
+            itemCount: _announcements.length,
             itemBuilder: (BuildContext context, int index) {
               return Container(
                 margin: EdgeInsets.all(8),
@@ -79,11 +67,7 @@ class _AnnouncementScreenState extends State<AnnouncementScreen> {
                 ),
                 child:  ListTile(
                   contentPadding: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-                  title: Text(_todos[index].message, style: TextStyle(fontSize: 20)),
-                  trailing: IconButton(
-                    icon: _buildCheckIcon(_todos[index].done),
-                    onPressed: () => _toggleTodo(index),
-                  ),
+                  title: Text(_announcements[index].message, style: TextStyle(fontSize: 20)),
                 ),
               );
             },

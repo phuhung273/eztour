@@ -15,14 +15,17 @@ class Greeting extends Model
 
     public static function getSuitableMessage($time){
         $greetings = (new static)::orderBy('alarm_time', 'ASC')->get();
+        $length = count($greetings);
 
-        $suitableMessage = $greetings->reduce(function($last, $item) use ($time) {
-            if ($time > strtotime($item->alarm_time)) {
-                return $item->message;
+        $suitableMessage = $greetings[$length - 1]->message;
+
+        for ($i=0; $i < $length; $i++) { 
+            if ($time >= strtotime($greetings[$i]->alarm_time)) {
+                $suitableMessage = $greetings[$i]->message;
+            } else {
+                return $suitableMessage;
             }
-
-            return $last;
-        }, $greetings[0]->message);
+        }
 
         return $suitableMessage;
     }

@@ -41,6 +41,7 @@ dependencies:
   flutter_local_notifications: ^8.1.1+1
   rxdart: ^0.27.1
   flutter_native_timezone: ^2.0.0
+  tab_indicator_styler: ^2.0.0
 
 dev_dependencies:
   retrofit_generator: ^2.0.1
