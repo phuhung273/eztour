@@ -3,18 +3,18 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 
-var items = [
-  GalleryItem(name: "Food", image: "discovery_food.jpeg"),
-  GalleryItem(name: "Beverage", image: "discovery_beverage.jpg"),
-  GalleryItem(name: "Kids", image: "discovery_kid.jpg"),
-  GalleryItem(name: "Karaoke", image: "discovery_karaoke.jpg"),
-];
-
 class DiscoveryGrid extends StatelessWidget {
+
+  final _items = [
+    GalleryItem(name: "Food", image: "discovery_food.jpeg"),
+    GalleryItem(name: "Beverage", image: "discovery_beverage.jpg"),
+    GalleryItem(name: "Kids", image: "discovery_kid.jpg"),
+    GalleryItem(name: "Karaoke", image: "discovery_karaoke.jpg"),
+  ];
 
   final String title;
 
-  const DiscoveryGrid({
+  DiscoveryGrid({
     Key? key,
     required this.title,
   }) : super(key: key);
@@ -24,14 +24,14 @@ class DiscoveryGrid extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(this.title, style: TextStyle(fontSize: 25.0),),
+        Text(title, style: const TextStyle(fontSize: 25.0),),
         GridView.builder(
           shrinkWrap: true,
-          physics: NeverScrollableScrollPhysics(),
+          physics: const NeverScrollableScrollPhysics(),
           itemCount: 4,
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
           itemBuilder: (BuildContext context, int index){
-            return GalleryItemWidget(name: items[index].name, imagePath: items[index].image);
+            return GalleryItemWidget(name: _items[index].name, imagePath: _items[index].image);
           }
         ),
       ],
@@ -73,7 +73,7 @@ class GalleryItemWidget extends StatelessWidget {
               clipBehavior: Clip.hardEdge,
               decoration: BoxDecoration(
                 image: DecorationImage(
-                  image: AssetImage("assets/images/${this.imagePath}"),
+                  image: AssetImage("assets/images/$imagePath"),
                   fit: BoxFit.cover,
                 ),
               ),
@@ -86,8 +86,8 @@ class GalleryItemWidget extends StatelessWidget {
             ),
             Center(
               child: Text(
-                this.name,
-                style: TextStyle(
+                name,
+                style: const TextStyle(
                   fontSize: 25.0,
                   fontWeight: FontWeight.bold,
                   color: Colors.white,

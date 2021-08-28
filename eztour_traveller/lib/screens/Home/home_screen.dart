@@ -3,7 +3,6 @@ import 'package:eztour_traveller/datasource/remote/home_service.dart';
 import 'package:eztour_traveller/schema/announcement/announcement.dart';
 import 'package:eztour_traveller/schema/checklist/todo.dart';
 import 'package:eztour_traveller/schema/home/home_index_request.dart';
-import 'package:eztour_traveller/schema/home/home_index_response.dart';
 import 'package:eztour_traveller/schema/schedule/location.dart';
 import 'package:eztour_traveller/screens/Home/announcement_card.dart';
 import 'package:eztour_traveller/screens/Home/checklist_card.dart';
@@ -61,17 +60,17 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
   }
 
-  void getHomeInfo() async {
-    String now = DateFormat.Hms().format(DateTime.now());
+  Future getHomeInfo() async {
+    final String now = DateFormat.Hms().format(DateTime.now());
     try {
-      HomeIndexResponse response = await service.getHomeInfo(HomeIndexRequest(local_time: now));
+      final response = await service.getHomeInfo(HomeIndexRequest(local_time: now));
       setState(() {
         _greeting = response.greeting;
         _todos = response.todos;
         _announcements = response.announcements;
       });
     } catch (e){
-      print('Error: $e');
+      debugPrint('Error: $e');
     }
   }
 
@@ -83,13 +82,13 @@ class _HomeScreenState extends State<HomeScreen> {
         SliverAppBar(
           floating: true,
           leading: IconButton(
-            icon: Icon(Icons.menu),
+            icon: const Icon(Icons.menu),
             onPressed: (){},
           ),
           title: Text(_greeting),
           actions: [
             IconButton(
-              icon: Icon(Icons.account_circle),
+              icon: const Icon(Icons.account_circle),
               onPressed: (){},
             )
           ],
@@ -99,7 +98,7 @@ class _HomeScreenState extends State<HomeScreen> {
             children: [
               Container(
                 height: 200.0,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   image: DecorationImage(
                     image: AssetImage("assets/images/sample_timeline1.jpg"),
                     fit: BoxFit.cover,
@@ -107,11 +106,11 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
               Container(
-                padding: EdgeInsets.all(4.0),
+                padding: const EdgeInsets.all(4.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    Flag.fromString(
+                    const Flag.fromString(
                       'vn',
                       height: 30,
                       width: 50,
@@ -119,13 +118,13 @@ class _HomeScreenState extends State<HomeScreen> {
                       replacement: Text('Viet Nam'),
                     ),
                     Container(width: 8.0),
-                    Icon(Icons.schedule),
+                    const Icon(Icons.schedule),
                     Container(width: 8.0),
                     StreamBuilder(
                         stream: Stream.periodic(const Duration(minutes: 1)),
                         builder: (context, snapshot) => Text(
                           _getCurrentVNTimeString(),
-                          style: TextStyle(fontSize: 18.0),
+                          style: const TextStyle(fontSize: 18.0),
                         )
                     ),
                   ],
@@ -138,14 +137,13 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               DefaultTabController(
                 length: 2,
-                initialIndex: 0,
                 child: Column(
                   children: [
                     TabBar(
                       indicatorColor: Colors.green,
-                      tabs: [
-                        const Tab(text: "Checklist"),
-                        const Tab(text: "Announcement"),
+                      tabs: const [
+                        Tab(text: "Checklist"),
+                        Tab(text: "Announcement"),
                       ],
                       labelColor: Colors.white,
                       unselectedLabelColor: Colors.black,
@@ -160,7 +158,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     SizedBox(
                       height: 350.0,
                       child: TabBarView(
-                          physics: NeverScrollableScrollPhysics(),
+                          physics: const NeverScrollableScrollPhysics(),
                           children: [
                             ChecklistCard(todos: _todos),
                             AnnouncementCard(announcements: _announcements),

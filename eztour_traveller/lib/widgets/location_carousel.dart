@@ -17,7 +17,7 @@ class LocationCarousel extends StatelessWidget {
 
   List<Widget> _buildCarouselItems(List<Location> locations){
     return locations
-        .map((e) => CarouselItem(imagePath: e.image, caption: e.name, borderRadius: this.borderRadius,))
+        .map((e) => CarouselItem(imagePath: e.image, caption: e.name, borderRadius: borderRadius,))
         .toList();
   }
 
@@ -28,19 +28,18 @@ class LocationCarousel extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(this.title, style: TextStyle(fontSize: 25.0),),
+          Text(title, style: const TextStyle(fontSize: 25.0),),
           Container(
             child: CarouselSlider(
               options: CarouselOptions(
                 height: 150.0,
                 enlargeCenterPage: true,
-                enlargeStrategy: CenterPageEnlargeStrategy.scale,
                 enableInfiniteScroll: false,
                 disableCenter: true,
                 aspectRatio: 1.0,
                 viewportFraction: 0.6,
               ),
-              items: _buildCarouselItems(this.locations),
+              items: _buildCarouselItems(locations),
             ),
           )
         ],
@@ -64,7 +63,7 @@ class CarouselItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.all(5.0),
+      margin: const EdgeInsets.all(5.0),
       child: Stack(
         clipBehavior: Clip.none,
         children: <Widget>[
@@ -72,7 +71,7 @@ class CarouselItem extends StatelessWidget {
             clipBehavior: Clip.hardEdge,
             elevation: 6.0,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(this.borderRadius),
+              borderRadius: BorderRadius.circular(borderRadius),
             ),
             // child: Image(
             //   image: AssetImage("assets/images/${this.imagePath}"),
@@ -80,7 +79,7 @@ class CarouselItem extends StatelessWidget {
             //   fit: BoxFit.cover
             // ),
             child: Image.network(
-                "http://10.0.2.2:8000/storage/img/locations/${this.imagePath}",
+                "http://10.0.2.2:8000/storage/img/locations/$imagePath",
                 width: 300.0,
                 fit: BoxFit.cover
             ),
@@ -89,15 +88,15 @@ class CarouselItem extends StatelessWidget {
             top: 10.0,
             left: -10.0,
             child: Container(
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 color: Colors.white,
               ),
-              padding: EdgeInsets.symmetric(
+              padding: const EdgeInsets.symmetric(
                   vertical: 10.0, horizontal: 20.0
               ),
               child: Text(
-                this.caption,
-                style: TextStyle(
+                caption,
+                style: const TextStyle(
                   fontSize: 20.0,
                   fontWeight: FontWeight.bold,
                   fontStyle: FontStyle.italic

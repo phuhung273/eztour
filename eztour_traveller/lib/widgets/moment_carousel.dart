@@ -16,7 +16,7 @@ class MomentCarousel extends StatelessWidget {
 
   List<Widget> _buildCarouselItems(List<String> imagePathList){
     return imagePathList
-        .map((e) => CarouselItem(imagePath: e, borderRadius: this.borderRadius,))
+        .map((e) => CarouselItem(imagePath: e, borderRadius: borderRadius,))
         .toList();
   }
 
@@ -27,19 +27,18 @@ class MomentCarousel extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(this.title, style: TextStyle(fontSize: 25.0),),
+          Text(title, style: const TextStyle(fontSize: 25.0),),
           Container(
             child: CarouselSlider(
               options: CarouselOptions(
                 height: 150.0,
                 enlargeCenterPage: true,
-                enlargeStrategy: CenterPageEnlargeStrategy.scale,
                 enableInfiniteScroll: false,
                 disableCenter: true,
                 aspectRatio: 1.0,
                 viewportFraction: 0.6,
               ),
-              items: _buildCarouselItems(this.imagePathList),
+              items: _buildCarouselItems(imagePathList),
             ),
           )
         ],
@@ -61,14 +60,14 @@ class CarouselItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.all(5.0),
+      margin: const EdgeInsets.all(5.0),
       child: Container(
         clipBehavior: Clip.hardEdge,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(this.borderRadius)),
+          borderRadius: BorderRadius.all(Radius.circular(borderRadius)),
         ),
         child: Image(
-            image: AssetImage("assets/images/${this.imagePath}"),
+            image: AssetImage("assets/images/$imagePath"),
             width: 300,
             fit: BoxFit.cover
         ),

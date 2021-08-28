@@ -18,13 +18,13 @@ class _ScheduleDetailState extends State<ScheduleDetail> {
       child: Column(
         children: [
           AppBar(
-            title: Text("Day 1: San Francisco"),
+            title: const Text("Day 1: San Francisco"),
           ),
           Container(
-            margin: EdgeInsets.symmetric(vertical: 16.0, horizontal: 32.0),
+            margin: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 32.0),
             height: 200.0,
             decoration: BoxDecoration(
-              image: DecorationImage(
+              image: const DecorationImage(
                 image: AssetImage("assets/images/sample_timeline1.jpg"),
                 fit: BoxFit.cover,
               ),
@@ -32,15 +32,15 @@ class _ScheduleDetailState extends State<ScheduleDetail> {
             ),
           ),
           ElevatedButton(
-            child: Text('Click me'),
             onPressed: (){
-              NotificationApi.showScheduledNotification(
+              showScheduledNotification(
                 title: 'This is title',
                 body: 'This is body',
                 payload: 'this is payload',
-                time: Time(21, 47)
+                time: const Time(21, 47)
               );
             },
+            child: const Text('Click me'),
           )
         ],
       ),

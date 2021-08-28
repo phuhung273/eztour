@@ -11,8 +11,8 @@ class ChecklistCard extends StatelessWidget {
   }) : super(key: key);
 
   Widget _buildCheckIcon(bool done){
-    return done ? Icon(Icons.check_circle, color: Colors.green, size: 32)
-        : Icon(Icons.radio_button_unchecked, color: Colors.grey, size: 32);
+    return done ? const Icon(Icons.check_circle, color: Colors.green, size: 32)
+        : const Icon(Icons.radio_button_unchecked, color: Colors.grey, size: 32);
   }
 
   @override
@@ -22,19 +22,19 @@ class ChecklistCard extends StatelessWidget {
         // Limit to 3 items only
         ListView.separated(
           shrinkWrap: true,
-          physics: NeverScrollableScrollPhysics(),
+          physics: const NeverScrollableScrollPhysics(),
           padding: const EdgeInsets.all(8),
           itemCount: todos.length,
           itemBuilder: (BuildContext context, int index) {
             return Container(
-              margin: EdgeInsets.all(8),
+              margin: const EdgeInsets.all(8),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(12),
                 color: Colors.white,
               ),
               child:  ListTile(
-                contentPadding: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-                title: Text(todos[index].message, style: TextStyle(fontSize: 20)),
+                contentPadding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                title: Text(todos[index].message, style: const TextStyle(fontSize: 20)),
                 trailing: _buildCheckIcon(todos[index].done),
               ),
             );

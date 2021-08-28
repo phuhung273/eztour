@@ -21,13 +21,13 @@ class _SplashScreenState extends State<SplashScreen> {
     }));
   }
 
-  void listenNotifications() => NotificationApi.selectNotificationSubject.stream.listen(onClickedNotification);
+  void listenNotifications() => selectNotificationSubject.stream.listen(onClickedNotification);
 
   @override
   void initState() {
     super.initState();
 
-    NotificationApi.init();
+    initNotification();
 
     listenNotifications();
 
@@ -35,13 +35,13 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   Future<Timer> loadData() async {
-    return new Timer(Duration(seconds: 1), onDoneLoading);
+    return Timer(const Duration(seconds: 1), onDoneLoading);
   }
 
-  void onDoneLoading() async {
+  Future onDoneLoading() async {
     Navigator.push(context, MaterialPageRoute(builder: (context){
       // return LoginScreen();
-      return MainScreen();
+      return const MainScreen();
     }));
   }
 
@@ -50,7 +50,7 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        child: Center(
+        child: const Center(
           child: Text('Eztour Splash Screen'),
         ),
       ),

@@ -31,7 +31,7 @@ class _BodyState extends State<Body> {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
+    final Size size = MediaQuery.of(context).size;
 
     return Background(
       child: Column(
@@ -39,11 +39,11 @@ class _BodyState extends State<Body> {
         children: <Widget>[
           SizedBox(height: size.height * 0.03),
           InkWell(
+            onTap: _scanQR,
             child: Icon(
               Icons.qr_code_scanner,
               size: size.height * 0.2,
             ),
-            onTap: _scanQR,
           ),
           Text(_result),
           SizedBox(height: size.height * 0.1),
@@ -73,16 +73,15 @@ class _BodyState extends State<Body> {
     );
   }
 
-  void _scanQR() async {
+  Future _scanQR() async {
     try {
-      var qrResult = await BarcodeScanner.scan(
-        options: ScanOptions(
+      final qrResult = await BarcodeScanner.scan(
+        options: const ScanOptions(
           restrictFormat: [BarcodeFormat.qr],
-          autoEnableFlash: false,
         )
       );
 
-      var credential = BasicAuthCredential.fromJson(jsonDecode(qrResult.rawContent));
+      final credential = BasicAuthCredential.fromJson(jsonDecode(qrResult.rawContent));
       _login(credential);
 
     } on PlatformException catch (ex) {
@@ -98,10 +97,10 @@ class _BodyState extends State<Body> {
     }
   }
 
-  void _login(BasicAuthCredential credential) async {
+  Future _login(BasicAuthCredential credential) async {
     if(credential.username == "admin@gmail.com" && credential.password == "admin123") {
       Navigator.push(context, MaterialPageRoute(builder: (context){
-        return MainScreen();
+        return const MainScreen();
       }));
     }
 

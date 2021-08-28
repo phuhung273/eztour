@@ -2,7 +2,6 @@
 import 'package:eztour_traveller/datasource/remote/announcement_service.dart';
 import 'package:eztour_traveller/schema/announcement/announcement.dart';
 import 'package:eztour_traveller/schema/announcement/announcement_list_request.dart';
-import 'package:eztour_traveller/schema/announcement/announcement_list_response.dart';
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 
@@ -32,15 +31,15 @@ class _AnnouncementScreenState extends State<AnnouncementScreen> {
     super.initState();
   }
 
-  void _getTodoList() async {
+  Future _getTodoList() async {
     try {
-      AnnouncementListResponse response = await service.getAnnouncementList(AnnouncementListRequest());
+      final response = await service.getAnnouncementList(AnnouncementListRequest());
 
       setState(() {
         _announcements = response.announcements;
       });
     } catch(e) {
-      print('Error: $e');
+      debugPrint('Error: $e');
     }
   }
 
@@ -49,25 +48,25 @@ class _AnnouncementScreenState extends State<AnnouncementScreen> {
     return SingleChildScrollView(
       child: Column(
         children: [
-          Text(
+          const Text(
             "Announcement",
             style: TextStyle(fontSize: 25.0),
           ),
           ListView.separated(
             shrinkWrap: true,
-            physics: NeverScrollableScrollPhysics(),
+            physics: const NeverScrollableScrollPhysics(),
             padding: const EdgeInsets.all(8),
             itemCount: _announcements.length,
             itemBuilder: (BuildContext context, int index) {
               return Container(
-                margin: EdgeInsets.all(8),
+                margin: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(12),
                   color: Colors.white,
                 ),
                 child:  ListTile(
-                  contentPadding: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-                  title: Text(_announcements[index].message, style: TextStyle(fontSize: 20)),
+                  contentPadding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                  title: Text(_announcements[index].message, style: const TextStyle(fontSize: 20)),
                 ),
               );
             },

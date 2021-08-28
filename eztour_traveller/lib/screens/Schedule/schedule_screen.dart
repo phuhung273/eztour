@@ -1,11 +1,12 @@
+import 'package:dio/dio.dart';
 import 'package:eztour_traveller/datasource/remote/schedule_service.dart';
 import 'package:eztour_traveller/schema/schedule/location.dart';
 import 'package:eztour_traveller/schema/schedule/schedule_list_request.dart';
 import 'package:eztour_traveller/schema/schedule/schedule_list_response.dart';
 import 'package:eztour_traveller/widgets/location_carousel.dart';
 import 'package:flutter/material.dart';
+
 import 'components/background.dart';
-import 'package:dio/dio.dart';
 
 class ScheduleScreen extends StatefulWidget {
   @override
@@ -17,7 +18,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
 
   List<Widget> _buildSchedule(List<Location> locations, int max_day)
   {
-    final days = new List<int>.generate(max_day, (i) => i + 1);;
+    final days = List<int>.generate(max_day, (i) => i + 1);
 
     return days.map((e) => LocationCarousel(
         title: 'Day ${e.toString()}',
@@ -53,7 +54,6 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
           ];
 
           return ListView(
-            scrollDirection: Axis.vertical,
             shrinkWrap: true,
             children: _buildSchedule(locations, locations.length),
           );

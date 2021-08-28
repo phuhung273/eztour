@@ -42,11 +42,13 @@ dependencies:
   rxdart: ^0.27.1
   flutter_native_timezone: ^2.0.0
   tab_indicator_styler: ^2.0.0
+  dash_chat: ^1.1.16
 
 dev_dependencies:
   retrofit_generator: ^2.0.1
   build_runner: ^2.0.3
   json_serializable: ^4.1.2
+  lint: ^1.6.0
 
   flutter_test:
     sdk: flutter
