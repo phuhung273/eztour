@@ -28,10 +28,8 @@
 <script>
     document.addEventListener('alpine:init', () => {
         Alpine.data('imageUploadData', () => ({
-            photoName: null,
             photoPreview: null,
             changeImage(e){
-                this.photoName = e.target.files[0].name;
                 const reader = new FileReader();
                 reader.onload = (e) => {
                     this.photoPreview = e.target.result;

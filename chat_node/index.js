@@ -1,6 +1,8 @@
 const httpServer = require('http').createServer();
 const io = require('socket.io')(httpServer, {
-  
+  cors: {
+    origin: 'http://localhost:8080',
+  },
 });
 
 const crypto = require('crypto');
@@ -70,7 +72,7 @@ io.on('connection', (socket) => {
       messages: messagesPerUser.get(session.userID) || [],
     });
   });
-  socket.emit('users', users);
+  socket.emit('users', {users});
 
   // notify existing users
   socket.broadcast.emit('user connected', {
@@ -97,7 +99,7 @@ io.on('connection', (socket) => {
     const isDisconnected = matchingSockets.size === 0;
     if (isDisconnected) {
       // notify other users
-      socket.broadcast.emit('user disconnected', socket.userID);
+      socket.broadcast.emit('user disconnected', {userID: socket.userID});
       // update the connection status of the session
       sessionStore.saveSession(socket.sessionID, {
         userID: socket.userID,

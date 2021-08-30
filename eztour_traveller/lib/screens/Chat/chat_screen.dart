@@ -2,6 +2,7 @@ import 'package:eztour_traveller/schema/chat/chat.dart';
 import 'package:eztour_traveller/screens/Message/message_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import 'chat_card.dart';
 
@@ -74,9 +75,7 @@ class _ChatScreenState extends State<ChatScreen> {
   ];
 
   void _goToMessageScreen(){
-    Navigator.push(context, MaterialPageRoute(builder: (context){
-      return const MessageScreen();
-    }));
+    Get.to(const MessageScreen());
   }
 
   @override

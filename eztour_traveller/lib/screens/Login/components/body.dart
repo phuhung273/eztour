@@ -13,6 +13,7 @@ import 'package:eztour_traveller/components/rounded_button.dart';
 import 'package:eztour_traveller/components/rounded_input_field.dart';
 import 'package:eztour_traveller/components/rounded_password_field.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 
 class Body extends StatefulWidget {
   const Body({
@@ -99,9 +100,7 @@ class _BodyState extends State<Body> {
 
   Future _login(BasicAuthCredential credential) async {
     if(credential.username == "admin@gmail.com" && credential.password == "admin123") {
-      Navigator.push(context, MaterialPageRoute(builder: (context){
-        return const MainScreen();
-      }));
+      Get.off(const MainScreen());
     }
 
     setState(() {

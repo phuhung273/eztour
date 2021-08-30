@@ -1,7 +1,10 @@
 import 'dart:async';
 
 import 'package:dash_chat/dash_chat.dart';
+import 'package:eztour_traveller/schema/chat/chat_socket_message.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:socket_io_client/socket_io_client.dart';
 
 class MessageScreen extends StatefulWidget {
   const MessageScreen({Key? key}) : super(key: key);
@@ -26,26 +29,28 @@ class _MessageScreenState extends State<MessageScreen> {
   );
 
   List<ChatMessage> messages = <ChatMessage>[];
-  var m = <ChatMessage>[];
+  List<ChatMessage> m = <ChatMessage>[];
 
-  var i = 0;
+  int i = 0;
 
-  void _systemMessage() {
-    Timer(const Duration(milliseconds: 300), () {
-      if (i < 6) {
-        setState(() {
-          messages = [...messages, m[i]];
-        });
-        i++;
-      }
-      Timer(const Duration(milliseconds: 300), () {
-        _chatViewKey.currentState!.scrollController
-          .animateTo(
-            _chatViewKey
-                .currentState!.scrollController.position.maxScrollExtent,
-            curve: Curves.easeOut,
-            duration: const Duration(milliseconds: 300),
-          );
+  final Socket _socket = Get.find();
+
+
+  @override
+  void initState() {
+    super.initState();
+
+    _socket.on('private message', (data) {
+      final response = ChatSocketMessage.fromJson(data);
+      final newMessage = ChatMessage(
+        text: response.content,
+        user: ChatUser(
+          uid: response.from,
+        ),
+      );
+
+      setState(() {
+        messages = [...messages, newMessage];
       });
     });
   }
@@ -53,24 +58,14 @@ class _MessageScreenState extends State<MessageScreen> {
   void _onSend(ChatMessage message) {
     setState(() {
       messages = [...messages, message];
-      print(messages.length);
     });
-
-    if (i == 0) {
-      _systemMessage();
-      Timer(const Duration(milliseconds: 600), () {
-        _systemMessage();
-      });
-    } else {
-      _systemMessage();
-    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Message Screen"),
+        title: const Text("Message Screen"),
       ),
       body: DashChat(
         key: _chatViewKey,

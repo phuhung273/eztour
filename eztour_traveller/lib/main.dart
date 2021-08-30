@@ -1,6 +1,8 @@
-import 'package:eztour_traveller/screens/Splash/splash_screen.dart';
+import 'package:eztour_traveller/screens/Splash/splash_screen_controller.dart';
+import 'package:eztour_traveller/screens/route/route.dart';
 import 'package:flutter/material.dart';
 import 'package:eztour_traveller/constants.dart';
+import 'package:get/get.dart';
 
 void main() => runApp(MyApp());
 
@@ -8,14 +10,16 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Auth',
       theme: ThemeData(
         primaryColor: kPrimaryColor,
         scaffoldBackgroundColor: Colors.white,
       ),
-      home: const SplashScreen(),
+      initialBinding: SplashScreenBinding(),
+      initialRoute: ROUTE_SPLASH,
+      getPages: appRoute
     );
   }
 }
