@@ -7,6 +7,7 @@ import 'package:get/get_navigation/src/routes/get_route.dart';
 
 const ROUTE_SPLASH = '/splash';
 const ROUTE_MAIN = '/main';
+const ROUTE_SCHEDULE_DETAIL = '/schedule-detail';
 
 var appRoute = [
   GetPage(name: ROUTE_SPLASH, page: () => SplashScreen(), binding: SplashScreenBinding()),

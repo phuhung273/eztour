@@ -82,7 +82,7 @@ class _BodyState extends State<Body> {
         )
       );
 
-      final credential = BasicAuthCredential.fromJson(jsonDecode(qrResult.rawContent));
+      final credential = BasicAuthCredential.fromJson(jsonDecode(qrResult.rawContent) as Map<String, dynamic>);
       _login(credential);
 
     } on PlatformException catch (ex) {
@@ -100,7 +100,7 @@ class _BodyState extends State<Body> {
 
   Future _login(BasicAuthCredential credential) async {
     if(credential.username == "admin@gmail.com" && credential.password == "admin123") {
-      Get.off(const MainScreen());
+      Get.off(MainScreen());
     }
 
     setState(() {

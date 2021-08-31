@@ -41,7 +41,7 @@ class _MessageScreenState extends State<MessageScreen> {
     super.initState();
 
     _socket.on('private message', (data) {
-      final response = ChatSocketMessage.fromJson(data);
+      final response = ChatSocketMessage.fromJson(data as Map<String, dynamic>);
       final newMessage = ChatMessage(
         text: response.content,
         user: ChatUser(

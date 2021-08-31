@@ -1,190 +1,151 @@
 
-import 'package:eztour_traveller/datasource/remote/home_service.dart';
 import 'package:eztour_traveller/schema/announcement/announcement.dart';
 import 'package:eztour_traveller/schema/checklist/todo.dart';
-import 'package:eztour_traveller/schema/home/home_index_request.dart';
-import 'package:eztour_traveller/schema/schedule/location.dart';
 import 'package:eztour_traveller/screens/Home/announcement_card.dart';
 import 'package:eztour_traveller/screens/Home/checklist_card.dart';
 import 'package:eztour_traveller/screens/Home/discovery_grid.dart';
+import 'package:eztour_traveller/screens/Home/home_screen_controller.dart';
 import 'package:eztour_traveller/widgets/location_carousel.dart';
 import 'package:eztour_traveller/widgets/moment_carousel.dart';
 import 'package:flag/flag.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:dio/dio.dart';
+import 'package:get/get.dart';
 import 'package:instant/instant.dart';
 import 'package:intl/intl.dart';
 import 'package:tab_indicator_styler/tab_indicator_styler.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+class HomeScreen extends StatelessWidget {
 
-  @override
-  _HomeScreenState createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen> {
-
-  final service = HomeService(Dio(BaseOptions(contentType: "application/json")));
-
-  String _greeting = "Good morning, Mr.A";
-
-  List<Todo> _todos = [];
-  List<Announcement> _announcements = [];
-
-  final List<Location> locations = [
-    Location(id: 0, name: "Paris", image: "sample_timeline1.jpg", day: 1, tour_id: 1),
-    Location(id: 0, name: "Paris", image: "sample_timeline1.jpg", day: 2, tour_id: 1),
-    Location(id: 0, name: "Paris", image: "sample_timeline1.jpg", day: 3, tour_id: 1),
-    Location(id: 0, name: "Paris", image: "sample_timeline1.jpg", day: 4, tour_id: 1),
-  ];
-
-  // List<Todo> _todos = [
-  //   Todo(id: 1, message: "Design", done: true),
-  //   Todo(id: 2, message: "Code", done: false),
-  //   Todo(id: 3, message: "Review", done: false),
-  // ];
-  //
-  // List<Announcement> _announcements = [
-  //   Announcement(id: 1, message: "Design"),
-  //   Announcement(id: 2, message: "Code"),
-  //   Announcement(id: 3, message: "Review"),
-  // ];
-
-
-  @override
-  void initState() {
-    getHomeInfo();
-
-    super.initState();
-  }
-
-  Future getHomeInfo() async {
-    final String now = DateFormat.Hms().format(DateTime.now());
-    try {
-      final response = await service.getHomeInfo(HomeIndexRequest(local_time: now));
-      setState(() {
-        _greeting = response.greeting;
-        _todos = response.todos;
-        _announcements = response.announcements;
-      });
-    } catch (e){
-      debugPrint('Error: $e');
-    }
-  }
+  final _controller = Get.put(HomeScreenController());
 
   @override
   Widget build(BuildContext context) {
 
-    return CustomScrollView(
-      slivers: [
-        SliverAppBar(
-          floating: true,
-          leading: IconButton(
-            icon: const Icon(Icons.menu),
-            onPressed: (){},
-          ),
-          title: Text(_greeting),
-          actions: [
-            IconButton(
-              icon: const Icon(Icons.account_circle),
+    return Obx(
+      () => CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            floating: true,
+            leading: IconButton(
+              icon: const Icon(Icons.menu),
               onPressed: (){},
-            )
-          ],
-        ),
-        SliverToBoxAdapter(
-          child: Column(
-            children: [
-              Container(
-                height: 200.0,
-                decoration: const BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage("assets/images/sample_timeline1.jpg"),
-                    fit: BoxFit.cover,
-                  ),
-                ),
-              ),
-              Container(
-                padding: const EdgeInsets.all(4.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    const Flag.fromString(
-                      'vn',
-                      height: 30,
-                      width: 50,
-                      fit: BoxFit.fill,
-                      replacement: Text('Viet Nam'),
-                    ),
-                    Container(width: 8.0),
-                    const Icon(Icons.schedule),
-                    Container(width: 8.0),
-                    StreamBuilder(
-                        stream: Stream.periodic(const Duration(minutes: 1)),
-                        builder: (context, snapshot) => Text(
-                          _getCurrentVNTimeString(),
-                          style: const TextStyle(fontSize: 18.0),
-                        )
-                    ),
-                  ],
-                ),
-              ),
-              LocationCarousel(
-                title: 'Schedule',
-                locations: locations,
-                borderRadius: 20.0,
-              ),
-              DefaultTabController(
-                length: 2,
-                child: Column(
-                  children: [
-                    TabBar(
-                      indicatorColor: Colors.green,
-                      tabs: const [
-                        Tab(text: "Checklist"),
-                        Tab(text: "Announcement"),
-                      ],
-                      labelColor: Colors.white,
-                      unselectedLabelColor: Colors.black,
-                      indicator: RectangularIndicator(
-                        bottomLeftRadius: 100,
-                        bottomRightRadius: 100,
-                        topLeftRadius: 100,
-                        topRightRadius: 100,
-                        horizontalPadding: 24,
-                      ),
-                    ),
-                    SizedBox(
-                      height: 350.0,
-                      child: TabBarView(
-                          physics: const NeverScrollableScrollPhysics(),
-                          children: [
-                            ChecklistCard(todos: _todos),
-                            AnnouncementCard(announcements: _announcements),
-                          ]
-                      ),
-                    )
-                  ],
-                ),
-              ),
-              MomentCarousel(
-                title: 'Sharing Moments',
-                imagePathList: locations.map((e) => e.image).toList(),
-                borderRadius: 10.0,
-              ),
-              DiscoveryGrid(
-                title: 'Discovery',
-              ),
+            ),
+            title: Text(_controller.greeting.value),
+            actions: [
+              IconButton(
+                icon: const Icon(Icons.account_circle),
+                onPressed: (){},
+              )
             ],
           ),
-        )
-      ],
+          SliverToBoxAdapter(
+            child: Column(
+              children: [
+                Container(
+                  height: 200.0,
+                  decoration: const BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage("assets/images/sample_timeline1.jpg"),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+                _buildHometownClock(),
+                LocationCarousel(
+                  title: 'Schedule',
+                  locations: _controller.locations.value,
+                  borderRadius: 20.0,
+                ),
+                _buildNoticesTabbar(),
+                MomentCarousel(
+                  title: 'Sharing Moments',
+                  imagePathList: _controller.locations.map((e) => e.image).toList(),
+                  borderRadius: 10.0,
+                ),
+                DiscoveryGrid(
+                  title: 'Discovery',
+                ),
+              ],
+            ),
+          )
+        ],
+      ),
     );
   }
+
+  Widget _buildNoticesTabbar() {
+    return _controller.todos.isEmpty ? const CircularProgressIndicator()
+        : DefaultTabController(
+            length: 2,
+            child: Column(
+              children: [
+                TabBar(
+                  indicatorColor: Colors.green,
+                  tabs: const [
+                    Tab(text: "Checklist"),
+                    Tab(text: "Announcement"),
+                  ],
+                  labelColor: Colors.white,
+                  unselectedLabelColor: Colors.black,
+                  indicator: RectangularIndicator(
+                    bottomLeftRadius: 100,
+                    bottomRightRadius: 100,
+                    topLeftRadius: 100,
+                    topRightRadius: 100,
+                    horizontalPadding: 24,
+                  ),
+                ),
+                SizedBox(
+                  height: 350.0,
+                  child: TabBarView(
+                      physics: const NeverScrollableScrollPhysics(),
+                      children: [
+                        ChecklistCard(
+                            todos: _controller.todos.value as List<Todo>
+                        ),
+                        AnnouncementCard(
+                            announcements: _controller.announcements.value as List<Announcement>
+                        ),
+                      ]
+                  ),
+                ),
+              ],
+            ),
+          );
+  }
+}
+
+Widget _buildHometownClock() {
 
   String _getCurrentVNTimeString() {
     // Vietnam: ICT ~ WIB
     return DateFormat('dd/MM/yyyy hh:mm a').format(curDateTimeByZone(zone: 'WIB'));
   }
+
+  return Container(
+    padding: const EdgeInsets.all(4.0),
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        const Flag.fromString(
+          'vn',
+          height: 30,
+          width: 50,
+          fit: BoxFit.fill,
+          replacement: Text('Viet Nam'),
+        ),
+        Container(width: 8.0),
+        const Icon(Icons.schedule),
+        Container(width: 8.0),
+        StreamBuilder(
+            stream: Stream.periodic(const Duration(minutes: 1)),
+            builder: (context, snapshot) => Text(
+              _getCurrentVNTimeString(),
+              style: const TextStyle(fontSize: 18.0),
+            )
+        ),
+      ],
+    ),
+  );
 }

@@ -1,54 +1,12 @@
 
-import 'package:eztour_traveller/datasource/remote/checklist_service.dart';
-import 'package:eztour_traveller/schema/checklist/checklist_request.dart';
 import 'package:eztour_traveller/schema/checklist/todo.dart';
+import 'package:eztour_traveller/screens/Checklist/checklist_screen_controller.dart';
 import 'package:flutter/material.dart';
-import 'package:dio/dio.dart';
+import 'package:get/get.dart';
 
-class ChecklistScreen extends StatefulWidget {
-  const ChecklistScreen({Key? key}) : super(key: key);
+class ChecklistScreen extends StatelessWidget {
 
-  @override
-  _ChecklistScreenState createState() => _ChecklistScreenState();
-}
-
-class _ChecklistScreenState extends State<ChecklistScreen> {
-
-  final service = ChecklistService(Dio(BaseOptions(contentType: "application/json")));
-
-  List<Todo> _todos = [];
-
-  // List<Todo> _todos = [
-  //     Todo(id: 1, message: "Design", done: true),
-  //     Todo(id: 2, message: "Code", done: false),
-  //     Todo(id: 3, message: "Review", done: false),
-  // ];
-
-  @override
-  void initState() {
-    _getTodoList();
-
-    super.initState();
-  }
-
-  Future _getTodoList() async {
-    try {
-      final response = await service.getChecklist(ChecklistRequest());
-
-      setState(() {
-        _todos = response.todos;
-      });
-    } catch(e) {
-      debugPrint('Error: $e');
-    }
-  }
-
-
-  void _toggleTodo(int index){
-    setState(() {
-      _todos[index].done = !_todos[index].done;
-    });
-  }
+  final _controller = Get.put(ChecklistScreenController());
 
   Widget _buildCheckIcon(bool done){
     return done ? const Icon(Icons.check_circle, color: Colors.green, size: 32)
@@ -64,29 +22,34 @@ class _ChecklistScreenState extends State<ChecklistScreen> {
             "Checklist",
             style: TextStyle(fontSize: 25.0),
           ),
-          ListView.separated(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            padding: const EdgeInsets.all(8),
-            itemCount: _todos.length,
-            itemBuilder: (BuildContext context, int index) {
-              return Container(
-                margin: const EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12),
-                  color: Colors.white,
-                ),
-                child:  ListTile(
-                  contentPadding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-                  title: Text(_todos[index].message, style: const TextStyle(fontSize: 20)),
-                  trailing: IconButton(
-                    icon: _buildCheckIcon(_todos[index].done),
-                    onPressed: () => _toggleTodo(index),
+          Obx(
+            () => ListView.separated(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              padding: const EdgeInsets.all(8),
+              itemCount: _controller.todos.length,
+              itemBuilder: (BuildContext context, int index) {
+
+                final todo = _controller.todos[index] as Todo;
+
+                return Container(
+                  margin: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12),
+                    color: Colors.white,
                   ),
-                ),
-              );
-            },
-            separatorBuilder: (BuildContext context, int index) => const Divider(),
+                  child:  ListTile(
+                    contentPadding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                    title: Text(todo.message, style: const TextStyle(fontSize: 20)),
+                    trailing: IconButton(
+                      icon: _buildCheckIcon(todo.done),
+                      onPressed: () => _controller.toggleTodo(index),
+                    ),
+                  ),
+                );
+              },
+              separatorBuilder: (BuildContext context, int index) => const Divider(),
+            ),
           )
         ],
       ),

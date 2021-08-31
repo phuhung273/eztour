@@ -4,7 +4,6 @@ import 'dart:async';
 import 'package:eztour_traveller/notifications/notification_api.dart';
 import 'package:eztour_traveller/screens/Main/main_screen.dart';
 import 'package:eztour_traveller/screens/route/route.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class SplashScreenBinding implements Bindings{

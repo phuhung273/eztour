@@ -13,7 +13,7 @@ import 'package:get/get.dart';
 
 class MainScreen extends StatelessWidget {
 
-  final MainScreenController controller = Get.find();
+  final MainScreenController _controller = Get.find();
 
   MainScreen({
     this.payload,
@@ -21,15 +21,6 @@ class MainScreen extends StatelessWidget {
   }) : super(key: key);
 
   final String? payload;
-
-  final List<Widget> _tabs = [
-    const HomeScreen(),
-    const ScheduleDetail(),
-    // const ScheduleScreen(),
-    const AnnouncementScreen(),
-    const ChecklistScreen(),
-    const ChatScreen(),
-  ];
 
   // @override
   // void initState() {
@@ -45,24 +36,6 @@ class MainScreen extends StatelessWidget {
   //
   // }
 
-  Widget _buildBottomNavigationBar() {
-    return Obx(
-      () => BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        currentIndex: controller.pageIndex.value,
-        onTap: (value) {
-          controller.changeTab(value);
-        },
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
-          BottomNavigationBarItem(icon: Icon(Icons.event), label: "Schedule"),
-          BottomNavigationBarItem(icon: Icon(Icons.notifications), label: "Announcement"),
-          BottomNavigationBarItem(icon: Icon(Icons.check_circle_rounded), label: "Checklist"),
-          BottomNavigationBarItem(icon: Icon(Icons.chat_outlined), label: "Chat"),
-        ],
-      ),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -76,11 +49,53 @@ class MainScreen extends StatelessWidget {
                   secondaryAnimation: secondaryAnimation,
                   child: child,
                 ),
-            child:  _tabs[controller.pageIndex.value],
+            child:  _buildTab(_controller.pageIndex.value),
           ),
         ),
       ),
       bottomNavigationBar: _buildBottomNavigationBar(),
     );
+  }
+
+  Widget _buildBottomNavigationBar() {
+    return Obx(
+      () => BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
+        currentIndex: _controller.pageIndex.value,
+        onTap: (value) {
+          _controller.changeTab(value);
+        },
+        items: const [
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
+          BottomNavigationBarItem(icon: Icon(Icons.event), label: "Schedule"),
+          BottomNavigationBarItem(icon: Icon(Icons.notifications), label: "Announcement"),
+          BottomNavigationBarItem(icon: Icon(Icons.check_circle_rounded), label: "Checklist"),
+          BottomNavigationBarItem(icon: Icon(Icons.chat_outlined), label: "Chat"),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildTab(int index){
+    switch(index){
+      case 0:
+        return HomeScreen();
+
+      case 1:
+        // return ScheduleDetail();
+        return ScheduleScreen();
+
+      case 2:
+        return AnnouncementScreen();
+
+      case 3:
+        return ChecklistScreen();
+
+      case 4:
+        return const ChatScreen();
+
+      default:
+        return HomeScreen();
+    }
   }
 }
