@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AnnouncementController;
 use App\Http\Livewire\ChecklistPage;
 use App\Http\Livewire\SchedulePage;
 use App\Http\Controllers\GreetingController;

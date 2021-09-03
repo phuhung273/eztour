@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 
 class ChecklistScreen extends StatelessWidget {
 
-  final _controller = Get.put(ChecklistScreenController());
+  final ChecklistScreenController _controller = Get.put(ChecklistScreenController());
 
   Widget _buildCheckIcon(bool done){
     return done ? const Icon(Icons.check_circle, color: Colors.green, size: 32)
@@ -30,7 +30,7 @@ class ChecklistScreen extends StatelessWidget {
               itemCount: _controller.todos.length,
               itemBuilder: (BuildContext context, int index) {
 
-                final todo = _controller.todos[index] as Todo;
+                final todo = _controller.todos[index];
 
                 return Container(
                   margin: const EdgeInsets.all(8),

@@ -6,13 +6,13 @@ part 'chat_socket_message.g.dart';
 class ChatSocketMessage {
 
   @JsonKey(name: 'content')
-  String content;
+  String? content;
 
   @JsonKey(name: 'from')
-  String from;
+  String? from;
 
   @JsonKey(name: 'to')
-  String to;
+  String? to;
 
   ChatSocketMessage({
     required this.content,

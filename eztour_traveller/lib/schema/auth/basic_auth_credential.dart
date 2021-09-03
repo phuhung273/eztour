@@ -5,7 +5,10 @@ part 'basic_auth_credential.g.dart';
 @JsonSerializable()
 class BasicAuthCredential {
 
+  @JsonKey(name: 'email')
   String username;
+
+  @JsonKey(name: 'password')
   String password;
 
   BasicAuthCredential({

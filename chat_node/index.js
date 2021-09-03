@@ -8,39 +8,41 @@ const io = require('socket.io')(httpServer, {
 const crypto = require('crypto');
 const randomId = () => crypto.randomBytes(8).toString('hex');
 
-const { InMemorySessionStore } = require('./sessionStore');
-const sessionStore = new InMemorySessionStore();
+const { InMemoryUserStore } = require('./userStore');
+const userStore = new InMemoryUserStore();
 
-const { InMemoryMessageStore } = require('./messageStore');
-const messageStore = new InMemoryMessageStore();
+const CONNECTED = 1;
+const DISCONNECTED = 0;
 
 io.use((socket, next) => {
   const sessionID = socket.handshake.auth.sessionID;
   if (sessionID) {
-    const session = sessionStore.findSession(sessionID);
-    if (session) {
+    const user = userStore.findUserBySessionId(sessionID);
+    if (user) {
       socket.sessionID = sessionID;
-      socket.userID = session.userID;
-      socket.username = session.username;
+      socket.userID = user.userID;
+      socket.username = user.username;
       return next();
     }
   }
   const username = socket.handshake.auth.username;
-  if (!username) {
-    return next(new Error('invalid username'));
+  const userID = socket.handshake.auth.userID;
+  if (!username || !userID) {
+    return next(new Error('invalid credential'));
   }
   socket.sessionID = randomId();
-  socket.userID = randomId();
+  socket.userID = userID;
   socket.username = username;
   next();
 });
 
 io.on('connection', (socket) => {
   // persist session
-  sessionStore.saveSession(socket.sessionID, {
+  userStore.saveUser(socket.userID, {
     userID: socket.userID,
+    sessionID: socket.sessionID,
     username: socket.username,
-    connected: true,
+    connected: CONNECTED,
   });
 
   // emit session details
@@ -53,32 +55,14 @@ io.on('connection', (socket) => {
   socket.join(socket.userID);
 
   // fetch existing users
-  const users = [];
-  const messagesPerUser = new Map();
-  messageStore.findMessagesForUser(socket.userID).forEach((message) => {
-    const { from, to } = message;
-    const otherUser = socket.userID === from ? to : from;
-    if (messagesPerUser.has(otherUser)) {
-      messagesPerUser.get(otherUser).push(message);
-    } else {
-      messagesPerUser.set(otherUser, [message]);
-    }
-  });
-  sessionStore.findAllSessions().forEach((session) => {
-    users.push({
-      userID: session.userID,
-      username: session.username,
-      connected: session.connected,
-      messages: messagesPerUser.get(session.userID) || [],
-    });
-  });
+  const users = userStore.findAllUsers();
   socket.emit('users', {users});
 
   // notify existing users
   socket.broadcast.emit('user connected', {
     userID: socket.userID,
     username: socket.username,
-    connected: true,
+    connected: CONNECTED,
     messages: [],
   });
 
@@ -90,7 +74,6 @@ io.on('connection', (socket) => {
       to,
     };
     socket.to(to).to(socket.userID).emit('private message', message);
-    messageStore.saveMessage(message);
   });
 
   // notify users upon disconnection
@@ -101,10 +84,11 @@ io.on('connection', (socket) => {
       // notify other users
       socket.broadcast.emit('user disconnected', {userID: socket.userID});
       // update the connection status of the session
-      sessionStore.saveSession(socket.sessionID, {
+      userStore.saveUser(socket.userID, {
         userID: socket.userID,
+        sessionID: socket.sessionID,
         username: socket.username,
-        connected: false,
+        connected: DISCONNECTED,
       });
     }
   });

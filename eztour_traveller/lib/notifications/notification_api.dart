@@ -1,12 +1,11 @@
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_native_timezone/flutter_native_timezone.dart';
+import 'package:get/get.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 
 FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
-
-BehaviorSubject<String?> selectNotificationSubject = BehaviorSubject<String?>();
 
 const _sound = 'rooster_2.wav';
 
@@ -26,6 +25,8 @@ NotificationDetails _platformChannelSpecifics = NotificationDetails(
 );
 
 Future initNotification() async {
+
+  final BehaviorSubject<String?> selectNotificationSubject = Get.find();
 
   await _configureLocalTimeZone();
 

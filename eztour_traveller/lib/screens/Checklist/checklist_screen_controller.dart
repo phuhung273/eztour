@@ -17,7 +17,8 @@ class ChecklistScreenController extends GetxController {
 
   final _checklistRequest = Get.put(ChecklistRequest());
 
-  final todos = [].obs;
+  final todos = List<Todo>.empty().obs;
+  
   // var _todos = [
   //     Todo(id: 1, message: "Design", done: true),
   //     Todo(id: 2, message: "Code", done: false),
@@ -35,7 +36,7 @@ class ChecklistScreenController extends GetxController {
   }
 
   void toggleTodo(int index){
-    final todo = todos[index] as Todo;
+    final todo = todos[index];
     todo.done = !todo.done;
     todos[index] = todo;
     update();

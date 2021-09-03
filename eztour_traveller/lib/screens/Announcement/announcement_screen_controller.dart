@@ -1,4 +1,5 @@
 import 'package:eztour_traveller/datasource/remote/announcement_service.dart';
+import 'package:eztour_traveller/schema/announcement/announcement.dart';
 import 'package:eztour_traveller/schema/announcement/announcement_list_request.dart';
 import 'package:get/get.dart';
 
@@ -15,7 +16,7 @@ class AnnouncementScreenController extends GetxController {
 
   final _announcementListRequest = Get.put(AnnouncementListRequest());
 
-  final announcements = [].obs;
+  final announcements = List<Announcement>.empty().obs ;
 
   // final announcements = [
   //   Announcement(id: 1, message: "Design"),

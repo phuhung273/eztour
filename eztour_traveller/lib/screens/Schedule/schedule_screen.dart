@@ -8,7 +8,7 @@ import 'components/background.dart';
 
 class ScheduleScreen extends StatelessWidget {
 
-  final _controller = Get.put(ScheduleScreenController());
+  final ScheduleScreenController _controller = Get.put(ScheduleScreenController());
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +23,7 @@ class ScheduleScreen extends StatelessWidget {
 
             return ListView(
               shrinkWrap: true,
-              children: _buildSchedule(_controller.locations.value as List<Location> , _controller.max_day.value),
+              children: _buildSchedule(_controller.locations.value , _controller.max_day.value),
             );
           }),
         ),

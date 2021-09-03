@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 
 class AnnouncementScreen extends StatelessWidget {
 
-  final _controller = Get.put(AnnouncementScreenController());
+  final AnnouncementScreenController _controller = Get.put(AnnouncementScreenController());
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +25,7 @@ class AnnouncementScreen extends StatelessWidget {
               itemCount: _controller.announcements.length,
               itemBuilder: (BuildContext context, int index) {
 
-                final announcement = _controller.announcements[index] as Announcement;
+                final announcement = _controller.announcements[index];
 
                 return Container(
                   margin: const EdgeInsets.all(8),

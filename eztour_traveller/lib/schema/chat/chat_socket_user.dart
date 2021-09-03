@@ -13,16 +13,12 @@ class ChatSocketUser {
   String username;
 
   @JsonKey(name: 'connected')
-  bool connected;
-
-  @JsonKey(name: 'messages')
-  List<ChatSocketMessage> messages;
+  int connected;
 
   ChatSocketUser({
     required this.userID,
     required this.username,
     required this.connected,
-    required this.messages,
   });
 
   factory ChatSocketUser.fromJson(Map<String, dynamic> json) =>

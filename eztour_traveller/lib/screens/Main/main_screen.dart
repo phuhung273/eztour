@@ -30,7 +30,6 @@ class MainScreen extends StatelessWidget {
   //       _pageIndex = 2;
   //     });
   //   }
-  //   initChat("admin");
   //
   //   super.initState();
   //
@@ -92,7 +91,7 @@ class MainScreen extends StatelessWidget {
         return ChecklistScreen();
 
       case 4:
-        return const ChatScreen();
+        return ChatScreen();
 
       default:
         return HomeScreen();

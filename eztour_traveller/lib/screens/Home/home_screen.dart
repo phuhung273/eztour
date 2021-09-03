@@ -17,7 +17,7 @@ import 'package:tab_indicator_styler/tab_indicator_styler.dart';
 
 class HomeScreen extends StatelessWidget {
 
-  final _controller = Get.put(HomeScreenController());
+  final HomeScreenController _controller = Get.put(HomeScreenController());
 
   @override
   Widget build(BuildContext context) {
@@ -102,10 +102,10 @@ class HomeScreen extends StatelessWidget {
                       physics: const NeverScrollableScrollPhysics(),
                       children: [
                         ChecklistCard(
-                            todos: _controller.todos.value as List<Todo>
+                            todos: _controller.todos.value
                         ),
                         AnnouncementCard(
-                            announcements: _controller.announcements.value as List<Announcement>
+                            announcements: _controller.announcements.value
                         ),
                       ]
                   ),

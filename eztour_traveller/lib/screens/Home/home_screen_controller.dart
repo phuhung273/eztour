@@ -1,4 +1,6 @@
 import 'package:eztour_traveller/datasource/remote/home_service.dart';
+import 'package:eztour_traveller/schema/announcement/announcement.dart';
+import 'package:eztour_traveller/schema/checklist/todo.dart';
 import 'package:eztour_traveller/schema/home/home_index_request.dart';
 import 'package:eztour_traveller/schema/schedule/location.dart';
 import 'package:get/get.dart';
@@ -18,8 +20,8 @@ class HomeScreenController extends GetxController {
   final _homeIndexRequest = Get.put(HomeIndexRequest());
 
   var greeting = ''.obs;
-  final todos = [].obs;
-  final announcements = [].obs;
+  final todos = List<Todo>.empty().obs;
+  final announcements = List<Announcement>.empty().obs;
   final locations = [
     Location(id: 0, name: "Paris", image: "sample_timeline1.jpg", day: 1, tour_id: 1),
     Location(id: 0, name: "Paris", image: "sample_timeline1.jpg", day: 2, tour_id: 1),

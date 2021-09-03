@@ -8,11 +8,15 @@ class ChatHandshakeAuth {
   @JsonKey(name: 'username')
   String username;
 
+  @JsonKey(name: 'userID')
+  String userID;
+
   @JsonKey(name: 'sessionID')
   String? sessionID;
 
   ChatHandshakeAuth({
     required this.username,
+    required this.userID,
     this.sessionID,
   });
 

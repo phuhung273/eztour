@@ -1,39 +1,43 @@
 
+import 'package:eztour_traveller/datasource/local/chat_user_db.dart';
+import 'package:eztour_traveller/datasource/local/local_storage.dart';
 import 'package:eztour_traveller/schema/chat/chat_handshake_auth.dart';
 import 'package:eztour_traveller/schema/chat/chat_session_response.dart';
-import 'package:eztour_traveller/schema/chat/chat_socket_user.dart';
-import 'package:eztour_traveller/schema/chat/chat_user_disconnected_response.dart';
 import 'package:eztour_traveller/schema/chat/chat_user_list_response.dart';
 import 'package:get/get.dart';
 import 'package:socket_io_client/socket_io_client.dart';
 
-final Socket _socket = io('http://10.0.2.2:3000',
+final Socket socket = io('http://10.0.2.2:3000',
     OptionBuilder()
         .setTransports(['websocket'])
         .disableAutoConnect()
         .build()
 );
 
-void initChat(String username){
-  final Socket socket = Get.put(_socket);
+void initChat(){
+  final Socket _socket = Get.find();
+  final LocalStorage localStorage = Get.find();
+  final ChatUserDB userDB = Get.find();
 
-  socket.auth = ChatHandshakeAuth(username: username).toJson();
+  userDB.clear();
 
-  socket.on('session', (data){
+  final String username = localStorage.getUsername() ?? 'unknown';
+  final String userID = localStorage.getUserID() ?? 'unknown';
+
+  _socket.auth = ChatHandshakeAuth(username: username, userID: userID).toJson();
+
+  _socket.on('session', (data){
     final response = ChatSessionResponse.fromJson(data as Map<String, dynamic>);
+
+    localStorage.saveChatSessionID(response.sessionID);
   });
 
-  socket.on('users', (data){
+  _socket.on('users', (data){
+    final ChatUserDB chatDB = Get.find();
     final response = ChatUserListResponse.fromJson(data as Map<String, dynamic>);
+
+    chatDB.batchInsert(response.users);
   });
 
-  socket.on('user connected', (data){
-    final response = ChatSocketUser.fromJson(data as Map<String, dynamic>);
-  });
-
-  socket.on('user disconnected', (data){
-    final response = ChatUserDisconnectedResponse.fromJson(data as Map<String, dynamic>);
-  });
-
-  socket.disconnect().connect();
+  _socket.disconnect().connect();
 }

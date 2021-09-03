@@ -15,7 +15,7 @@ class ScheduleScreenController extends GetxController {
   final _service = Get.put(ScheduleService(Get.find()));
   final _scheduleListRequest = Get.put(ScheduleListRequest());
 
-  var locations = [].obs;
+  final locations = List<Location>.empty().obs;
 
   // var locations = [
   //   Location(id: 0, name: "Paris", image: "sample_timeline1.jpg", day: 1, tour_id: 1),
