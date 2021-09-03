@@ -24,7 +24,7 @@ RUN apt-get update && apt-get install -y \
     curl
 
 # Install npm
-RUN curl -fsSL https://deb.nodesource.com/setup_14.x | bash -
+RUN curl -fsSL https://deb.nodesource.com/setup_16.x | bash -
 RUN apt-get install -y nodejs
 
 # Clear cache
