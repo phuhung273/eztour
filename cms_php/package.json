@@ -21,7 +21,5 @@
         "tailwindcss-multi-theme": "1.0.3",
         "vue-template-compiler": "^2.6.12"
     },
-    "dependencies": {
-        "alpinejs": "^3.2.4"
-    }
+    "dependencies": {}
 }

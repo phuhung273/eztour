@@ -1,0 +1,43 @@
+version: "3.9"
+
+services:
+  cms_php:
+    build: ./cms_php
+    working_dir: /var/www/cms_php
+    volumes:
+      - ./cms_php:/var/www/cms_php
+    depends_on:
+      - mysql
+      - nginx
+    expose:
+      - 9000
+    command: > 
+      sh -c "
+        composer install --optimize-autoloader --no-dev
+        npm run prod
+        php artisan config:cache
+        php artisan route:cache
+        php artisan view:cache
+        php artisan migrate
+        php artisan storage:link
+        php-fpm
+      "
+
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./cms_php:/var/www/cms_php
+      - ./docker/nginx/log:/var/log/nginx
+      - ./docker/nginx/:/etc/nginx/conf.d/
+    
+
+  mysql:
+    image: mysql:5.7.35
+    environment:
+      MYSQL_DATABASE: laravel
+      MYSQL_ROOT_PASSWORD: 123ezTour
+    volumes:
+      - ./cms_php/docker/mysql:/var/lib/mysql
