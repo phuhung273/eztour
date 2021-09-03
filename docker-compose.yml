@@ -16,11 +16,12 @@ services:
         composer install --optimize-autoloader --no-dev
         npm install
         npm run prod
+        php artisan key:generate
         php artisan config:cache
         php artisan route:cache
         php artisan view:cache
-        php artisan migrate
         php artisan storage:link
+        php artisan migrate
         php-fpm
       "
 
@@ -30,6 +31,7 @@ services:
       - "80:80"
       - "443:443"
     volumes:
+      - ./cms_php:/var/www/cms_php
       - ./docker/nginx/log:/var/log/nginx
       - ./docker/nginx/:/etc/nginx/conf.d/
     
