@@ -39,6 +39,3 @@ RUN chown -R www-data:www-data /var/www/cms_php
 
 # Change current user to www
 USER www
-
-EXPOSE 9000
-CMD ["php-fpm"]

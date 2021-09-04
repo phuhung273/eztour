@@ -9,6 +9,8 @@ services:
     depends_on:
       - mysql
       - nginx
+    expose:
+      - 9000
     command: > 
       sh -c "
         php artisan key:generate
@@ -17,6 +19,7 @@ services:
         php artisan view:cache
         php artisan storage:link
         php artisan migrate
+        php-fpm
       "
 
   nginx:
