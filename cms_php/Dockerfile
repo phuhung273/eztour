@@ -5,7 +5,7 @@ FROM composer as composerBuilder
 # Build app.js and app.css
 FROM node:14-alpine as npmBuilder
 WORKDIR /app/
-COPY . ./
+COPY . /app
 RUN npm install && npm run prod
 
 
