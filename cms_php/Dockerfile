@@ -69,6 +69,8 @@ RUN find /var/www/cms_php -type d -exec chmod 775 {} \;
 RUN chgrp -R www-data /var/www/cms_php/storage /var/www/cms_php/bootstrap/cache
 RUN chmod -R ug+rwx /var/www/cms_php/storage /var/www/cms_php/bootstrap/cache
 
+RUN touch /var/log/fpm-php.www.log
+RUN chown www-data:www-data /var/log/fpm-php.www.log
 
 # Change current user to www
 USER www

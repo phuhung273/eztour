@@ -7,6 +7,7 @@ services:
     volumes:
       - static-content:/var/www/cms_php/public
       - ./cms_php/storage:/var/www/cms_php/storage
+      - ./docker/php-fpm/fpm-php.www.log:/var/log/fpm-php.www.log
     depends_on:
       - mysql
     expose:
