@@ -1,8 +1,5 @@
 # Build vendoor directory
 FROM composer as composerBuilder
-WORKDIR /app/
-COPY composer.* ./
-RUN composer install --optimize-autoloader --no-dev
 
 
 # Build app.js and app.css
@@ -38,6 +35,8 @@ RUN chown -R www-data:www-data /var/www/cms_php
 
 # Change current user to www
 USER www
+
+RUN composer install --optimize-autoloader --no-dev
 
 EXPOSE 9000
 CMD ["php-fpm"]
