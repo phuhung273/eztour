@@ -51,3 +51,7 @@ RUN chown -R www-data:www-data /var/www/cms_php
 
 # Change current user to www
 USER www
+
+RUN composer install --optimize-autoloader --no-dev
+RUN npm install
+RUN npm run prod
