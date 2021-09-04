@@ -23,12 +23,12 @@ WORKDIR /var/www/cms_php
 
 # Copy dependencies from builder
 COPY --from=composerBuilder /app/vendor /var/www/cms_php/vendor
-COPY --from=npmBuilder /app/public/css/app.cs /var/www/cms_php/public/css/app.cs
+COPY --from=npmBuilder /app/public/css/app.css /var/www/cms_php/public/css/app.css
 COPY --from=npmBuilder /app/public/js/app.js /var/www/cms_php/public/js/app.js
 
 # Add user for laravel application
-RUN groupadd -g 1000 www
-RUN useradd -u 1000 -ms /bin/bash -g www www
+RUN addgroup -g 1000 www
+RUN adduser -u 1000 -ms /bin/bash -g www www
 
 # Copy existing application directory contents
 COPY . /var/www/cms_php
