@@ -18,7 +18,7 @@ RUN mkdir /var/www/cms_php
 WORKDIR /var/www/cms_php
 
 # Copy dependencies from builder
-COPY --from=composerBuilder /app/vendor /var/www/cms_php/vendor
+COPY --from=composerBuilder /usr/bin/composer /usr/bin/composer
 COPY --from=npmBuilder /app/public/css/app.cs /var/www/cms_php/public/css/app.cs
 COPY --from=npmBuilder /app/public/js/app.js /var/www/cms_php/public/js/app.js
 
