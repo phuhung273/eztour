@@ -14,7 +14,7 @@ RUN npm install && npm run prod
 
 
 
-FROM php:8.0-fpm-alpine
+FROM php:8.0-fpm
 
 RUN mkdir /var/www/cms_php
 
@@ -27,8 +27,8 @@ COPY --from=npmBuilder /app/public/css/app.css /var/www/cms_php/public/css/app.c
 COPY --from=npmBuilder /app/public/js/app.js /var/www/cms_php/public/js/app.js
 
 # Add user for laravel application
-RUN addgroup -g 1000 www
-RUN adduser -u 1000 -ms /bin/bash -g www www
+RUN groupadd -g 1000 www
+RUN useradd -u 1000 -ms /bin/bash -g www www
 
 # Copy existing application directory contents
 COPY . /var/www/cms_php
