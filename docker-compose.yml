@@ -19,6 +19,8 @@ services:
         php artisan storage:link
         php-fpm
       "
+    networks:
+      - app-network
 
   nginx:
     image: nginx:alpine
@@ -33,6 +35,8 @@ services:
       - ./docker/nginx/:/etc/nginx/conf.d/
     depends_on:
       - cms_php
+    networks:
+      - app-network
     
 
   mysql:
@@ -42,11 +46,20 @@ services:
       MYSQL_ROOT_PASSWORD: 123ezTour
     volumes:
       - ./cms_php/docker/mysql:/var/lib/mysql
+    networks:
+      - app-network
 
   chat_node:
     build: ./chat_node
     expose:
         - 3000
+    networks:
+      - app-network
 
 volumes:
   static-content:
+
+# Networks
+networks:
+  app-network:
+    driver: bridge
