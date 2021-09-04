@@ -25,6 +25,7 @@ services:
     ports:
       - "80:80"
       - "443:443"
+      - "3000:3000"
     volumes:
       - static-content:/var/www/cms_php/public
       - ./cms_php/storage:/var/www/cms_php/storage
@@ -41,6 +42,11 @@ services:
       MYSQL_ROOT_PASSWORD: 123ezTour
     volumes:
       - ./cms_php/docker/mysql:/var/lib/mysql
+
+  chat_node:
+    build: ./chat_node
+  expose:
+      - 3000
 
 volumes:
   static-content:
