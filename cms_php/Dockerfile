@@ -53,13 +53,22 @@ COPY --from=composerBuilder /app/vendor /var/www/cms_php/vendor
 COPY --from=npmBuilder /app/public/css/app.css /var/www/cms_php/public/css/app.css
 COPY --from=npmBuilder /app/public/js/app.js /var/www/cms_php/public/js/app.js
 
-# Add user for laravel application
-RUN groupadd -g 1000 www
-RUN useradd -u 1000 -ms /bin/bash -g www www
+# # Add user for laravel application
+# RUN groupadd -g 1000 www
+# RUN useradd -u 1000 -ms /bin/bash -g www www
 
-# Copy existing application directory permissions
-COPY --chown=www:www . /var/www/cms_php
-RUN chown -R www-data:www-data /var/www/cms_php
+# # Copy existing application directory permissions
+# COPY --chown=www:www . /var/www/cms_php
+# # RUN chown -R www-data:www-data /var/www/cms_php
+
+# Test permission
+RUN usermod -a -G www-data www
+RUN chown -R www:www-data /var/www/cms_php
+RUN find /var/www/cms_php -type f -exec chmod 664 {} \;
+RUN find /var/www/cms_php -type d -exec chmod 775 {} \;
+RUN chgrp -R www-data /var/www/cms_php/storage /var/www/cms_php/bootstrap/cache
+RUN chmod -R ug+rwx /var/www/cms_php/storage /var/www/cms_php/bootstrap/cache
+
 
 # Change current user to www
 USER www
