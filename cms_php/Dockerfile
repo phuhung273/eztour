@@ -1,6 +1,9 @@
 # Build vendoor directory
 FROM composer as composerBuilder
-
+RUN mkdir /app/
+WORKDIR /app/
+COPY . /app
+RUN composer install --optimize-autoloader --no-dev
 
 # Build app.js and app.css
 FROM node:14-alpine as npmBuilder
@@ -19,7 +22,7 @@ RUN mkdir /var/www/cms_php
 WORKDIR /var/www/cms_php
 
 # Copy dependencies from builder
-COPY --from=composerBuilder /usr/bin/composer /usr/bin/composer
+COPY --from=composerBuilder /app/vendor /var/www/cms_php/vendor
 COPY --from=npmBuilder /app/public/css/app.cs /var/www/cms_php/public/css/app.cs
 COPY --from=npmBuilder /app/public/js/app.js /var/www/cms_php/public/js/app.js
 
@@ -36,8 +39,6 @@ RUN chown -R www-data:www-data /var/www/cms_php
 
 # Change current user to www
 USER www
-
-RUN composer install --optimize-autoloader --no-dev
 
 EXPOSE 9000
 CMD ["php-fpm"]
