@@ -13,6 +13,7 @@ services:
       - 9000
     command: > 
       sh -c "
+        composer install --optimize-autoloader --no-dev
         php artisan key:generate
         php artisan config:cache
         php artisan route:cache
