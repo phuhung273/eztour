@@ -4,6 +4,8 @@ services:
   cms_php:
     build: ./cms_php
     working_dir: /var/www/cms_php
+    volumes:
+      - ./cms_php/public:/var/www/cms_php/public
     depends_on:
       - mysql
     expose:
