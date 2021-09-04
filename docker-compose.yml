@@ -31,7 +31,6 @@ services:
       - "80:80"
       - "443:443"
     volumes:
-      - ./cms_php:/var/www/cms_php
       - ./docker/nginx/log:/var/log/nginx
       - ./docker/nginx/:/etc/nginx/conf.d/
     
