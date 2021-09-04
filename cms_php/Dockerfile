@@ -1,5 +1,9 @@
 # Build vendoor directory
 FROM composer:latest as composerBuilder
+RUN mkdir -p /app
+WORKDIR /app
+COPY . /app
+RUN composer install --optimize-autoloader --no-dev
 
 # Build app.js and app.css
 FROM node:14-alpine as npmBuilder
@@ -45,15 +49,13 @@ WORKDIR /var/www/cms_php
 COPY . /var/www/cms_php
 
 # Copy dependencies from builder
-COPY --from=composerBuilder /usr/bin/composer /usr/bin/composer
+COPY --from=composerBuilder /app/vendor /var/www/cms_php/vendor
 COPY --from=npmBuilder /app/public/css/app.css /var/www/cms_php/public/css/app.css
 COPY --from=npmBuilder /app/public/js/app.js /var/www/cms_php/public/js/app.js
 
 # Add user for laravel application
 RUN groupadd -g 1000 www
 RUN useradd -u 1000 -ms /bin/bash -g www www
-
-RUN composer install --optimize-autoloader --no-dev
 
 # Copy existing application directory permissions
 COPY --chown=www:www . /var/www/cms_php
