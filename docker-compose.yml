@@ -6,7 +6,6 @@ services:
     working_dir: /var/www/cms_php
     depends_on:
       - mysql
-      - nginx
     expose:
       - 9000
     command: > 
@@ -29,6 +28,8 @@ services:
       - ./cms_php:/var/www/cms_php
       - ./docker/nginx/log:/var/log/nginx
       - ./docker/nginx/:/etc/nginx/conf.d/
+    depends_on:
+      - cms_php
     
 
   mysql:
