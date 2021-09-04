@@ -51,6 +51,3 @@ RUN chown -R www-data:www-data /var/www/cms_php
 
 # Change current user to www
 USER www
-
-RUN npm install
-RUN npm run prod
