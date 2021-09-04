@@ -5,7 +5,7 @@ services:
     build: ./cms_php
     working_dir: /var/www/cms_php
     volumes:
-      - ./cms_php/public:/var/www/cms_php/public
+      - static-content:/var/www/cms_php/public
     depends_on:
       - mysql
     expose:
@@ -27,7 +27,7 @@ services:
       - "80:80"
       - "443:443"
     volumes:
-      - ./cms_php:/var/www/cms_php
+      - static-content:/var/www/cms_php/public
       - ./docker/nginx/log:/var/log/nginx
       - ./docker/nginx/:/etc/nginx/conf.d/
     depends_on:
@@ -41,3 +41,6 @@ services:
       MYSQL_ROOT_PASSWORD: 123ezTour
     volumes:
       - ./cms_php/docker/mysql:/var/lib/mysql
+
+volumes:
+  static-content:
