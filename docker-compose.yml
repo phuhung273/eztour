@@ -45,8 +45,8 @@ services:
 
   chat_node:
     build: ./chat_node
-  expose:
-      - 3000
+    expose:
+        - 3000
 
 volumes:
   static-content:
