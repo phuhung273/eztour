@@ -1,4 +1,6 @@
+import 'package:eztour_traveller/datasource/local/local_storage.dart';
 import 'package:eztour_traveller/datasource/remote/home_service.dart';
+import 'package:eztour_traveller/route/route.dart';
 import 'package:eztour_traveller/schema/announcement/announcement.dart';
 import 'package:eztour_traveller/schema/checklist/todo.dart';
 import 'package:eztour_traveller/schema/home/home_index_request.dart';
@@ -14,6 +16,8 @@ class HomeScreenBinding extends Bindings {
 }
 
 class HomeScreenController extends GetxController {
+
+  final LocalStorage _localStorage = Get.find();
 
   final _service = Get.put(HomeService(Get.find()));
 
@@ -39,5 +43,10 @@ class HomeScreenController extends GetxController {
     todos.value = response.todos;
     announcements.value = response.announcements;
     update();
+  }
+
+  void logOut(){
+    _localStorage.removeAccessToken();
+    Get.offAndToNamed(ROUTE_LOGIN);
   }
 }

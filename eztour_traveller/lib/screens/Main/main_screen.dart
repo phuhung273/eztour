@@ -1,7 +1,6 @@
 import 'package:animations/animations.dart';
 import 'package:eztour_traveller/Screens/Home/home_screen.dart';
 import 'package:eztour_traveller/Screens/Schedule/schedule_screen.dart';
-import 'package:eztour_traveller/chat/chat_api.dart';
 import 'package:eztour_traveller/screens/Announcement/announcement_screen.dart';
 import 'package:eztour_traveller/screens/Chat/chat_screen.dart';
 import 'package:eztour_traveller/screens/Checklist/checklist_screen.dart';

@@ -50,4 +50,7 @@ class LocalStorage {
     return box.read(DEVICENAME_KEY);
   }
 
+  void removeAccessToken() {
+    box.remove(ACCESSTOKEN_KEY);
+  }
 }

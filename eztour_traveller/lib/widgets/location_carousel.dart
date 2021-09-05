@@ -1,5 +1,6 @@
 
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:eztour_traveller/constants.dart';
 import 'package:eztour_traveller/schema/schedule/location.dart';
 import 'package:flutter/material.dart';
 
@@ -79,7 +80,7 @@ class CarouselItem extends StatelessWidget {
             //   fit: BoxFit.cover
             // ),
             child: Image.network(
-                "http://10.0.2.2:8000/storage/img/locations/$imagePath",
+                "$HOST_URL/storage/img/locations/$imagePath",
                 width: 300.0,
                 fit: BoxFit.cover
             ),

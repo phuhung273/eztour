@@ -35,7 +35,7 @@ class HomeScreen extends StatelessWidget {
             actions: [
               IconButton(
                 icon: const Icon(Icons.account_circle),
-                onPressed: (){},
+                onPressed: _controller.logOut,
               )
             ],
           ),
