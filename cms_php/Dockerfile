@@ -63,11 +63,13 @@ RUN useradd -u 1000 -ms /bin/bash -g www www
 
 # Test permission
 RUN usermod -a -G www-data www
+# RUN chown -R www:www-data /var/www/cms_php
+# RUN find /var/www/cms_php -type f -exec chmod 664 {} \;
+# RUN find /var/www/cms_php -type d -exec chmod 775 {} \;
+# RUN chgrp -R www-data /var/www/cms_php/storage /var/www/cms_php/bootstrap/cache
+# RUN chmod -R ug+rwx /var/www/cms_php/storage /var/www/cms_php/bootstrap/cache
 RUN chown -R www:www-data /var/www/cms_php
-RUN find /var/www/cms_php -type f -exec chmod 664 {} \;
-RUN find /var/www/cms_php -type d -exec chmod 775 {} \;
-RUN chgrp -R www-data /var/www/cms_php/storage /var/www/cms_php/bootstrap/cache
-RUN chmod -R ug+rwx /var/www/cms_php/storage /var/www/cms_php/bootstrap/cache
+RUN chmod -R 775 /var/www/cms_php
 
 RUN touch /var/log/fpm-php.www.log
 RUN chown www-data:www-data /var/log/fpm-php.www.log
