@@ -57,22 +57,10 @@ COPY --from=npmBuilder /app/public/js/app.js /var/www/cms_php/public/js/app.js
 RUN groupadd -g 1000 www
 RUN useradd -u 1000 -ms /bin/bash -g www www
 
-# # Copy existing application directory permissions
-# COPY --chown=www:www . /var/www/cms_php
-# # RUN chown -R www-data:www-data /var/www/cms_php
-
 # Test permission
 RUN usermod -a -G www-data www
 RUN chown -R www:www-data /var/www/cms_php
-RUN chown -R www-data:www-data /var/www/cms_php/storage
-RUN chown -R www-data:www-data /var/www/cms_php/bootstrap/cache
-# RUN find /var/www/cms_php -type f -exec chmod 664 {} \;
-# RUN find /var/www/cms_php -type d -exec chmod 775 {} \;
-# RUN chgrp -R www-data /var/www/cms_php/storage /var/www/cms_php/bootstrap/cache
-# RUN chmod -R ug+rwx /var/www/cms_php/storage /var/www/cms_php/bootstrap/cache
 RUN chmod -R 775 /var/www/cms_php/
-
-
 
 RUN touch /var/log/fpm-php.www.log
 RUN chown www-data:www-data /var/log/fpm-php.www.log
