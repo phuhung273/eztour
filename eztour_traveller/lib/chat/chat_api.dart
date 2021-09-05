@@ -38,7 +38,6 @@ void initChat(){
     final ChatUserDB chatDB = Get.find();
     final response = ChatUserListResponse.fromJson(data as Map<String, dynamic>);
 
-    debugPrint(response.users.length.toString());
     chatDB.batchInsert(response.users);
   });
 
