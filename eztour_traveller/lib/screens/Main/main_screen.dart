@@ -1,11 +1,10 @@
 import 'package:animations/animations.dart';
 import 'package:eztour_traveller/Screens/Home/home_screen.dart';
-import 'package:eztour_traveller/Screens/Schedule/schedule_screen.dart';
 import 'package:eztour_traveller/screens/Announcement/announcement_screen.dart';
 import 'package:eztour_traveller/screens/Chat/chat_screen.dart';
 import 'package:eztour_traveller/screens/Checklist/checklist_screen.dart';
 import 'package:eztour_traveller/screens/Main/main_screen_controller.dart';
-import 'package:eztour_traveller/screens/ScheduleDetail/schedule_detail.dart';
+import 'package:eztour_traveller/screens/Schedule/schedule_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -80,7 +79,6 @@ class MainScreen extends StatelessWidget {
         return HomeScreen();
 
       case 1:
-        // return ScheduleDetail();
         return ScheduleScreen();
 
       case 2:

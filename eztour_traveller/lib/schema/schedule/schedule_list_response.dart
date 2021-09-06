@@ -6,12 +6,19 @@ part 'schedule_list_response.g.dart';
 @JsonSerializable()
 class ScheduleListResponse {
 
+  @JsonKey(name: 'max_day')
   int max_day;
+
+  @JsonKey(name: 'locations')
   List<Location> locations;
+
+  @JsonKey(name: 'start_date')
+  String startDate;
 
   ScheduleListResponse({
     required this.max_day,
     required this.locations,
+    required this.startDate,
 });
 
   factory ScheduleListResponse.fromJson(Map<String, dynamic> json) =>

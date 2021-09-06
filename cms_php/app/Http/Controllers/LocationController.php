@@ -4,10 +4,27 @@ namespace App\Http\Controllers;
 
 use App\Helpers\TimeHelper;
 use App\Models\Location;
+use App\Models\Tour;
 use Illuminate\Http\Request;
 
 class LocationController extends Controller
 {
+    public function getAllByTour(Tour $tour){
+        $locations = $tour->locations()->get();
+
+        $days = array_map(fn($location) => $location->day, $locations->all());
+
+        $max_day = empty($days) ? 0 : max($days);
+
+        $startDate = $tour['start_date'];
+
+        return [
+            'locations' => $locations,
+            'max_day' => $max_day,
+            'start_date' => $startDate,
+        ];
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -15,16 +32,7 @@ class LocationController extends Controller
      */
     public function index()
     {
-        $locations = Location::getVisibleAttribute();
-
-        $days = array_map(fn($location) => $location->day, $locations->all());
-
-        $max_day = empty($days) ? 0 : max($days);
-
-        return [
-            'locations' => $locations,
-            'max_day' => $max_day,
-        ];
+        // 
     }
 
     /**
@@ -68,7 +76,10 @@ class LocationController extends Controller
         $input['from'] = TimeHelper::gia2his($input['from']);
         $input['to'] = TimeHelper::gia2his($input['to']);
 
-        Location::create($input);
+        $tour = Tour::find($input['tour_id']);
+        $tour->locations()->create($input);
+
+        // Location::create($input);
 
         return back();
     }

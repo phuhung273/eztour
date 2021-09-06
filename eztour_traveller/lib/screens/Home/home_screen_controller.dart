@@ -27,10 +27,11 @@ class HomeScreenController extends GetxController {
   final todos = List<Todo>.empty().obs;
   final announcements = List<Announcement>.empty().obs;
   final locations = [
-    Location(id: 0, name: "Paris", image: "sample_timeline1.jpg", day: 1, tour_id: 1),
-    Location(id: 0, name: "Paris", image: "sample_timeline1.jpg", day: 2, tour_id: 1),
-    Location(id: 0, name: "Paris", image: "sample_timeline1.jpg", day: 3, tour_id: 1),
-    Location(id: 0, name: "Paris", image: "sample_timeline1.jpg", day: 4, tour_id: 1),
+    Location(id: 0, name: "Paris", image: "sample_timeline1.jpg", day: 1, description: 'test',from: '6:00 AM', to: '9:00 AM', tour_id: 1),
+    Location(id: 0, name: "Paris", image: "sample_timeline1.jpg", day: 1, description: 'test',from: '6:00 AM', to: '9:00 AM', tour_id: 1),
+    Location(id: 0, name: "Paris", image: "sample_timeline1.jpg", day: 1, description: 'test',from: '6:00 AM', to: '9:00 AM', tour_id: 1),
+    Location(id: 0, name: "Paris", image: "sample_timeline1.jpg", day: 1, description: 'test',from: '6:00 AM', to: '9:00 AM', tour_id: 1),
+    Location(id: 0, name: "Paris", image: "sample_timeline1.jpg", day: 1, description: 'test',from: '6:00 AM', to: '9:00 AM', tour_id: 1),
   ].obs;
 
   @override

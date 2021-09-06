@@ -17,3 +17,4 @@ yarn-error.log
 
 # Docker mount file
 /docker/mysql
+laravel.log

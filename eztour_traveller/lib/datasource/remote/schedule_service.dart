@@ -10,6 +10,9 @@ part 'schedule_service.g.dart';
 abstract class ScheduleService {
   factory ScheduleService(Dio dio, {String baseUrl}) = _ScheduleService;
 
-  @GET('/')
-  Future<ScheduleListResponse> getScheduleList(@Body() ScheduleListRequest request);
+  @GET('/{tourId}')
+  Future<ScheduleListResponse> getScheduleList(
+    @Path() int tourId,
+    @Body() ScheduleListRequest request,
+  );
 }

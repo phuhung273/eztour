@@ -5,10 +5,28 @@ part 'location.g.dart';
 @JsonSerializable()
 class Location {
 
+  @JsonKey(name: 'id')
   int id;
+
+  @JsonKey(name: 'name')
   String name;
+
+  @JsonKey(name: 'image')
   String image;
+
+  @JsonKey(name: 'day')
   int day;
+
+  @JsonKey(name: 'description')
+  String description;
+
+  @JsonKey(name: 'from')
+  String from;
+
+  @JsonKey(name: 'to')
+  String to;
+
+  @JsonKey(name: 'tour_id')
   int tour_id;
 
   Location({
@@ -16,6 +34,9 @@ class Location {
     required this.name,
     required this.image,
     required this.day,
+    required this.description,
+    required this.from,
+    required this.to,
     required this.tour_id,
   });
 

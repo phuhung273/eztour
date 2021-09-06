@@ -13,6 +13,10 @@ class Location extends Model
 
     public $timestamps = false;
 
+    public function tour(){
+        return $this->belongsTo(Tour::class);
+    }
+
     public static function getVisibleAttribute(){
         return (new static)::where('tour_id', 1)->get(['id', 'name', 'image', 'day', 'tour_id']);
     }
