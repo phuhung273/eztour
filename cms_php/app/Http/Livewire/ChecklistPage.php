@@ -3,21 +3,27 @@
 namespace App\Http\Livewire;
 
 use App\Models\Todo;
+use App\Models\TodoCategory;
 use Livewire\Component;
 
 class ChecklistPage extends Component
 {
     public $content;
-    public $done;
     
     public $data;
+    public $category;
+    public $categories;
 
     protected $rules = [
         'content' => 'required|min:4',
+        'category' => 'required',
     ];
 
     public function mount() {
-        $this->data = Todo::all();
+        $this->data = Todo::visibleAttributes()->get()->toArray();
+
+        $this->categories = TodoCategory::all();
+        $this->category = $this->categories[0]->id;
     }
 
     public function submit()
@@ -26,21 +32,26 @@ class ChecklistPage extends Component
 
         // Execution doesn't reach here if validation fails.
 
-        $item = new Todo([
+        $category = TodoCategory::find($this->category);
+
+        $item = $category->todos()->create([
             'message' => $this->content,
-            'done' => isset($this->done),
         ]);
 
-        $item->save();
+        $newData = [
+            'id' => $item->id,
+            'message' => $item->message,
+            'category' => $category->name,
+        ];
 
-        $this->data->push($item);
+        $this->data[] = $newData;
 
         $this->resetForm();
     }
 
     private function resetForm() {
         $this->content = null;
-        $this->done = null;
+        $this->category = $this->categories[0]->id;
     }
 
     public function render()

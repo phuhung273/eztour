@@ -5,7 +5,7 @@ import 'package:eztour_traveller/schema/chat/chat_socket_user.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
-const TABLE_NAME = 'users';
+const TABLE_NAME = 'chat_users';
 const COLUMN_USERID = 'userID';
 const COLUMN_USERNAME = 'username';
 const COLUMN_CONNECTED = 'connected';
@@ -20,7 +20,7 @@ class ChatUserDB{
    Future<Database> get database async {
      if (_database != null) return _database!;
 
-     _database = await _initDB('chat_user.db');
+     _database = await _initDB('$TABLE_NAME.db');
      return _database!;
    }
    Future<Database> _initDB(String filePath) async {
@@ -59,10 +59,8 @@ class ChatUserDB{
   Future<List<ChatSocketUser>> getAll() async {
      final db = await instance.database;
 
-     // Query the table for all The Dogs.
      final List<Map<String, dynamic>> maps = await db.query(TABLE_NAME);
 
-     // Convert the List<Map<String, dynamic> into a List<Dog>.
      return List.generate(maps.length, (i) => ChatSocketUser.fromJson(maps[i]));
   }
 

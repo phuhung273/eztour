@@ -50,6 +50,7 @@ dependencies:
   device_info_plus: ^2.1.0
   timelines: ^0.1.0
   swipe: ^0.0.1
+  flutter_swipe_action_cell: ^2.1.1
 
 dev_dependencies:
   retrofit_generator: ^2.0.1

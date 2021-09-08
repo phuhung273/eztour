@@ -26,7 +26,9 @@ class MobileHomeController extends Controller
 
         $greeting_message = Greeting::getSuitableMessage($local_time);
 
-        $todos = Todo::limit(3)->get();
+        $todos = Todo::visibleAttributes()
+        ->limit(3)
+        ->get();
 
         $announcements = Announcement::limit(3)->get();
 

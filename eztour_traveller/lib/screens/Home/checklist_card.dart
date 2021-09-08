@@ -35,7 +35,7 @@ class ChecklistCard extends StatelessWidget {
               child:  ListTile(
                 contentPadding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
                 title: Text(todos[index].message, style: const TextStyle(fontSize: 20)),
-                trailing: _buildCheckIcon(todos[index].done),
+                trailing: _buildCheckIcon(todos[index].isDone()),
               ),
             );
           },

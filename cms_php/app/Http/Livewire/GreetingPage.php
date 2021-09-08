@@ -21,7 +21,10 @@ class GreetingPage extends Component
     ];
 
     public function mount() {
-        $this->data = Greeting::all();
+        $this->data = Greeting::all()->toArray();
+        foreach ($this->data as $row) {
+            $row['alarm_time'] = TimeHelper::his2gia($row['alarm_time']);
+        }
     }
 
     public function submit()

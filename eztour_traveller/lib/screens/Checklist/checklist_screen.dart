@@ -42,7 +42,7 @@ class ChecklistScreen extends StatelessWidget {
                     contentPadding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
                     title: Text(todo.message, style: const TextStyle(fontSize: 20)),
                     trailing: IconButton(
-                      icon: _buildCheckIcon(todo.done),
+                      icon: _buildCheckIcon(todo.isDone()),
                       onPressed: () => _controller.toggleTodo(index),
                     ),
                   ),

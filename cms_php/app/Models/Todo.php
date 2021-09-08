@@ -10,12 +10,17 @@ class Todo extends Model
 
     use HasFactory;
     
-    protected $fillable = ['message', 'done'];
+    protected $fillable = ['message', 'todo_category_id'];
 
     public $timestamps = false;
 
-    protected $casts = [
-        'done' => 'boolean',
-    ];
+    public function todoCategory() {
+        return $this->belongsTo(TodoCategory::class);
+    }
+
+    public static function visibleAttributes() {
+        return (new static)::join('todo_categories', 'todo_categories.id', '=', 'todos.todo_category_id')
+        ->select('todos.id', 'todos.message', 'todo_categories.name as category');
+    }
 
 }

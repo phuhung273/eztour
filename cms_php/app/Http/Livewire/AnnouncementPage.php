@@ -16,7 +16,7 @@ class AnnouncementPage extends Component
     ];
 
     public function mount() {
-        $this->data = Announcement::all();
+        $this->data = Announcement::all()->toArray();
     }
 
     public function submit()

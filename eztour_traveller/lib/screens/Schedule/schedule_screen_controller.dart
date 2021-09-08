@@ -48,7 +48,8 @@ class ScheduleScreenController extends GetxController {
     update();
 
     final dayDifference = dayDifferenceFromNow(DateTime.parse(response.startDate));
-    pageController.animateToPage(dayDifference, duration: _pageTurnDuration, curve: _pageTurnCurve);
+    final destination = min(dayDifference, response.max_day - 1);
+    pageController.animateToPage(destination, duration: _pageTurnDuration, curve: _pageTurnCurve);
   }
 
   void next(){

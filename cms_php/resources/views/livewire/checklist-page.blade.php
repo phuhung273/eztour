@@ -15,7 +15,7 @@
 
                 <x-forms.form-group>
 
-                    <x-forms.checkbox wire:model.defer="done" label="Done" />
+                    <x-forms.select wire:model.defer="category" label="Category" :options="$categories" />
 
                 </x-forms.form-group>
 

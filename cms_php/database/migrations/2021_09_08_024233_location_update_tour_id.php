@@ -1,10 +1,11 @@
 <?php
 
+use App\Models\Tour;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class LocationRemoveTourIDInt extends Migration
+class LocationUpdateTourId extends Migration
 {
     /**
      * Run the migrations.
@@ -14,7 +15,10 @@ class LocationRemoveTourIDInt extends Migration
     public function up()
     {
         Schema::table('locations', function (Blueprint $table) {
-            $table->dropColumn('tour_id');
+            $table->foreignId('tour_id')
+            ->change()
+            ->constrained()
+            ->cascadeOnDelete();
         });
     }
 

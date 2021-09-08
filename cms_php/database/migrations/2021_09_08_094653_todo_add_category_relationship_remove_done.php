@@ -1,11 +1,11 @@
 <?php
 
-use App\Models\Tour;
+use App\Models\TodoCategory;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class LocationTourRelationship extends Migration
+class TodoAddCategoryRelationshipRemoveDone extends Migration
 {
     /**
      * Run the migrations.
@@ -14,8 +14,9 @@ class LocationTourRelationship extends Migration
      */
     public function up()
     {
-        Schema::table('locations', function (Blueprint $table) {
-            $table->foreignIdFor(Tour::class)->onDelete('cascade');
+        Schema::table('todos', function (Blueprint $table) {
+            $table->foreignIdFor(TodoCategory::class)->constrained();
+            $table->dropColumn('done');
         });
     }
 
@@ -26,7 +27,7 @@ class LocationTourRelationship extends Migration
      */
     public function down()
     {
-        Schema::table('locations', function (Blueprint $table) {
+        Schema::table('todos', function (Blueprint $table) {
             //
         });
     }

@@ -14,7 +14,8 @@ class TodoController extends Controller
      */
     public function index()
     {
-        $data = Todo::all();
+        $data = Todo::visibleAttributes()
+        ->get();
 
         return [
             'todos' => $data,
