@@ -15,7 +15,7 @@ class AnnouncementScreenController extends GetxController {
 
   final _service = Get.put(AnnouncementService(Get.find()));
 
-  final _userAnnouncementDB = Get.put(UserAnnouncementDB.instance);
+  final UserAnnouncementDB _userAnnouncementDB = Get.find();
 
   final _announcementListRequest = Get.put(AnnouncementListRequest());
 
@@ -46,7 +46,6 @@ class AnnouncementScreenController extends GetxController {
     final response = await _service.getAnnouncementList(_announcementListRequest);
     announcements.value = response.announcements;
     myAnnouncements.value = await _userAnnouncementDB.getAll();
-    update();
   }
 
   Future add(String value) async {
@@ -54,7 +53,6 @@ class AnnouncementScreenController extends GetxController {
 
     if(id > 0){
       myAnnouncements.add(Announcement(id: id, message: value));
-      update();
     }
   }
 
@@ -63,7 +61,6 @@ class AnnouncementScreenController extends GetxController {
 
     if(result > 0){
       myAnnouncements.removeAt(index);
-      update();
     }
   }
 
@@ -74,7 +71,6 @@ class AnnouncementScreenController extends GetxController {
 
     if(result > 0){
       myAnnouncements[index].message = value;
-      update();
     }
   }
 }

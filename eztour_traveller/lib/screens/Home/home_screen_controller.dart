@@ -43,7 +43,6 @@ class HomeScreenController extends GetxController {
     greeting.value = response.greeting;
     todos.value = response.todos;
     announcements.value = response.announcements;
-    update();
   }
 
   void logOut(){

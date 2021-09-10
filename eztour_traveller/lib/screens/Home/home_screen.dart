@@ -8,7 +8,6 @@ import 'package:eztour_traveller/screens/Home/home_screen_controller.dart';
 import 'package:eztour_traveller/widgets/location_carousel.dart';
 import 'package:eztour_traveller/widgets/moment_carousel.dart';
 import 'package:flag/flag.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:instant/instant.dart';

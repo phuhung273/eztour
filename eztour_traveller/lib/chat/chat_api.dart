@@ -5,11 +5,10 @@ import 'package:eztour_traveller/datasource/local/local_storage.dart';
 import 'package:eztour_traveller/schema/chat/chat_handshake_auth.dart';
 import 'package:eztour_traveller/schema/chat/chat_session_response.dart';
 import 'package:eztour_traveller/schema/chat/chat_user_list_response.dart';
-import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:socket_io_client/socket_io_client.dart';
 
-final Socket socket = io('$HOST_URL',
+final Socket socket = io(CHAT_HOST_URL,
     OptionBuilder()
         .setTransports(['websocket'])
         .disableAutoConnect()

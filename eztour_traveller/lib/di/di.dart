@@ -4,7 +4,9 @@ import 'dart:io';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:eztour_traveller/chat/chat_api.dart';
 import 'package:eztour_traveller/datasource/local/chat_user_db.dart';
+import 'package:eztour_traveller/datasource/local/checklist_db.dart';
 import 'package:eztour_traveller/datasource/local/local_storage.dart';
+import 'package:eztour_traveller/datasource/local/user_announcement_db.dart';
 import 'package:get/get.dart';
 import 'package:dio/dio.dart';
 import 'package:get_storage/get_storage.dart';
@@ -22,6 +24,10 @@ Future configureDependencies() async {
   Get.put(socket);
 
   Get.put(ChatUserDB.instance);
+
+  Get.put(UserAnnouncementDB.instance);
+
+  Get.put(ChecklistDB.instance);
 
 }
 

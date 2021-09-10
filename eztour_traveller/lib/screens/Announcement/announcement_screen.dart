@@ -1,11 +1,8 @@
 
-import 'package:eztour_traveller/schema/announcement/announcement.dart';
 import 'package:eztour_traveller/screens/Announcement/announcement_screen_controller.dart';
 import 'package:eztour_traveller/widgets/inline_text_field.dart';
 import 'package:eztour_traveller/widgets/swipeable_inline_edit_text.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_swipe_action_cell/flutter_swipe_action_cell.dart';
 import 'package:get/get.dart';
 
 class AnnouncementScreen extends StatelessWidget {
@@ -14,14 +11,13 @@ class AnnouncementScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Size size = MediaQuery.of(context).size;
 
     return Background(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           Container(
-            height: size.height * 0.4,
+            height: context.height * 0.4,
             decoration: const BoxDecoration(
                 image: DecorationImage(
                   image: AssetImage('assets/images/notebook.png'),
@@ -43,7 +39,7 @@ class AnnouncementScreen extends StatelessWidget {
             ),
           ),
           Container(
-            height: size.height * 0.4,
+            height: context.height * 0.4,
             decoration: const BoxDecoration(
                 image: DecorationImage(
                   image: AssetImage('assets/images/notebook.png'),
@@ -162,11 +158,10 @@ class Background extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Size size = MediaQuery.of(context).size;
 
-    final screenHeight = size.height - bottomBarHeight;
-    final pencilWidth = size.width * (1 - contentWidthRatio);
-    final contentWidth = size.width * contentWidthRatio;
+    final screenHeight = context.height - bottomBarHeight;
+    final pencilWidth = context.width * (1 - contentWidthRatio);
+    final contentWidth = context.width * contentWidthRatio;
 
     return SingleChildScrollView(
       child: Container(
@@ -178,7 +173,7 @@ class Background extends StatelessWidget {
         child: Stack(
           children: [
             Positioned(
-              top: size.height * 0.3,
+              top: context.height * 0.3,
               child: Image.asset(
                 'assets/images/pencil.png',
                 width: pencilWidth,

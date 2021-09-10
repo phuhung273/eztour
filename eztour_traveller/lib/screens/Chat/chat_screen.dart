@@ -1,8 +1,6 @@
 import 'package:eztour_traveller/route/route.dart';
 import 'package:eztour_traveller/schema/chat/chat.dart';
-import 'package:eztour_traveller/schema/chat/chat_socket_user.dart';
 import 'package:eztour_traveller/screens/Chat/chat_screen_controller.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -91,16 +89,16 @@ class ChatScreen extends StatelessWidget {
       () => SliverList(
           delegate: SliverChildBuilderDelegate((context, index) {
             final chatSocketUser = _controller.users[index];
-            final chat = Chat(
-              name: chatSocketUser.username,
-              isActive: chatSocketUser.connected == 1,
-              image: 'user.jpg',
-              time: '8m ago',
-              lastMessage: 'hello world',
-            );
 
             return ChatCard(
-              chat: chat,
+              key: UniqueKey(),
+              chat: Chat(
+                name: chatSocketUser.username,
+                isActive: chatSocketUser.connected == 1,
+                image: 'user.jpg',
+                time: '8m ago',
+                lastMessage: 'hello world',
+              ),
               press: () => _goToMessageScreen(chatSocketUser.userID),
             );
           },

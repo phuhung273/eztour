@@ -5,7 +5,7 @@ import 'package:eztour_traveller/schema/checklist/todo.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
-const TABLE_NAME = 'checklists';
+const DB_NAME = 'checklists';
 const COLUMN_ID = 'id';
 const COLUMN_MESSAGE = 'message';
 const COLUMN_CATEGORY = 'category';
@@ -21,7 +21,7 @@ class ChecklistDB{
   Future<Database> get database async {
     if (_database != null) return _database!;
 
-    _database = await _initDB('$TABLE_NAME.db');
+    _database = await _initDB('$DB_NAME.db');
     return _database!;
   }
   Future<Database> _initDB(String filePath) async {
@@ -37,7 +37,7 @@ class ChecklistDB{
     const integerType = 'INTEGER NOT NULL';
 
     await db.execute('''
-        CREATE TABLE $TABLE_NAME ( 
+        CREATE TABLE $DB_NAME ( 
           $COLUMN_ID $integerType UNIQUE,
           $COLUMN_MESSAGE $textType,
           $COLUMN_CATEGORY $textType,
@@ -52,7 +52,7 @@ class ChecklistDB{
     final Batch batch = db.batch();
 
     for(final Todo item in items){
-      batch.insert(TABLE_NAME, item.toJson(), conflictAlgorithm: ConflictAlgorithm.ignore);
+      batch.insert(DB_NAME, item.toJson(), conflictAlgorithm: ConflictAlgorithm.ignore);
     }
 
     await batch.commit();
@@ -61,7 +61,7 @@ class ChecklistDB{
   Future<int> toggle(Todo todo) async {
     final db = await instance.database;
 
-    return db.update(TABLE_NAME,
+    return db.update(DB_NAME,
         {
           COLUMN_DONE: todo.done == 1 ? 0 : 1
         },
@@ -73,7 +73,7 @@ class ChecklistDB{
   Future<List<Todo>> getAll() async {
     final db = await instance.database;
 
-    final List<Map<String, dynamic>> maps = await db.query(TABLE_NAME);
+    final List<Map<String, dynamic>> maps = await db.query(DB_NAME);
 
     return List.generate(maps.length, (i) => Todo.fromJson(maps[i]));
   }
@@ -81,6 +81,6 @@ class ChecklistDB{
   Future clear() async {
     final db = await instance.database;
 
-    db.delete(TABLE_NAME);
+    db.delete(DB_NAME);
   }
 }

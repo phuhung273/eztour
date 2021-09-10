@@ -16,7 +16,7 @@ class InMemoryMessageStore extends MessageStore {
   
   findMessagesForUser(userID) {
     return this.messages.filter(
-      ({ from, to }) => from === userID || to === userID
+      ({ fromID, toID }) => fromID === userID || toID === userID
     );
   }
 }

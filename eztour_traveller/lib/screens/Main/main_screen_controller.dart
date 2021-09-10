@@ -25,6 +25,5 @@ class MainScreenController extends GetxController{
 
   void changeTab(int value) {
     pageIndex.value = value;
-    update();
   }
 }

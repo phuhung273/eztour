@@ -3,13 +3,10 @@ import 'package:eztour_traveller/helpers/time_helpers.dart';
 import 'package:eztour_traveller/notifications/notification_api.dart';
 import 'package:eztour_traveller/schema/schedule/location.dart';
 import 'package:eztour_traveller/screens/Schedule/schedule_screen_controller.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:swipe/swipe.dart';
 import 'package:timelines/timelines.dart';
-import 'package:collection/collection.dart';
 
 import '../../constants.dart';
 

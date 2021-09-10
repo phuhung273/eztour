@@ -22,13 +22,14 @@ class ChatScreenController extends GetxController {
   Future onInit() async {
     super.onInit();
 
-    users.value = await chatUserDB.getAll();
+    users.value = await chatUserDB.getUsers();
 
     _socket.on('user connected', (data){
       final response = ChatSocketUser.fromJson(data as Map<String, dynamic>);
 
       final selectedIndex = users.indexWhere((element) => element.userID == response.userID);
       users[selectedIndex].connected = 1;
+      users.refresh();
     });
 
     _socket.on('user disconnected', (data){
@@ -36,6 +37,7 @@ class ChatScreenController extends GetxController {
 
       final selectedIndex = users.indexWhere((element) => element.userID == response.userID);
       users[selectedIndex].connected = 0;
+      users.refresh();
     });
   }
 }

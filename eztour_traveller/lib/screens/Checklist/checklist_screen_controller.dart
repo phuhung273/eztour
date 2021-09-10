@@ -17,9 +17,9 @@ class ChecklistScreenController extends GetxController {
 
   final _checklistRequest = Get.put(ChecklistRequest());
 
-  final _checklistDB = Get.put(ChecklistDB.instance);
+  final ChecklistDB _checklistDB = Get.find();
 
-  final todos = List<Todo>.empty().obs;
+  List<Todo> todos = List<Todo>.empty();
   
   // var _todos = [
   //     Todo(id: 1, message: "Design", done: true),
@@ -40,16 +40,21 @@ class ChecklistScreenController extends GetxController {
 
     await _checklistDB.batchInsert(response.todos);
 
-    todos.value = await _checklistDB.getAll();
+    todos = await _checklistDB.getAll();
     update();
   }
 
-  Future toggleTodo(int index) async {
+  Future toggleTodo(int id) async {
+    final index = todos.indexWhere((element) => element.id == id);
     final todo = todos[index];
     final result = await _checklistDB.toggle(todo);
     if(result > 0){
       todo.done = todo.isDone() ? 0 : 1;
       todos[index] = todo;
+      // todos.reactive.update((value) {
+      //   value![index] = todo;
+      // });
+
       update();
     }
   }

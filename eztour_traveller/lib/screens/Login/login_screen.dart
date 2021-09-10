@@ -16,23 +16,22 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Size size = MediaQuery.of(context).size;
 
     return Background(
       child: Obx(
         () => Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            SizedBox(height: size.height * 0.03),
+            SizedBox(height: context.height * 0.03),
             InkWell(
               onTap: _scanQR,
               child: Icon(
                 Icons.qr_code_scanner,
-                size: size.height * 0.2,
+                size: context.height * 0.2,
               ),
             ),
             Text(_controller.barcodeResult.value),
-            SizedBox(height: size.height * 0.1),
+            SizedBox(height: context.height * 0.1),
             RoundedInputField(
               hintText: "Your Email",
               onChanged: (value) => _controller.id = value,

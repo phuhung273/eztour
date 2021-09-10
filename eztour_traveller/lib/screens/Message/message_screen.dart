@@ -1,5 +1,6 @@
 
 import 'package:dash_chat/dash_chat.dart';
+import 'package:eztour_traveller/datasource/local/local_storage.dart';
 import 'package:eztour_traveller/screens/Message/message_screen_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -9,12 +10,9 @@ class MessageScreen extends StatelessWidget {
 
   final MessageScreenController _controller = Get.find();
 
-  final GlobalKey<DashChatState> _chatViewKey = GlobalKey<DashChatState>();
+  final LocalStorage _localStorage = Get.find();
 
-  final ChatUser user = ChatUser(
-    name: "Fayeed",
-    uid: "123456789",
-  );
+  final GlobalKey<DashChatState> _chatViewKey = GlobalKey<DashChatState>();
 
   @override
   Widget build(BuildContext context) {
@@ -25,8 +23,12 @@ class MessageScreen extends StatelessWidget {
       body: Obx(
         () => DashChat(
           key: _chatViewKey,
+          scrollController: _controller.scrollController,
           messages: _controller.messages.isEmpty ? [] : _controller.messages.value,
-          user: user,
+          user: ChatUser(
+            name: _localStorage.getUsername(),
+            uid: _localStorage.getUserID(),
+          ),
           inputDecoration: const InputDecoration.collapsed(hintText: "Add message here..."),
           dateFormat: DateFormat('yyyy-MMM-dd'),
           timeFormat: DateFormat('HH:mm'),

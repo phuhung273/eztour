@@ -51,6 +51,7 @@ dependencies:
   timelines: ^0.1.0
   swipe: ^0.0.1
   flutter_swipe_action_cell: ^2.1.1
+  grouped_list: ^4.1.0
 
 dev_dependencies:
   retrofit_generator: ^2.0.1

@@ -45,7 +45,6 @@ class ScheduleScreenController extends GetxController {
 
     // locationMap.value = groupBy(_testLocations, (Location item) => item.day);
     locationMap.value = groupBy(response.locations, (Location item) => item.day);
-    update();
 
     final dayDifference = dayDifferenceFromNow(DateTime.parse(response.startDate));
     final destination = min(dayDifference, response.max_day - 1);

@@ -5,7 +5,7 @@ import 'package:eztour_traveller/schema/announcement/announcement.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
-const TABLE_NAME = 'user_announcements';
+const DB_NAME = 'user_announcements';
 const COLUMN_ID = 'id';
 const COLUMN_MESSAGE = 'message';
 
@@ -19,7 +19,7 @@ class UserAnnouncementDB{
   Future<Database> get database async {
     if (_database != null) return _database!;
 
-    _database = await _initDB('$TABLE_NAME.db');
+    _database = await _initDB('$DB_NAME.db');
     return _database!;
   }
   Future<Database> _initDB(String filePath) async {
@@ -35,7 +35,7 @@ class UserAnnouncementDB{
     const integerType = 'INTEGER NOT NULL';
 
     await db.execute('''
-        CREATE TABLE $TABLE_NAME ( 
+        CREATE TABLE $DB_NAME ( 
           $COLUMN_ID $idType,
           $COLUMN_MESSAGE $textType
         )
@@ -45,7 +45,7 @@ class UserAnnouncementDB{
   Future<List<Announcement>> getAll() async {
     final db = await instance.database;
 
-    final List<Map<String, dynamic>> maps = await db.query(TABLE_NAME);
+    final List<Map<String, dynamic>> maps = await db.query(DB_NAME);
 
     return List.generate(maps.length, (i) => Announcement.fromJson(maps[i]));
   }
@@ -53,13 +53,13 @@ class UserAnnouncementDB{
   Future<int> add(String message) async {
     final db = await instance.database;
 
-    return db.insert(TABLE_NAME, {COLUMN_MESSAGE: message});
+    return db.insert(DB_NAME, {COLUMN_MESSAGE: message});
   }
 
   Future<int> update(Announcement announcement) async {
     final db = await instance.database;
 
-    return db.update(TABLE_NAME,
+    return db.update(DB_NAME,
         announcement.toJson(),
         where: '$COLUMN_ID = ?',
         whereArgs: [announcement.id]
@@ -69,12 +69,12 @@ class UserAnnouncementDB{
   Future<int> delete(int id) async {
     final db = await instance.database;
 
-    return db.delete(TABLE_NAME, where: '$COLUMN_ID = ?', whereArgs: [id]);
+    return db.delete(DB_NAME, where: '$COLUMN_ID = ?', whereArgs: [id]);
   }
 
   Future clear() async {
     final db = await instance.database;
 
-    db.delete(TABLE_NAME);
+    db.delete(DB_NAME);
   }
 }

@@ -1,3 +1,5 @@
+const { v4: uuidv4 } = require('uuid');
+
 const httpServer = require('http').createServer();
 const io = require('socket.io')(httpServer, {
   cors: {
@@ -10,6 +12,9 @@ const randomId = () => crypto.randomBytes(8).toString('hex');
 
 const { InMemoryUserStore } = require('./userStore');
 const userStore = new InMemoryUserStore();
+
+const { InMemoryMessageStore } = require('./messageStore');
+const messageStore = new InMemoryMessageStore();
 
 const CONNECTED = 1;
 const DISCONNECTED = 0;
@@ -55,7 +60,23 @@ io.on('connection', (socket) => {
   socket.join(socket.userID);
 
   // fetch existing users
-  const users = userStore.findAllUsers();
+  let users = userStore.findAllUsers();
+  const messagesPerUser = new Map();
+  messageStore.findMessagesForUser(socket.userID).forEach((message) => {
+    const { fromID, toID } = message;
+    const otherUser = socket.userID === fromID ? toID : fromID;
+    if (messagesPerUser.has(otherUser)) {
+      messagesPerUser.get(otherUser).push(message);
+    } else {
+      messagesPerUser.set(otherUser, [message]);
+    }
+  });
+  users = users.map((user) => {
+    return {
+      ...user,
+      messages: messagesPerUser.get(user.userID) || []
+    };
+  });
   socket.emit('users', {users});
 
   // notify existing users
@@ -67,13 +88,15 @@ io.on('connection', (socket) => {
   });
 
   // forward the private message to the right recipient (and to other tabs of the sender)
-  socket.on('private message', ({ content, to }) => {
+  socket.on('private message', ({ id, content, toID }) => {
     const message = {
+      id,
       content,
-      from: socket.userID,
-      to,
+      fromID: socket.userID,
+      toID
     };
-    socket.to(to).to(socket.userID).emit('private message', message);
+    socket.to(toID).to(socket.userID).emit('private message', message);
+    messageStore.saveMessage(message);
   });
 
   // notify users upon disconnection
