@@ -9,7 +9,7 @@ class Tour extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name'];
+    protected $fillable = ['name', 'start_date'];
 
     public $timestamps = false;
 

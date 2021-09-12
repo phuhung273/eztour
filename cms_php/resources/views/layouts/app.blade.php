@@ -49,6 +49,17 @@
     </div>
 
     <script src="{{ asset('js/init-alpine.js') }}"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+        window.addEventListener('swal:modal', event => { 
+            Swal.fire({
+                title: event.detail.message,
+                text: event.detail.text,
+                icon: event.detail.type,
+            });
+        });
+    </script>
 </body>
 
 </html>
