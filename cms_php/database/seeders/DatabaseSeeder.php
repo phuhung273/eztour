@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             GreetingSeeder::class,
             TourSeeder::class,
+            TodoCategorySeeder::class,
         ]);
     }
 }
