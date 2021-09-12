@@ -31,7 +31,12 @@ class AnnouncementPage extends Component
 
         $item->save();
 
-        $this->data->push($item);
+        $newData = [
+            'id' => $item->id,
+            'message' => $item->message,
+        ];
+
+        $this->data[] = $newData;
 
         $this->resetForm();
     }

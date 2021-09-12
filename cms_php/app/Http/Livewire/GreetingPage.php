@@ -40,7 +40,13 @@ class GreetingPage extends Component
 
         $item->save();
 
-        $this->data->push($item);
+        $newData = [
+            'id' => $item->id,
+            'message' => $item->message,
+            'alarm_time' => $item->alarm_time,
+        ];
+
+        $this->data[] = $newData;
 
         $this->resetForm();
     }
