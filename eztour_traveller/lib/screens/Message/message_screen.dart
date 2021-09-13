@@ -24,7 +24,7 @@ class MessageScreen extends StatelessWidget {
         () => DashChat(
           key: _chatViewKey,
           scrollController: _controller.scrollController,
-          messages: _controller.messages.isEmpty ? [] : _controller.messages.value,
+          messages: _controller.messages.isEmpty ? [] : _controller.messages,
           user: ChatUser(
             name: _localStorage.getUsername(),
             uid: _localStorage.getUserID(),

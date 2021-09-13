@@ -4,9 +4,8 @@ namespace App\Http\Livewire;
 
 use App\Helpers\TimeHelper;
 use App\Models\Greeting;
-use Livewire\Component;
 
-class GreetingPage extends Component
+class GreetingPage extends BaseComponent
 {
     const DEFAULT_TIME              = '6:00 AM';
 
@@ -48,12 +47,19 @@ class GreetingPage extends Component
 
         $this->data[] = $newData;
 
+        $this->modalSuccess('Saved!');
+
         $this->resetForm();
     }
 
     private function resetForm() {
-        $this->content = null;
-        $this->alarm_time = self::DEFAULT_TIME;
+        $this->reset(['content', 'alarm_time']);
+    }
+
+    public function delete(Greeting $item) {
+        $item->delete();
+        $this->data = array_filter($this->data, fn ($e) => $e['id'] != $item->id);
+        $this->modalSuccess('Deleted!');
     }
 
     public function render()

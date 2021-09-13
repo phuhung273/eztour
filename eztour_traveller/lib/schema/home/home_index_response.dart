@@ -16,10 +16,18 @@ class HomeIndexResponse {
   @JsonKey(name: 'announcements')
   List<Announcement> announcements;
 
+  @JsonKey(name: 'start_date')
+  String startDate;
+
+  @JsonKey(name: 'max_day')
+  int maxDay;
+
   HomeIndexResponse({
     required this.greeting,
     required this.todos,
     required this.announcements,
+    required this.startDate,
+    required this.maxDay,
   });
 
   factory HomeIndexResponse.fromJson(Map<String, dynamic> json) =>

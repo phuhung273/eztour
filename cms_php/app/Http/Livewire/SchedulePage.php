@@ -4,12 +4,9 @@ namespace App\Http\Livewire;
 
 use App\Helpers\TimeHelper;
 use App\Models\Location;
-use Livewire\Component;
 use Livewire\WithFileUploads;
 
-
-
-class SchedulePage extends Component
+class SchedulePage extends BaseComponent
 {
     use WithFileUploads;
 
@@ -68,21 +65,19 @@ class SchedulePage extends Component
 
         $this->max_day = $this->max_day < $this->day ? $this->day : $this->max_day;
 
+        $this->modalSuccess('Saved!');
+
         $this->resetForm();
     }
 
     private function resetForm() {
-        $this->image = null;
-        $this->label = null;
-        $this->description = null;
-        $this->day = self::DEFAULT_DAY;
-        $this->from = self::DEFAULT_FROM;
-        $this->to = self::DEFAULT_TO;
+        $this->reset(['description', 'from', 'to']);
     }
 
-
-    public function changeImage($imageName){
-        $this->image = $imageName;
+    public function delete(Location $item) {
+        $item->delete();
+        $this->data = $this->data->filter(fn ($e) => $e['id'] != $item->id);
+        $this->modalSuccess('Deleted!');
     }
 
     public function render()

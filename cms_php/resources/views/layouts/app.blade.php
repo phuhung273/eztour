@@ -16,8 +16,9 @@
     <!-- Styles -->
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <link rel="stylesheet" href="{{ asset('css/tailwind.output.css') }}" />
+    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.8.2/dist/alpine.min.js" defer></script>
     {{-- <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script> --}}
-    <script defer src="https://unpkg.com/alpinejs@3.3.1/dist/cdn.min.js"></script>
+    {{-- <script src="https://unpkg.com/alpinejs@3.3.1/dist/cdn.min.js" defer></script> --}}
 
     @livewireStyles
     @stack('styles')
@@ -55,7 +56,6 @@
         window.addEventListener('swal:modal', event => { 
             Swal.fire({
                 title: event.detail.message,
-                text: event.detail.text,
                 icon: event.detail.type,
             });
         });

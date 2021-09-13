@@ -27,7 +27,7 @@ class Location {
   String to;
 
   @JsonKey(name: 'tour_id')
-  int tour_id;
+  int tourId;
 
   Location({
     required this.id,
@@ -37,7 +37,7 @@ class Location {
     required this.description,
     required this.from,
     required this.to,
-    required this.tour_id,
+    required this.tourId,
   });
 
 

@@ -1,19 +1,24 @@
-<div class="h-64 gap-y-4 gap-x-16">
-    <div class="flex flex-col justify-items-center px-4 py-3 mb-8 bg-white rounded-lg shadow-md">
+<div>
+    <x-loading-indicator />
 
-        <form wire:submit.prevent="submit">
+    <div class="h-64 gap-y-4 gap-x-16">
+        <div class="flex flex-col justify-items-center px-4 py-3 mb-8 bg-white rounded-lg shadow-md">
 
-            <x-forms.form-group label="Start date">
+            <form wire:submit.prevent="submit">
 
-                <x-forms.input-text wire:model.defer="date" />
+                <x-forms.form-group label="Start date">
 
-                @error('date')
-                <x-forms.error-text :error="$message" />
-                @enderror
+                    {{-- <x-forms.input-text wire:model.defer="date" /> --}}
+                    <x-forms.date-picker wire:model.defer="date" />
 
-            </x-forms.form-group>
+                    @error('date')
+                    <x-forms.error-text :error="$message" />
+                    @enderror
 
-            <x-app-button text="Submit" purpose="submit" />
-        </form>
+                </x-forms.form-group>
+
+                <x-app-button text="Submit" purpose="submit" />
+            </form>
+        </div>
     </div>
 </div>

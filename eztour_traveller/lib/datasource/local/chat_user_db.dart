@@ -37,7 +37,7 @@ class ChatUserDB{
      final dbPath = await getDatabasesPath();
      final path = join(dbPath, filePath);
 
-     return await openDatabase(path, version: 1, onCreate: _createDB, onConfigure: _onConfigure);
+     return openDatabase(path, version: 1, onCreate: _createDB, onConfigure: _onConfigure);
    }
 
    Future _onConfigure(Database db) async {

@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Announcement;
 use App\Models\Greeting;
+use App\Models\Location;
 use App\Models\Todo;
+use App\Models\Tour;
 use Illuminate\Http\Request;
 
 class MobileHomeController extends Controller
@@ -14,7 +16,7 @@ class MobileHomeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index(Request $request, Tour $tour)
     {
         $request->validate([
             'local_time' => 'required',
@@ -32,10 +34,16 @@ class MobileHomeController extends Controller
 
         $announcements = Announcement::limit(3)->get();
 
+        $start_date = $tour->start_date;
+
+        $max_day = Location::max('day');
+
         return [
             'greeting' => $greeting_message,
             'todos' => $todos,
             'announcements' => $announcements,
+            'start_date' => $start_date,
+            'max_day' => $max_day,
         ];
     }
 }

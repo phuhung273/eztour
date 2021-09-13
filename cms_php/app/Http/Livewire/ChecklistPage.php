@@ -4,9 +4,8 @@ namespace App\Http\Livewire;
 
 use App\Models\Todo;
 use App\Models\TodoCategory;
-use Livewire\Component;
 
-class ChecklistPage extends Component
+class ChecklistPage extends BaseComponent
 {
     public $content;
     
@@ -47,11 +46,18 @@ class ChecklistPage extends Component
         $this->data[] = $newData;
 
         $this->resetForm();
+
+        $this->modalSuccess('Saved!');
     }
 
     private function resetForm() {
-        $this->content = null;
-        $this->category = $this->categories[0]->id;
+        $this->reset(['content']);
+    }
+
+    public function delete(Todo $item) {
+        $item->delete();
+        $this->data = array_filter($this->data, fn ($e) => $e['id'] != $item->id);
+        $this->modalSuccess('Deleted!');
     }
 
     public function render()

@@ -5,8 +5,8 @@ const kPrimaryLightColor = Color(0xFFF1E6FF);
 
 const kDefaultPadding = 20.0;
 
-const HOST_URL = 'http://157.245.60.30';
-const CHAT_HOST_URL = 'http://157.245.60.30';
+// const HOST_URL = 'http://157.245.60.30';
+// const CHAT_HOST_URL = 'http://157.245.60.30';
 
-// const HOST_URL = 'http://10.0.2.2:8000';
-// const CHAT_HOST_URL = 'http://10.0.2.2:3000';
+const HOST_URL = 'http://10.0.2.2:8000';
+const CHAT_HOST_URL = 'http://10.0.2.2:3000';

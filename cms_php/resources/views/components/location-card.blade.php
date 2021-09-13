@@ -23,8 +23,26 @@
                 <a href="#">
                     <x-app-button scheme="success" text="Update" />
                 </a>
-                <x-app-button scheme="danger" text="Delete" />
+                <x-app-button scheme="danger" text="Delete" onclick="modalDelete({{ $location->id }})" />
             </div>
         </div>
     </div>
 </div>
+
+@push('scripts')
+<script>
+    function modalDelete(id){
+        Swal.fire({
+            title: 'Are you sure?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#e74c3c',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                @this.delete(id);
+            }
+        });
+    }
+</script>
+@endpush

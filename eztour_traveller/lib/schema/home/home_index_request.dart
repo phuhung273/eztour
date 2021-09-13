@@ -5,10 +5,11 @@ part 'home_index_request.g.dart';
 @JsonSerializable()
 class HomeIndexRequest {
 
-  String? local_time;
+  @JsonKey(name: 'local_time')
+  String? localTime;
 
   HomeIndexRequest({
-    this.local_time,
+    this.localTime,
   });
 
   factory HomeIndexRequest.fromJson(Map<String, dynamic> json) =>

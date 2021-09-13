@@ -3,9 +3,8 @@
 namespace App\Http\Livewire;
 
 use App\Models\Announcement;
-use Livewire\Component;
 
-class AnnouncementPage extends Component
+class AnnouncementPage extends BaseComponent
 {
     public $content;
     
@@ -38,11 +37,19 @@ class AnnouncementPage extends Component
 
         $this->data[] = $newData;
 
+        $this->modalSuccess('Saved!');
+
         $this->resetForm();
     }
 
     private function resetForm() {
-        $this->content = null;
+        $this->reset(['content']);
+    }
+
+    public function delete(Announcement $item) {
+        $item->delete();
+        $this->data = array_filter($this->data, fn ($e) => $e['id'] != $item->id);
+        $this->modalSuccess('Deleted!');
     }
 
     public function render()

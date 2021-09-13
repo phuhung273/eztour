@@ -7,7 +7,7 @@ part 'schedule_list_response.g.dart';
 class ScheduleListResponse {
 
   @JsonKey(name: 'max_day')
-  int max_day;
+  int maxDay;
 
   @JsonKey(name: 'locations')
   List<Location> locations;
@@ -16,7 +16,7 @@ class ScheduleListResponse {
   String startDate;
 
   ScheduleListResponse({
-    required this.max_day,
+    required this.maxDay,
     required this.locations,
     required this.startDate,
 });

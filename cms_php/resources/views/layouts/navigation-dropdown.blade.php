@@ -1,4 +1,4 @@
-<header x-data="navigationBar" class="z-10 py-4 bg-white shadow-md dark:bg-gray-800">
+<header class="z-10 py-4 bg-white shadow-md dark:bg-gray-800">
     <div class="container flex items-center justify-between h-full px-6 mx-auto text-purple-600 dark:text-purple-300">
         <!-- Mobile hamburger -->
         <button class="p-1 mr-5 -ml-1 rounded-md md:hidden focus:outline-none focus:shadow-outline-purple"
@@ -29,7 +29,7 @@
                 </button>
                 <ul x-show="isNotificationsMenuOpen" x-transition:enter="transition ease-in duration-150"
                     x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
-                    @click.outside="closeNotificationsMenu" @keydown.escape="closeNotificationsMenu"
+                    @click.away="closeNotificationsMenu" @keydown.escape="closeNotificationsMenu"
                     class="absolute right-0 w-56 p-2 mt-2 space-y-2 text-gray-600 bg-white border border-gray-100 rounded-md shadow-md dark:text-gray-300 dark:border-gray-700 dark:bg-gray-700">
                     <li class="flex">
                         <a class="inline-flex items-center justify-between w-full px-2 py-1 text-sm font-semibold transition-colors duration-150 rounded-md hover:bg-gray-100 hover:text-gray-800 dark:hover:bg-gray-800 dark:hover:text-gray-200"
@@ -189,26 +189,3 @@
         </ul>
     </div>
 </header>
-
-@push('scripts')
-<script>
-    document.addEventListener('alpine:init', () => {
-        Alpine.data('navigationBar', () => ({
-            isNotificationsMenuOpen: false,
-            toggleNotificationsMenu() {
-                this.isNotificationsMenuOpen = !this.isNotificationsMenuOpen
-            },
-            closeNotificationsMenu() {
-                this.isNotificationsMenuOpen = false
-            },
-            isProfileMenuOpen: false,
-            toggleProfileMenu() {
-                this.isProfileMenuOpen = !this.isProfileMenuOpen
-            },
-            closeProfileMenu() {
-                this.isProfileMenuOpen = false
-            },
-        }))
-    })
-</script>
-@endpush

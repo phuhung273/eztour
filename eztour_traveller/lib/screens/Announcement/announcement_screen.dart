@@ -112,6 +112,7 @@ class AnnouncementScreen extends StatelessWidget {
       key: ValueKey(announcement),
       text: announcement.message,
       onEditingComplete: (value) => _controller.updateAt(index, value),
+      onDelete: () => _controller.removeAt(index),
     );
   }
 

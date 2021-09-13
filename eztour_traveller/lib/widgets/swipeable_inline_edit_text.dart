@@ -5,10 +5,12 @@ import 'package:flutter_swipe_action_cell/flutter_swipe_action_cell.dart';
 class SwipeableInlineEditText extends StatefulWidget {
   final String text;
   final void Function(String value) onEditingComplete;
+  final void Function() onDelete;
 
   const SwipeableInlineEditText({
     required this.text,
     required this.onEditingComplete,
+    required this.onDelete,
     required Key key,
   }) : super(key: key);
 
@@ -36,34 +38,6 @@ class _SwipeableInlineEditTextState extends State<SwipeableInlineEditText> {
       backgroundColor: Colors.transparent,
       trailingActions: [
         SwipeAction(
-          nestedAction: SwipeNestedAction(
-            content: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(30),
-                color: Colors.red,
-              ),
-              child: OverflowBox(
-                maxWidth: double.infinity,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
-                    Icon(
-                      Icons.delete,
-                      color: Colors.white,
-                      size: 20.0,
-                    ),
-                    Text('Delete',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 16.0,
-                        )
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-
           ///you should set the default  bg color to transparent
           color: Colors.transparent,
 
@@ -71,7 +45,7 @@ class _SwipeableInlineEditTextState extends State<SwipeableInlineEditText> {
           content: _buildIconButton(Colors.red, Icons.delete),
           onTap: (handler) async {
             await handler(true);
-            // _controller.removeAt(index);
+            widget.onDelete();
           }
         ),
       ],

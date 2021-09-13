@@ -4,7 +4,6 @@ import 'package:eztour_traveller/datasource/remote/auth_service.dart';
 import 'package:eztour_traveller/route/route.dart';
 import 'package:eztour_traveller/schema/auth/basic_auth_credential.dart';
 import 'package:eztour_traveller/schema/auth/login_request.dart';
-import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 
 class LoginScreenBinding extends Bindings {

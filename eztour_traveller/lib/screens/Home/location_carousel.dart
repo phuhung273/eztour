@@ -8,12 +8,14 @@ class LocationCarousel extends StatelessWidget {
   final String title;
   final List<Location> locations;
   final double borderRadius;
+  final int? initialPage;
 
   const LocationCarousel({
     Key? key,
     required this.title,
     required this.locations,
     this.borderRadius = 5.0,
+    this.initialPage,
   }) : super(key: key);
 
   List<Widget> _buildCarouselItems(List<Location> locations){
@@ -39,6 +41,7 @@ class LocationCarousel extends StatelessWidget {
                 disableCenter: true,
                 aspectRatio: 1.0,
                 viewportFraction: 0.6,
+                initialPage: initialPage ?? 0,
               ),
               items: _buildCarouselItems(locations),
             ),

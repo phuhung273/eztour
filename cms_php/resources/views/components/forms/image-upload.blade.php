@@ -1,4 +1,4 @@
-<div x-data="imageUploadData" class="col-span-6 ml-2 sm:col-span-4 md:mr-3">
+<div x-data="imageUpload()" class="col-span-6 ml-2 sm:col-span-4 md:mr-3">
     <!-- Photo File Input -->
     <input {{ $attributes }} type="file" x-ref="photo" class="hidden" x-on:change="changeImage">
 
@@ -26,8 +26,8 @@
 
 @push('scripts')
 <script>
-    document.addEventListener('alpine:init', () => {
-        Alpine.data('imageUploadData', () => ({
+    function imageUpload(){
+        return {
             photoPreview: null,
             changeImage(e){
                 const reader = new FileReader();
@@ -36,7 +36,7 @@
                 };
                 reader.readAsDataURL(e.target.files[0]);
             }
-        }))
-    })
+        }
+    }
 </script>
 @endpush

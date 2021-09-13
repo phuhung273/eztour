@@ -32,7 +32,8 @@ class _ChatCardState extends State<ChatCard> {
       onTap: widget.press,
       child: Padding(
         padding: const EdgeInsets.symmetric(
-            horizontal: kDefaultPadding, vertical: kDefaultPadding * 0.75),
+            horizontal: kDefaultPadding, vertical: kDefaultPadding * 0.75
+        ),
         child: Row(
           children: [
             Stack(
@@ -53,7 +54,8 @@ class _ChatCardState extends State<ChatCard> {
                         shape: BoxShape.circle,
                         border: Border.all(
                             color: Theme.of(context).scaffoldBackgroundColor,
-                            width: 3),
+                            width: 3
+                        ),
                       ),
                     ),
                   )

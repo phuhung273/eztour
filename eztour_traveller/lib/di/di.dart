@@ -1,7 +1,4 @@
 
-import 'dart:io';
-
-import 'package:device_info_plus/device_info_plus.dart';
 import 'package:eztour_traveller/chat/chat_api.dart';
 import 'package:eztour_traveller/datasource/local/chat_user_db.dart';
 import 'package:eztour_traveller/datasource/local/checklist_db.dart';
@@ -35,6 +32,10 @@ void _configureApiClient(){
   final dio = Dio(BaseOptions(contentType: "application/json"));
 
   dio.interceptors.addAll([
+    LogInterceptor(
+      requestBody: true,
+      responseBody: true,
+    ),
     InterceptorsWrapper(
       onRequest: (RequestOptions options, handler) {
 
@@ -43,6 +44,7 @@ void _configureApiClient(){
         final accessToken = localStorage.getAccessToken() ?? '';
         // Do something before request is sent
         options.headers["Authorization"] = "Bearer $accessToken";
+        options.headers["Accept"] = "application/json";
         return handler.next(options);
       }
     ),

@@ -1,11 +1,9 @@
 
-import 'package:eztour_traveller/schema/announcement/announcement.dart';
-import 'package:eztour_traveller/schema/checklist/todo.dart';
 import 'package:eztour_traveller/screens/Home/announcement_card.dart';
 import 'package:eztour_traveller/screens/Home/checklist_card.dart';
 import 'package:eztour_traveller/screens/Home/discovery_grid.dart';
 import 'package:eztour_traveller/screens/Home/home_screen_controller.dart';
-import 'package:eztour_traveller/widgets/location_carousel.dart';
+import 'package:eztour_traveller/screens/Home/location_carousel.dart';
 import 'package:eztour_traveller/widgets/moment_carousel.dart';
 import 'package:flag/flag.dart';
 import 'package:flutter/material.dart';
@@ -53,8 +51,10 @@ class HomeScreen extends StatelessWidget {
                 _buildHometownClock(),
                 LocationCarousel(
                   title: 'Schedule',
-                  locations: _controller.locations.value,
+                  locations: _controller.locations,
                   borderRadius: 20.0,
+                  initialPage: _controller.initialPage.value,
+                  key: UniqueKey(),
                 ),
                 _buildNoticesTabbar(),
                 MomentCarousel(
@@ -101,10 +101,10 @@ class HomeScreen extends StatelessWidget {
                       physics: const NeverScrollableScrollPhysics(),
                       children: [
                         ChecklistCard(
-                            todos: _controller.todos.value
+                            todos: _controller.todos
                         ),
                         AnnouncementCard(
-                            announcements: _controller.announcements.value
+                            announcements: _controller.announcements
                         ),
                       ]
                   ),

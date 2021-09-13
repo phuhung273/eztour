@@ -26,7 +26,7 @@ break;
 
 @endphp
 
-<button {{ $purpose == "submit" ? "type='submit'" : "" }}
-    class="{{ $modifier }} px-5 py-3 mx-auto mt-4 font-semibold leading-5 text-white transition-colors duration-150 border border-transparent rounded-lg focus:outline-none focus:shadow-outline-purple">
+<button {{ $purpose == "submit" ? "type='submit'" : "" }} wire:loading.attr="disabled" {{ $attributes }}
+    class="{{ $modifier }} px-5 py-3 mx-auto mt-4 font-semibold leading-5 text-white transition-colors duration-150 border border-transparent rounded-lg focus:outline-none focus:shadow-outline-purple disabled:opacity-50">
     {{ $text }}
 </button>

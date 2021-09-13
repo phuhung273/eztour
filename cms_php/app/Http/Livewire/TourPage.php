@@ -3,9 +3,8 @@
 namespace App\Http\Livewire;
 
 use App\Models\Tour;
-use Livewire\Component;
 
-class TourPage extends Component
+class TourPage extends BaseComponent
 {
     public $date;
 
@@ -26,11 +25,7 @@ class TourPage extends Component
         $this->tour->start_date = $this->date;
         $this->tour->save();
 
-        $this->dispatchBrowserEvent('swal:modal', [
-            'type' => 'success',  
-            'message' => 'Success!',
-            'text' => 'Update successfully!', 
-        ]);
+        $this->modalSuccess('Update successfully!');
     }
 
     public function render()

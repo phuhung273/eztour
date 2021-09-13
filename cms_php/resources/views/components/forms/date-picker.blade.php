@@ -1,4 +1,4 @@
-<div x-data="datePicker" x-cloak>
+<div x-data="datePicker()" x-init="[initDate(), getNoOfDays()]" x-cloak>
     <div class="mb-5 w-64">
 
         <div class="relative">
@@ -78,7 +78,6 @@
 
         </div>
     </div>
-
 </div>
 
 @push('styles')
@@ -94,8 +93,8 @@
     const MONTH_NAMES = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
     const DAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
-    document.addEventListener('alpine:init', () => {
-        Alpine.data('datePicker', () => ({
+    function datePicker(){
+        return {
             showDatepicker: false,
             datepickerValue: '',
 
@@ -103,21 +102,16 @@
             year: '',
             no_of_days: [],
             blankdays: [],
-            days: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
-            init(){
-                this.initDate();
-                this.getNoOfDays();
-            },
 
             initDate() {
-                let today = new Date();
+                let today = new Date(@this.date);
                 this.month = today.getMonth();
                 this.year = today.getFullYear();
                 this.datepickerValue = new Date(this.year, this.month, today.getDate()).toDateString();
             },
 
             isToday(date) {
-                const today = new Date();
+                const today = new Date(@this.date);
                 const d = new Date(this.year, this.month, date);
 
                 return today.toDateString() === d.toDateString();
@@ -127,7 +121,11 @@
                 let selectedDate = new Date(this.year, this.month, date);
                 this.datepickerValue = selectedDate.toDateString();
 
-                this.$refs.date.value = selectedDate.getFullYear() +"-"+ ('0'+ selectedDate.getMonth()).slice(-2) +"-"+ ('0' + selectedDate.getDate()).slice(-2);
+                let selectedYear = selectedDate.getFullYear()
+                let selectedMonth = ('0'+ (selectedDate.getMonth() + 1)).slice(-2)
+                let selecteddate = ('0' + selectedDate.getDate()).slice(-2)
+
+                this.$refs.date.value = `${selectedYear}-${selectedMonth}-${selecteddate}`;
                 this.$refs.date.dispatchEvent(new Event('input'));
                 this.showDatepicker = false;
             },
@@ -150,7 +148,7 @@
                 this.blankdays = blankdaysArray;
                 this.no_of_days = daysArray;
             }
-        }))
-    })
+        }
+    }
 </script>
 @endpush
