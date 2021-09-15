@@ -1,6 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:eztour_traveller/components/text_field_container.dart';
-import 'package:eztour_traveller/constants.dart';
+import 'package:flutter/material.dart';
 
 class RoundedInputField extends StatelessWidget {
   final String hintText;
@@ -15,17 +14,16 @@ class RoundedInputField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return TextFieldContainer(
       child: TextField(
         onChanged: onChanged,
-        cursorColor: kPrimaryColor,
         decoration: InputDecoration(
           icon: Icon(
             icon,
-            color: kPrimaryColor,
+            color: theme.primaryColorDark,
           ),
           hintText: hintText,
-          border: InputBorder.none,
         ),
       ),
     );

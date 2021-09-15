@@ -1,5 +1,6 @@
 
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:eztour_traveller/constants.dart';
 import 'package:flutter/material.dart';
 
 class MomentCarousel extends StatelessWidget {
@@ -22,24 +23,27 @@ class MomentCarousel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: 16.0),
+      margin: const EdgeInsets.symmetric(vertical: defaultSpacing),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(title, style: const TextStyle(fontSize: 25.0),),
           Container(
-            child: CarouselSlider(
-              options: CarouselOptions(
-                height: 150.0,
-                enlargeCenterPage: true,
-                enableInfiniteScroll: false,
-                disableCenter: true,
-                aspectRatio: 1.0,
-                viewportFraction: 0.6,
-              ),
-              items: _buildCarouselItems(imagePathList),
+            padding: const EdgeInsets.symmetric(vertical: defaultPadding),
+            child: Text(title, style: theme.textTheme.headline4)
+          ),
+          CarouselSlider(
+            options: CarouselOptions(
+              height: 150.0,
+              enlargeCenterPage: true,
+              enableInfiniteScroll: false,
+              disableCenter: true,
+              aspectRatio: 1.0,
+              viewportFraction: 0.6,
             ),
+            items: _buildCarouselItems(imagePathList),
           )
         ],
       ),

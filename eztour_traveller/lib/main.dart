@@ -1,8 +1,8 @@
 import 'package:eztour_traveller/di/di.dart';
 import 'package:eztour_traveller/route/route.dart';
 import 'package:eztour_traveller/screens/Splash/splash_screen_controller.dart';
+import 'package:eztour_traveller/theme.dart';
 import 'package:flutter/material.dart';
-import 'package:eztour_traveller/constants.dart';
 import 'package:get/get.dart';
 
 Future main() async {
@@ -18,10 +18,7 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Auth',
-      theme: ThemeData(
-        primaryColor: kPrimaryColor,
-        scaffoldBackgroundColor: Colors.white,
-      ),
+      theme: appTheme,
       initialBinding: SplashScreenBinding(),
       initialRoute: ROUTE_SPLASH,
       getPages: appRoute

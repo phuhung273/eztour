@@ -1,6 +1,7 @@
 
 import 'dart:ui';
 
+import 'package:eztour_traveller/constants.dart';
 import 'package:flutter/material.dart';
 
 class DiscoveryGrid extends StatelessWidget {
@@ -21,20 +22,28 @@ class DiscoveryGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(title, style: const TextStyle(fontSize: 25.0),),
-        GridView.builder(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          itemCount: 4,
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
-          itemBuilder: (BuildContext context, int index){
-            return GalleryItemWidget(name: _items[index].name, imagePath: _items[index].image);
-          }
-        ),
-      ],
+    final theme = Theme.of(context);
+
+    return Container(
+      margin: const EdgeInsets.symmetric(vertical: defaultSpacing),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            padding: const EdgeInsets.symmetric(vertical: defaultPadding),
+            child: Text(title, style: theme.textTheme.headline4)
+          ),
+          GridView.builder(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemCount: 4,
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+            itemBuilder: (BuildContext context, int index){
+              return GalleryItemWidget(name: _items[index].name, imagePath: _items[index].image);
+            }
+          ),
+        ],
+      ),
     );
   }
 }
@@ -61,6 +70,8 @@ class GalleryItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return GridTile(
       child: Card(
         clipBehavior: Clip.hardEdge,
@@ -87,10 +98,8 @@ class GalleryItemWidget extends StatelessWidget {
             Center(
               child: Text(
                 name,
-                style: const TextStyle(
-                  fontSize: 25.0,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
+                style: theme.textTheme.headline5!.copyWith(
+                  color: Colors.white
                 ),
               ),
             )

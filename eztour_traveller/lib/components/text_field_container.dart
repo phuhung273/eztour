@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:eztour_traveller/constants.dart';
+import 'package:flutter/material.dart';
 
 class TextFieldContainer extends StatelessWidget {
   final Widget child;
@@ -11,13 +11,14 @@ class TextFieldContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
+    final theme = Theme.of(context);
     return Container(
-      margin: const EdgeInsets.symmetric(vertical: 10),
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+      margin: const EdgeInsets.symmetric(vertical: defaultSpacing),
+      padding: const EdgeInsets.symmetric(horizontal: defaultPadding),
       width: size.width * 0.8,
       decoration: BoxDecoration(
-        color: kPrimaryLightColor,
-        borderRadius: BorderRadius.circular(29),
+        border: Border.all(color: theme.primaryColor),
+        borderRadius: pillBorderRadius,
       ),
       child: child,
     );

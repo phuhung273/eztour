@@ -1,8 +1,8 @@
 
 import 'package:barcode_scan2/barcode_scan2.dart';
-import 'package:eztour_traveller/components/rounded_button.dart';
 import 'package:eztour_traveller/components/rounded_input_field.dart';
 import 'package:eztour_traveller/components/rounded_password_field.dart';
+import 'package:eztour_traveller/constants.dart';
 import 'package:eztour_traveller/screens/Login/login_screen_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -22,7 +22,6 @@ class LoginScreen extends StatelessWidget {
         () => Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            SizedBox(height: context.height * 0.03),
             InkWell(
               onTap: _scanQR,
               child: Icon(
@@ -31,7 +30,7 @@ class LoginScreen extends StatelessWidget {
               ),
             ),
             Text(_controller.barcodeResult.value),
-            SizedBox(height: context.height * 0.1),
+            const SizedBox(height: defaultSpacing * 5),
             RoundedInputField(
               hintText: "Your Email",
               onChanged: (value) => _controller.id = value,
@@ -39,9 +38,14 @@ class LoginScreen extends StatelessWidget {
             RoundedPasswordField(
               onChanged: (value) => _controller.password = value,
             ),
-            RoundedButton(
-                text: "LOGIN",
-                press: _controller.login
+            Container(
+              margin: const EdgeInsets.symmetric(vertical: defaultSpacing),
+              width: context.width * 0.8,
+              child: ElevatedButton(
+                // padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 40),
+                onPressed: _controller.login,
+                child: const Text('LOGIN'),
+              ),
             ),
           ],
         ),

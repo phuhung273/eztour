@@ -1,6 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:eztour_traveller/components/text_field_container.dart';
-import 'package:eztour_traveller/constants.dart';
+import 'package:flutter/material.dart';
 
 class RoundedPasswordField extends StatelessWidget {
   final ValueChanged<String> onChanged;
@@ -11,22 +10,22 @@ class RoundedPasswordField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return TextFieldContainer(
       child: TextField(
         obscureText: true,
         onChanged: onChanged,
-        cursorColor: kPrimaryColor,
-        decoration: const InputDecoration(
+        decoration: InputDecoration(
           hintText: "Password",
           icon: Icon(
             Icons.lock,
-            color: kPrimaryColor,
+            color: theme.primaryColorDark,
           ),
           suffixIcon: Icon(
             Icons.visibility,
-            color: kPrimaryColor,
+            color: theme.primaryColorDark,
           ),
-          border: InputBorder.none,
         ),
       ),
     );

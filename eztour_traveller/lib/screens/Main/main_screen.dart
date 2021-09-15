@@ -1,3 +1,4 @@
+import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 import 'package:animations/animations.dart';
 import 'package:eztour_traveller/Screens/Home/home_screen.dart';
 import 'package:eztour_traveller/screens/Announcement/announcement_screen.dart';
@@ -7,6 +8,8 @@ import 'package:eztour_traveller/screens/Main/main_screen_controller.dart';
 import 'package:eztour_traveller/screens/Schedule/schedule_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
+const scheduleScreenIndex = 4;
 
 class MainScreen extends StatelessWidget {
 
@@ -49,26 +52,13 @@ class MainScreen extends StatelessWidget {
           ),
         ),
       ),
-      bottomNavigationBar: _buildBottomNavigationBar(),
-    );
-  }
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => _controller.changeTab(scheduleScreenIndex),
+        child: const Icon(Icons.event),
 
-  Widget _buildBottomNavigationBar() {
-    return Obx(
-      () => BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        currentIndex: _controller.pageIndex.value,
-        onTap: (value) {
-          _controller.changeTab(value);
-        },
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
-          BottomNavigationBarItem(icon: Icon(Icons.event), label: "Schedule"),
-          BottomNavigationBarItem(icon: Icon(Icons.notifications), label: "Announcement"),
-          BottomNavigationBarItem(icon: Icon(Icons.check_circle_rounded), label: "Checklist"),
-          BottomNavigationBarItem(icon: Icon(Icons.chat_outlined), label: "Chat"),
-        ],
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      bottomNavigationBar: _buildBottomNavigationBar(),
     );
   }
 
@@ -78,19 +68,49 @@ class MainScreen extends StatelessWidget {
         return HomeScreen();
 
       case 1:
-        return ScheduleScreen();
-
-      case 2:
         return AnnouncementScreen();
 
-      case 3:
+      case 2:
         return ChecklistScreen();
 
-      case 4:
+      case 3:
         return ChatScreen();
+
+      case 4:
+        return ScheduleScreen();
 
       default:
         return HomeScreen();
     }
   }
 }
+
+class _buildBottomNavigationBar extends StatelessWidget {
+  final MainScreenController _controller = Get.find();
+
+  _buildBottomNavigationBar({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
+    return Obx(
+      () => AnimatedBottomNavigationBar(
+        icons: const [
+          Icons.home,
+          Icons.notifications,
+          Icons.check_circle_rounded,
+          Icons.chat_outlined,
+        ],
+        activeIndex: _controller.pageIndex.value,
+        gapLocation: GapLocation.center,
+        onTap: (index) => _controller.changeTab(index),
+        backgroundColor: theme.primaryColor,
+        activeColor: theme.colorScheme.onPrimary,
+        inactiveColor: theme.colorScheme.onPrimary,
+        //other params
+      )
+    );
+  }
+}
+

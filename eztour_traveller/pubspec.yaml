@@ -27,8 +27,6 @@ dependencies:
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^1.0.2
-  flutter_svg: ^0.22.0
   carousel_slider: ^4.0.0
   retrofit: ^2.0.1
   json_annotation: ^4.0.1
@@ -52,6 +50,7 @@ dependencies:
   swipe: ^0.0.1
   flutter_swipe_action_cell: ^2.1.1
   grouped_list: ^4.1.0
+  animated_bottom_navigation_bar: ^0.3.2
 
 dev_dependencies:
   retrofit_generator: ^2.0.1
@@ -103,3 +102,12 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+  fonts:
+    - family: Rubik
+      fonts:
+        - asset: assets/fonts/Rubik-Light.ttf
+          weight: 300
+        - asset: assets/fonts/Rubik-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/Rubik-Medium.ttf
+          weight: 500

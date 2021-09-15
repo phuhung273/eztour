@@ -1,9 +1,20 @@
 import 'package:flutter/material.dart';
 
-const kPrimaryColor = Color(0xFF6F35A5);
-const kPrimaryLightColor = Color(0xFFF1E6FF);
+final primaryColor = Colors.blueGrey[700];
+final primaryColorLight = Colors.blueGrey[600];
+final primaryColorDark = Colors.blueGrey[800];
+final secondaryColor = Colors.orange[500];
+final secondaryColorLight = Colors.orange[400];
 
-const kDefaultPadding = 20.0;
+const defaultSpacing = 16.0;
+
+const defaultPadding = 16.0;
+
+final pillBorderRadius = BorderRadius.circular(999);
+
+final pillShape = RoundedRectangleBorder(
+  borderRadius: pillBorderRadius,
+);
 
 // const HOST_URL = 'http://157.245.60.30';
 // const CHAT_HOST_URL = 'http://157.245.60.30';

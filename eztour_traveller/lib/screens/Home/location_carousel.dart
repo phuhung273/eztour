@@ -26,25 +26,28 @@ class LocationCarousel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: 16.0),
+      margin: const EdgeInsets.symmetric(vertical: defaultSpacing),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(title, style: const TextStyle(fontSize: 25.0),),
           Container(
-            child: CarouselSlider(
-              options: CarouselOptions(
-                height: 150.0,
-                enlargeCenterPage: true,
-                enableInfiniteScroll: false,
-                disableCenter: true,
-                aspectRatio: 1.0,
-                viewportFraction: 0.6,
-                initialPage: initialPage ?? 0,
-              ),
-              items: _buildCarouselItems(locations),
+            padding: const EdgeInsets.symmetric(vertical: defaultPadding),
+            child: Text(title, style: theme.textTheme.headline4)
+          ),
+          CarouselSlider(
+            options: CarouselOptions(
+              height: 150.0,
+              enlargeCenterPage: true,
+              enableInfiniteScroll: false,
+              disableCenter: true,
+              aspectRatio: 1.0,
+              viewportFraction: 0.6,
+              initialPage: initialPage ?? 0,
             ),
+            items: _buildCarouselItems(locations),
           )
         ],
       ),
@@ -66,6 +69,8 @@ class CarouselItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Container(
       margin: const EdgeInsets.all(5.0),
       child: Stack(
@@ -100,9 +105,7 @@ class CarouselItem extends StatelessWidget {
               ),
               child: Text(
                 caption,
-                style: const TextStyle(
-                  fontSize: 20.0,
-                  fontWeight: FontWeight.bold,
+                style: theme.textTheme.subtitle1!.copyWith(
                   fontStyle: FontStyle.italic
                 ),
               ),
