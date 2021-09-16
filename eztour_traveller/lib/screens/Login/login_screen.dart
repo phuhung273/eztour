@@ -17,6 +17,8 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
+    final theme = Theme.of(context);
+
     return Background(
       child: Obx(
         () => Column(
@@ -29,7 +31,7 @@ class LoginScreen extends StatelessWidget {
                 size: context.height * 0.2,
               ),
             ),
-            Text(_controller.barcodeResult.value),
+            Text(_controller.barcodeResult.value, style: theme.textTheme.subtitle1),
             const SizedBox(height: defaultSpacing * 5),
             RoundedInputField(
               hintText: "Your Email",

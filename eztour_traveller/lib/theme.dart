@@ -12,9 +12,12 @@ final appTheme = _base.copyWith(
     primary: primaryColor, // affect Appbar
     primaryVariant: primaryColorLight,
     onPrimary: Colors.white,
-    secondary: secondaryColorLight, // affect FloatingActionButton
-    secondaryVariant: secondaryColor,
-    onSecondary: Colors.black,
+    secondary: secondaryColor, // affect FloatingActionButton
+    secondaryVariant: secondaryColorLight,
+    onSecondary: Colors.white,
+    surface: surfaceColor,
+    onSurface: onSurfaceColor,
+    onBackground: onSurfaceColor,
   ),
   textTheme: _textTheme,
   elevatedButtonTheme: ElevatedButtonThemeData(
@@ -50,57 +53,56 @@ final _textTheme = _base.textTheme.copyWith(
   // Only use below headline4
   headline4: TextStyle(
     fontFamily: 'Rubik',
-    fontSize: 30.0,
+    fontSize: 34.0,
     fontWeight: FontWeight.w400,
     color: primaryColor,
   ),
   headline5: TextStyle(
     fontFamily: 'Rubik',
     fontSize: 24.0,
-    fontWeight: FontWeight.bold,
+    fontWeight: FontWeight.w500,
     color: primaryColor,
   ),
   headline6: TextStyle(
     fontFamily: 'Rubik',
     fontSize: 20.0,
-    fontWeight: FontWeight.bold,
+    fontWeight: FontWeight.w500,
     color: primaryColor,
   ),
   subtitle1: TextStyle(
     fontFamily: 'Rubik',
     fontSize: 16.0,
-    fontWeight: FontWeight.bold,
-    color: primaryColor,
+    fontWeight: FontWeight.w500,
+    color: onSurfaceColor,
   ),
   subtitle2: TextStyle(
     fontFamily: 'Rubik',
     fontSize: 14.0,
-    fontWeight: FontWeight.bold,
-    color: primaryColor,
+    fontWeight: FontWeight.w500,
+    color: onSurfaceColor,
   ),
   bodyText1: TextStyle(
     fontFamily: 'Rubik',
     fontSize: 16.0,
     fontWeight: FontWeight.w400,
-    color: primaryColor,
+    color: onSurfaceColor,
   ),
   bodyText2: TextStyle(
     fontFamily: 'Rubik',
     fontSize: 14.0,
     fontWeight: FontWeight.w400,
-    color: primaryColor,
+    color: onSurfaceColor,
   ),
-  button: TextStyle(
+  button: const TextStyle(
     fontFamily: 'Rubik',
     fontSize: 14.0,
-    fontWeight: FontWeight.bold,
+    fontWeight: FontWeight.w500,
     letterSpacing: 1.1,
-    color: primaryColor,
   ),
   caption: TextStyle(
     fontFamily: 'Rubik',
     fontSize: 12.0,
     fontWeight: FontWeight.w400,
-    color: primaryColor,
+    color: onSurfaceColor,
   ),
 );

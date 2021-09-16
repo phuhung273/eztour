@@ -14,14 +14,12 @@ class RoundedInputField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     return TextFieldContainer(
       child: TextField(
         onChanged: onChanged,
         decoration: InputDecoration(
           icon: Icon(
             icon,
-            color: theme.primaryColorDark,
           ),
           hintText: hintText,
         ),

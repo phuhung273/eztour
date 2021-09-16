@@ -1,5 +1,4 @@
 
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:eztour_traveller/constants.dart';
 import 'package:eztour_traveller/schema/schedule/location.dart';
 import 'package:flutter/material.dart';
@@ -18,98 +17,144 @@ class LocationCarousel extends StatelessWidget {
     this.initialPage,
   }) : super(key: key);
 
-  List<Widget> _buildCarouselItems(List<Location> locations){
-    return locations
-        .map((e) => CarouselItem(imagePath: e.image, caption: e.name, borderRadius: borderRadius,))
-        .toList();
-  }
-
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    return Container(
-      margin: const EdgeInsets.symmetric(vertical: defaultSpacing),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            padding: const EdgeInsets.symmetric(vertical: defaultPadding),
-            child: Text(title, style: theme.textTheme.headline4)
-          ),
-          CarouselSlider(
-            options: CarouselOptions(
-              height: 150.0,
-              enlargeCenterPage: true,
-              enableInfiniteScroll: false,
-              disableCenter: true,
-              aspectRatio: 1.0,
-              viewportFraction: 0.6,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(
+          padding: const EdgeInsets.symmetric(vertical: defaultPadding),
+          child: Text(title, style: theme.textTheme.headline4)
+        ),
+        SizedBox(
+          height: 180.0,
+          child: PageView.builder(
+            padEnds: false,
+            controller: PageController(
+              viewportFraction: 0.8,
               initialPage: initialPage ?? 0,
             ),
-            items: _buildCarouselItems(locations),
+            itemCount: locations.length,
+            itemBuilder: (context, index) {
+              final location = locations[index];
+
+              return CarouselItem(
+                imagePath: location.image,
+                title: location.name,
+                description: 'Day ${index + 1}',
+                borderRadius: borderRadius,
+              );
+            }
           )
-        ],
-      ),
+        )
+      ],
     );
   }
 }
 
 class CarouselItem extends StatelessWidget {
   final String imagePath;
-  final String caption;
+  final String title;
+  final String description;
   final double borderRadius;
 
   const CarouselItem({
     Key? key,
     required this.imagePath,
-    required this.caption,
-    required this.borderRadius
+    required this.title,
+    required this.description,
+    required this.borderRadius,
   }) : super(key: key);
+
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    const bottomMargin = 8.0;
 
-    return Container(
-      margin: const EdgeInsets.all(5.0),
+    return Card(
+      margin: const EdgeInsets.only(right: defaultPadding),
+      clipBehavior: Clip.hardEdge,
+      elevation: 4.0,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(borderRadius),
+      ),
       child: Stack(
-        clipBehavior: Clip.none,
         children: <Widget>[
-          Card(
-            clipBehavior: Clip.hardEdge,
-            elevation: 6.0,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(borderRadius),
-            ),
-            // child: Image(
-            //   image: AssetImage("assets/images/${this.imagePath}"),
-            //   width: 300,
-            //   fit: BoxFit.cover
-            // ),
-            child: Image.network(
-                "$HOST_URL/storage/img/locations/$imagePath",
-                width: 300.0,
-                fit: BoxFit.cover
-            ),
-          ),
-          Positioned(
-            top: 10.0,
-            left: -10.0,
-            child: Container(
-              decoration: const BoxDecoration(
-                color: Colors.white,
-              ),
-              padding: const EdgeInsets.symmetric(
-                  vertical: 10.0, horizontal: 20.0
-              ),
-              child: Text(
-                caption,
-                style: theme.textTheme.subtitle1!.copyWith(
-                  fontStyle: FontStyle.italic
+          Container(
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                fit: BoxFit.cover,
+                image: NetworkImage(
+                  '$HOST_URL/storage/img/locations/$imagePath',
                 ),
               ),
             ),
+          ),
+          Container(
+            decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: const Alignment(0.0, -0.2),
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    Colors.grey.withOpacity(0.0),
+                    Colors.black,
+                  ],
+                )
+            ),
+          ),
+          Positioned(
+            bottom: 0,
+            left: 0,
+            child: Padding(
+              padding: const EdgeInsets.only(left: defaultPadding),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 4.0),
+                    child: Text(
+                      title,
+                      style: theme.textTheme.bodyText1!.copyWith(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w600
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: bottomMargin),
+                    child: Row(
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.only(right: 4.0),
+                          child: Icon(
+                            Icons.access_time,
+                            color: Colors.white,
+                            size: theme.textTheme.bodyText2!.fontSize,
+                          ),
+                        ),
+                        Text(
+                          description,
+                          style: theme.textTheme.bodyText2!.copyWith(
+                            color: Colors.white,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          const Positioned(
+            bottom: 0,
+            right: 0,
+            child: Padding(
+              padding: EdgeInsets.only(bottom: bottomMargin, right: defaultPadding),
+              child: Icon(Icons.send, color: Colors.white),
+            )
           ),
         ],
       ),

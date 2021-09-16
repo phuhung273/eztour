@@ -1,8 +1,8 @@
+import 'package:dio/dio.dart';
 import 'package:eztour_traveller/constants.dart';
 import 'package:eztour_traveller/schema/schedule/schedule_list_request.dart';
 import 'package:eztour_traveller/schema/schedule/schedule_list_response.dart';
 import 'package:retrofit/retrofit.dart';
-import 'package:dio/dio.dart';
 
 part 'schedule_service.g.dart';
 

@@ -22,7 +22,7 @@ class LoginScreenController extends GetxController {
 
   var _credential = BasicAuthCredential(username: '', password: '');
 
-  var barcodeResult = "Please scan the QR code or Barcode".obs;
+  var barcodeResult = "Scan your QR".obs;
 
   set id(String value){
     _credential.username = value;

@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:hexcolor/hexcolor.dart';
 
-final primaryColor = Colors.blueGrey[700];
-final primaryColorLight = Colors.blueGrey[600];
-final primaryColorDark = Colors.blueGrey[800];
-final secondaryColor = Colors.orange[500];
-final secondaryColorLight = Colors.orange[400];
+final primaryColor = HexColor('#5abaae');
+final primaryColorLight = HexColor('#8dede0');
+final primaryColorDark = HexColor('#218a7f');
+final secondaryColor = HexColor('#ff868f');
+final secondaryColorLight = HexColor('#ffb8bf');
+final surfaceColor = HexColor('#ededed');
+final onSurfaceColor = HexColor('#232323');
+final tertiaryColor = HexColor('#f6bd60');
 
 const defaultSpacing = 16.0;
 

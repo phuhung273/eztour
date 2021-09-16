@@ -1,7 +1,7 @@
 import 'package:eztour_traveller/components/text_field_container.dart';
 import 'package:flutter/material.dart';
 
-class RoundedPasswordField extends StatelessWidget {
+class RoundedPasswordField extends StatefulWidget {
   final ValueChanged<String> onChanged;
   const RoundedPasswordField({
     Key? key,
@@ -9,22 +9,35 @@ class RoundedPasswordField extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  State<RoundedPasswordField> createState() => _RoundedPasswordFieldState();
+}
+
+class _RoundedPasswordFieldState extends State<RoundedPasswordField> {
+  bool _showPwd = false;
+
+  void _togglePwd () {
+    setState((){
+      _showPwd = !_showPwd;
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
 
     return TextFieldContainer(
       child: TextField(
-        obscureText: true,
-        onChanged: onChanged,
+        obscureText: !_showPwd,
+        onChanged: widget.onChanged,
         decoration: InputDecoration(
           hintText: "Password",
-          icon: Icon(
+          icon: const Icon(
             Icons.lock,
-            color: theme.primaryColorDark,
           ),
-          suffixIcon: Icon(
-            Icons.visibility,
-            color: theme.primaryColorDark,
+          suffixIcon: GestureDetector(
+            onTap: _togglePwd,
+            child: Icon(
+              _showPwd ? Icons.visibility : Icons.visibility_off,
+            ),
           ),
         ),
       ),
