@@ -15,12 +15,11 @@ class Todo {
   int? done = 0;
 
   @JsonKey(name: 'category')
-  String category;
+  String? category;
 
   Todo({
     required this.id,
     required this.message,
-    required this.category,
   });
 
   factory Todo.fromJson(Map<String, dynamic> json) => _$TodoFromJson(json);

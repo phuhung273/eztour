@@ -97,14 +97,13 @@ class GalleryItemWidget extends StatelessWidget {
 
     return Card(
       clipBehavior: Clip.hardEdge,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(15.0),
-      ),
+      shape: roundedRectangleShape,
+      elevation: 4.0,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            height: 130.0,
+            height: 150.0,
             decoration: BoxDecoration(
               image: DecorationImage(
                 image: AssetImage("assets/images/${item.image}"),
@@ -113,12 +112,12 @@ class GalleryItemWidget extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: defaultPadding),
+            padding: const EdgeInsets.symmetric(vertical: defaultPadding, horizontal: defaultPadding),
             child: Row(
               children: [
                 Padding(
                   padding: const EdgeInsets.only(right: defaultPadding),
-                  child: Icon(item.icon, color: tertiaryColor),
+                  child: Icon(item.icon, color: thirdColor),
                 ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,

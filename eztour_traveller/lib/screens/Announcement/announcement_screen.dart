@@ -1,5 +1,6 @@
 
 import 'package:eztour_traveller/screens/Announcement/announcement_screen_controller.dart';
+import 'package:eztour_traveller/screens/Main/main_screen_controller.dart';
 import 'package:eztour_traveller/widgets/inline_text_field.dart';
 import 'package:eztour_traveller/widgets/swipeable_inline_edit_text.dart';
 import 'package:flutter/material.dart';
@@ -152,10 +153,12 @@ const bottomBarHeight = 80.0; // According to: https://github.com/flutter/flutte
 
 class Background extends StatelessWidget {
   final Widget child;
-  const Background({
+  Background({
     Key? key,
     required this.child,
   }) : super(key: key);
+
+  final MainScreenController _mainController = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -164,29 +167,45 @@ class Background extends StatelessWidget {
     final pencilWidth = context.width * (1 - contentWidthRatio);
     final contentWidth = context.width * contentWidthRatio;
 
-    return SingleChildScrollView(
-      child: Container(
-        height: screenHeight,
-        width: double.infinity,
-        decoration: BoxDecoration(
-          color: Colors.pink[100],
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Announcements'),
+        leading: IconButton(
+          icon: const Icon(Icons.menu),
+          onPressed: (){},
         ),
-        child: Stack(
-          children: [
-            Positioned(
-              top: context.height * 0.3,
-              child: Image.asset(
-                'assets/images/pencil.png',
-                width: pencilWidth,
-              )
-            ),
-            Positioned(
-              left: pencilWidth,
-              height: screenHeight,
-              width: contentWidth,
-              child: child,
-            ),
-          ],
+        // title: Text(_controller.greeting.value),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.account_circle),
+            onPressed: _mainController.logOut,
+          )
+        ],
+      ),
+      body: SingleChildScrollView(
+        child: Container(
+          height: screenHeight,
+          width: double.infinity,
+          decoration: BoxDecoration(
+            color: Colors.pink[100],
+          ),
+          child: Stack(
+            children: [
+              Positioned(
+                top: context.height * 0.3,
+                child: Image.asset(
+                  'assets/images/pencil.png',
+                  width: pencilWidth,
+                )
+              ),
+              Positioned(
+                left: pencilWidth,
+                height: screenHeight,
+                width: contentWidth,
+                child: child,
+              ),
+            ],
+          ),
         ),
       ),
     );

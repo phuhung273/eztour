@@ -21,5 +21,13 @@ class TodoCategorySeeder extends Seeder
         TodoCategory::updateOrCreate(
             ['name' => 'Clothing Essentials']
         );
+
+        TodoCategory::updateOrCreate(
+            ['name' => 'Toiletries']
+        );
+
+        TodoCategory::updateOrCreate(
+            ['name' => 'Personal Items']
+        );
     }
 }

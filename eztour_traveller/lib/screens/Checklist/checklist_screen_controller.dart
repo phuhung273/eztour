@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:eztour_traveller/datasource/local/checklist_db.dart';
 import 'package:eztour_traveller/datasource/remote/checklist_service.dart';
 import 'package:eztour_traveller/schema/checklist/checklist_request.dart';
@@ -19,14 +20,7 @@ class ChecklistScreenController extends GetxController {
 
   final ChecklistDB _checklistDB = Get.find();
 
-  List<Todo> todos = List<Todo>.empty();
-  
-  // var _todos = [
-  //     Todo(id: 1, message: "Design", done: true),
-  //     Todo(id: 2, message: "Code", done: false),
-  //     Todo(id: 3, message: "Review", done: false),
-  // ].obs;
-
+  final categories = <String, List<Todo>>{}.obs;
 
   @override
   Future onInit() async {
@@ -40,23 +34,9 @@ class ChecklistScreenController extends GetxController {
 
     await _checklistDB.batchInsert(response.todos);
 
-    todos = await _checklistDB.getAll();
-    update();
-  }
+    final todos = await _checklistDB.getAll();
 
-  Future toggleTodo(int id) async {
-    final index = todos.indexWhere((element) => element.id == id);
-    final todo = todos[index];
-    final result = await _checklistDB.toggle(todo);
-    if(result > 0){
-      todo.done = todo.isDone() ? 0 : 1;
-      todos[index] = todo;
-      // todos.reactive.update((value) {
-      //   value![index] = todo;
-      // });
-
-      update();
-    }
+    categories.value = groupBy(todos, (Todo item) => item.category!);
   }
 
 }

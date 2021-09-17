@@ -8,6 +8,7 @@ final appTheme = _base.copyWith(
   primaryColor: primaryColor,
   primaryColorLight: primaryColorLight,
   primaryColorDark: primaryColorDark,
+  indicatorColor: primaryColor,
   colorScheme: _base.colorScheme.copyWith(
     primary: primaryColor, // affect Appbar
     primaryVariant: primaryColorLight,
@@ -20,12 +21,12 @@ final appTheme = _base.copyWith(
     onBackground: onSurfaceColor,
   ),
   textTheme: _textTheme,
-  elevatedButtonTheme: ElevatedButtonThemeData(
-    style: ElevatedButton.styleFrom(
-      shape: pillShape,
-      padding: const EdgeInsets.all(defaultPadding),
-    ),
-  ),
+  // elevatedButtonTheme: ElevatedButtonThemeData(
+  //   style: ElevatedButton.styleFrom(
+  //     shape: pillShape,
+  //     padding: const EdgeInsets.symmetric(vertical: defaultPadding, horizontal: defaultPadding * 2),
+  //   ),
+  // ),
   inputDecorationTheme: const InputDecorationTheme(
     border: InputBorder.none,
   )
@@ -97,7 +98,7 @@ final _textTheme = _base.textTheme.copyWith(
     fontFamily: 'Rubik',
     fontSize: 14.0,
     fontWeight: FontWeight.w500,
-    letterSpacing: 1.1,
+    // letterSpacing: 1.1,
   ),
   caption: TextStyle(
     fontFamily: 'Rubik',

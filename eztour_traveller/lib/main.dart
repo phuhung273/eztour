@@ -21,7 +21,9 @@ class MyApp extends StatelessWidget {
       theme: appTheme,
       initialBinding: SplashScreenBinding(),
       initialRoute: ROUTE_SPLASH,
-      getPages: appRoute
+      getPages: appRoute,
+      defaultTransition: Transition.fade,
+      transitionDuration: Get.defaultTransitionDuration,
     );
   }
 }

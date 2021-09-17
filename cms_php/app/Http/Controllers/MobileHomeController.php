@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\TodoCategoryResource;
 use App\Models\Announcement;
 use App\Models\Greeting;
 use App\Models\Location;
 use App\Models\Todo;
+use App\Models\TodoCategory;
 use App\Models\Tour;
 use Illuminate\Http\Request;
 
@@ -28,9 +30,7 @@ class MobileHomeController extends Controller
 
         $greeting_message = Greeting::getSuitableMessage($local_time);
 
-        $todos = Todo::visibleAttributes()
-        ->limit(3)
-        ->get();
+        $todoCategories = TodoCategory::limit(3)->get();
 
         $announcements = Announcement::limit(3)->get();
 
@@ -40,7 +40,7 @@ class MobileHomeController extends Controller
 
         return [
             'greeting' => $greeting_message,
-            'todos' => $todos,
+            'todoCategories' => TodoCategoryResource::collection($todoCategories),
             'announcements' => $announcements,
             'start_date' => $start_date,
             'max_day' => $max_day,

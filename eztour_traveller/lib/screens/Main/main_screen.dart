@@ -98,9 +98,9 @@ class _buildBottomNavigationBar extends StatelessWidget {
       () => AnimatedBottomNavigationBar(
         icons: const [
           Icons.home,
-          Icons.notifications,
-          Icons.check_circle_rounded,
-          Icons.chat_outlined,
+          Icons.description,
+          Icons.done,
+          Icons.send,
         ],
         activeIndex: _controller.pageIndex.value,
         gapLocation: GapLocation.center,

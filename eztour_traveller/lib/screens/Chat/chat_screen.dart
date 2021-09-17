@@ -1,6 +1,7 @@
 import 'package:eztour_traveller/route/route.dart';
 import 'package:eztour_traveller/schema/chat/chat.dart';
 import 'package:eztour_traveller/screens/Chat/chat_screen_controller.dart';
+import 'package:eztour_traveller/screens/Main/main_screen_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -9,6 +10,7 @@ import 'chat_card.dart';
 class ChatScreen extends StatelessWidget {
 
   final ChatScreenController _controller = Get.put(ChatScreenController());
+  final MainScreenController _mainController = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -17,12 +19,16 @@ class ChatScreen extends StatelessWidget {
       slivers: [
         SliverAppBar(
           floating: true,
-          automaticallyImplyLeading: false,
           title: const Text('Chats'),
+          leading: IconButton(
+            icon: const Icon(Icons.menu),
+            onPressed: (){},
+          ),
+          // title: Text(_controller.greeting.value),
           actions: [
             IconButton(
               icon: const Icon(Icons.account_circle),
-              onPressed: (){},
+              onPressed: _mainController.logOut,
             )
           ],
         ),

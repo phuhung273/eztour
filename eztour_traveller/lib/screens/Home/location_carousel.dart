@@ -72,10 +72,9 @@ class CarouselItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    const bottomMargin = 8.0;
 
     return Card(
-      margin: const EdgeInsets.only(right: defaultPadding),
+      margin: const EdgeInsets.only(right: defaultPadding * 2),
       clipBehavior: Clip.hardEdge,
       elevation: 4.0,
       shape: RoundedRectangleBorder(
@@ -124,7 +123,7 @@ class CarouselItem extends StatelessWidget {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(bottom: bottomMargin),
+                    padding: const EdgeInsets.only(bottom: defaultPadding),
                     child: Row(
                       children: [
                         Container(
@@ -152,8 +151,8 @@ class CarouselItem extends StatelessWidget {
             bottom: 0,
             right: 0,
             child: Padding(
-              padding: EdgeInsets.only(bottom: bottomMargin, right: defaultPadding),
-              child: Icon(Icons.send, color: Colors.white),
+              padding: EdgeInsets.only(bottom: defaultPadding, right: defaultPadding),
+              child: Icon(Icons.double_arrow, color: Colors.white),
             )
           ),
         ],

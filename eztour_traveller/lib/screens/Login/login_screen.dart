@@ -44,9 +44,17 @@ class LoginScreen extends StatelessWidget {
               margin: const EdgeInsets.symmetric(vertical: defaultSpacing),
               width: context.width * 0.8,
               child: ElevatedButton(
-                // padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 40),
                 onPressed: _controller.login,
-                child: const Text('LOGIN'),
+                style: ElevatedButton.styleFrom(
+                  shape: pillShape,
+                  padding: const EdgeInsets.all(defaultPadding * 2),
+                ),
+                child: Text(
+                  'LOGIN',
+                  style: theme.textTheme.button!.copyWith(
+                    letterSpacing: 1.1,
+                  ),
+                ),
               ),
             ),
           ],
