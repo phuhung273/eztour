@@ -49,7 +49,6 @@
         @livewireScripts
     </div>
 
-    <script src="{{ asset('js/init-alpine.js') }}"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script>
@@ -59,6 +58,71 @@
                 icon: event.detail.type,
             });
         });
+
+        function data() {
+            function getThemeFromLocalStorage() {
+                // if user already changed the theme, use it
+                if (window.localStorage.getItem('dark')) {
+                return JSON.parse(window.localStorage.getItem('dark'))
+                }
+
+                // else return their preferences
+                return (
+                !!window.matchMedia &&
+                window.matchMedia('(prefers-color-scheme: dark)').matches
+                )
+            }
+
+            function setThemeToLocalStorage(value) {
+                window.localStorage.setItem('dark', value)
+            }
+
+            return {
+                // dark: getThemeFromLocalStorage(),
+                dark: false,
+                toggleTheme() {
+                this.dark = !this.dark
+                setThemeToLocalStorage(this.dark)
+                },
+                isSideMenuOpen: false,
+                toggleSideMenu() {
+                this.isSideMenuOpen = !this.isSideMenuOpen
+                },
+                closeSideMenu() {
+                this.isSideMenuOpen = false
+                },
+                isPagesMenuOpen: false,
+                togglePagesMenu() {
+                this.isPagesMenuOpen = !this.isPagesMenuOpen
+                },
+                // Modal
+                isModalOpen: false,
+                trapCleanup: null,
+                openModal() {
+                this.isModalOpen = true
+                this.trapCleanup = focusTrap(document.querySelector('#modal'))
+                },
+                closeModal() {
+                this.isModalOpen = false
+                this.trapCleanup()
+                },
+                isNotificationsMenuOpen: false,
+                toggleNotificationsMenu() {
+                    this.isNotificationsMenuOpen = !this.isNotificationsMenuOpen
+                },
+                closeNotificationsMenu() {
+                    this.isNotificationsMenuOpen = false
+                },
+                isProfileMenuOpen: false,
+                toggleProfileMenu() {
+                    this.isProfileMenuOpen = !this.isProfileMenuOpen
+                },
+                closeProfileMenu() {
+                    this.isProfileMenuOpen = false
+                },
+            }
+        }
+
     </script>
 </body>
 
