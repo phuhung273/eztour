@@ -5,7 +5,7 @@ services:
     build: ./cms_php
     working_dir: /var/www/cms_php
     volumes:
-      - static-content:/var/www/cms_php/public
+      - ./cms_php/public:/var/www/cms_php/public
       - ./cms_php/storage:/var/www/cms_php/storage
       - ./docker/php-fpm/fpm-php.www.log:/var/log/fpm-php.www.log
     depends_on:
@@ -20,8 +20,6 @@ services:
         php artisan storage:link
         php-fpm
       "
-    networks:
-      - app-network
 
   nginx:
     image: nginx:alpine
@@ -30,14 +28,12 @@ services:
       - "443:443"
       - "3000:3000"
     volumes:
-      - static-content:/var/www/cms_php/public
+      - ./cms_php/public:/var/www/cms_php/public
       - ./cms_php/storage:/var/www/cms_php/storage
       - ./docker/nginx/log:/var/log/nginx
       - ./docker/nginx/:/etc/nginx/conf.d/
     depends_on:
       - cms_php
-    networks:
-      - app-network
     
 
   mysql:
@@ -47,20 +43,8 @@ services:
       MYSQL_ROOT_PASSWORD: 123ezTour
     volumes:
       - ./cms_php/docker/mysql:/var/lib/mysql
-    networks:
-      - app-network
 
   chat_node:
     build: ./chat_node
     expose:
         - 3000
-    networks:
-      - app-network
-
-volumes:
-  static-content:
-
-# Networks
-networks:
-  app-network:
-    driver: bridge
