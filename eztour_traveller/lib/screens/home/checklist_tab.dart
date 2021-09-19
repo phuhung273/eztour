@@ -42,8 +42,7 @@ class ChecklistTab extends StatelessWidget {
           color: colorMap[index],
           icon: iconMap[index],
         ),
-      separatorBuilder: (BuildContext context, int index)
-        => const SizedBox(height: defaultPadding),
+      separatorBuilder: (BuildContext context, int index) => const Divider(),
     );
   }
 }
@@ -111,8 +110,7 @@ class TodoCategoryCard extends StatelessWidget {
                         ],
                       );
                     },
-                    separatorBuilder: (BuildContext context, int index)
-                      => const SizedBox(height: defaultPadding),
+                    separatorBuilder: (BuildContext context, int index) => const Divider(),
                   )
                 ],
               ),

@@ -1,9 +1,10 @@
 
 import 'package:dash_chat/dash_chat.dart';
 import 'package:eztour_traveller/datasource/local/local_storage.dart';
-import 'package:eztour_traveller/screens/Message/message_screen_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
+import 'message_screen_controller.dart';
 
 
 class MessageScreen extends StatelessWidget {
@@ -18,7 +19,7 @@ class MessageScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Message Screen"),
+        title: const Text("message Screen"),
       ),
       body: Obx(
         () => DashChat(

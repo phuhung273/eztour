@@ -3,12 +3,12 @@ import 'package:barcode_scan2/barcode_scan2.dart';
 import 'package:eztour_traveller/components/rounded_input_field.dart';
 import 'package:eztour_traveller/components/rounded_password_field.dart';
 import 'package:eztour_traveller/constants.dart';
-import 'package:eztour_traveller/screens/Login/login_screen_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 import 'components/background.dart';
+import 'login_screen_controller.dart';
 
 class LoginScreen extends StatelessWidget {
 

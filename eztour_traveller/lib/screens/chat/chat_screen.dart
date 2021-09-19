@@ -1,11 +1,11 @@
 import 'package:eztour_traveller/route/route.dart';
 import 'package:eztour_traveller/schema/chat/chat.dart';
-import 'package:eztour_traveller/screens/Chat/chat_screen_controller.dart';
-import 'package:eztour_traveller/screens/Main/main_screen_controller.dart';
+import 'package:eztour_traveller/screens/main/main_screen_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'chat_card.dart';
+import 'chat_screen_controller.dart';
 
 class ChatScreen extends StatelessWidget {
 
@@ -159,7 +159,7 @@ class ChatScreen extends StatelessWidget {
                             backgroundImage:
                             AssetImage(chat.image),
                           ),
-                          const SizedBox(height: 6.0),
+                          const Divider(),
                           Text(
                             chat.name,
                             style: const TextStyle(

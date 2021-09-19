@@ -1,6 +1,7 @@
-import 'package:eztour_traveller/screens/Splash/splash_screen_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
+import 'splash_screen_controller.dart';
 
 class SplashScreen extends StatelessWidget {
 
@@ -11,7 +12,7 @@ class SplashScreen extends StatelessWidget {
     return Scaffold(
       body: Container(
         child: const Center(
-          child: Text('Eztour Splash Screen'),
+          child: Text('Eztour splash Screen'),
         ),
       ),
     );

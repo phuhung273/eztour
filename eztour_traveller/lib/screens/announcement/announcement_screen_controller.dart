@@ -24,19 +24,19 @@ class AnnouncementScreenController extends GetxController {
   final myAnnouncements = List<Announcement>.empty().obs;
 
   // final announcements = [
-  //   Announcement(id: 1, message: "Design"),
-  //   Announcement(id: 2, message: "Code"),
-  //   Announcement(id: 3, message: "Review"),
+  //   announcement(id: 1, message: "Design"),
+  //   announcement(id: 2, message: "Code"),
+  //   announcement(id: 3, message: "Review"),
   // ].obs;
 
   // final myAnnouncements = [
-  //   Announcement(id: 1, message: "Design"),
-  //   Announcement(id: 2, message: "Code"),
-  //   Announcement(id: 3, message: "Review"),
-  //   Announcement(id: 3, message: "await handler(true) : Means that you will await the animation to complete(you should call setState after it so that you will get an animation)"),
-  //   Announcement(id: 3, message: "await handler(true) : Means that you will await the animation to complete(you should call setState after it so that you will get an animation)"),
-  //   Announcement(id: 3, message: "await handler(true) : Means that you will await the animation to complete(you should call setState after it so that you will get an animation)"),
-  //   Announcement(id: 3, message: "await handler(true) : Means that you will await the animation to complete(you should call setState after it so that you will get an animation)"),
+  //   announcement(id: 1, message: "Design"),
+  //   announcement(id: 2, message: "Code"),
+  //   announcement(id: 3, message: "Review"),
+  //   announcement(id: 3, message: "await handler(true) : Means that you will await the animation to complete(you should call setState after it so that you will get an animation)"),
+  //   announcement(id: 3, message: "await handler(true) : Means that you will await the animation to complete(you should call setState after it so that you will get an animation)"),
+  //   announcement(id: 3, message: "await handler(true) : Means that you will await the animation to complete(you should call setState after it so that you will get an animation)"),
+  //   announcement(id: 3, message: "await handler(true) : Means that you will await the animation to complete(you should call setState after it so that you will get an animation)"),
   // ].obs;
 
   @override

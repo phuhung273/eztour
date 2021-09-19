@@ -10,13 +10,12 @@ use Illuminate\Http\Request;
 class LocationController extends Controller
 {
     public function getAllByTour(Tour $tour){
+
         $locations = $tour->locations()->get();
 
-        $days = array_map(fn($location) => $location->day, $locations->all());
+        $max_day = $locations->max('day') ?? 0;
 
-        $max_day = empty($days) ? 0 : max($days);
-
-        $startDate = $tour['start_date'];
+        $startDate = $tour->start_date;
 
         return [
             'locations' => $locations,

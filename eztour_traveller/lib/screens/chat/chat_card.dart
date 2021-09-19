@@ -73,7 +73,7 @@ class _ChatCardState extends State<ChatCard> {
                       style:
                       const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
                     ),
-                    const SizedBox(height: 8),
+                    const Divider(),
                     Opacity(
                       opacity: 0.64,
                       child: Text(

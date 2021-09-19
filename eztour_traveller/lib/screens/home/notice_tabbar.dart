@@ -34,7 +34,7 @@ class NoticeTabBar extends StatelessWidget {
               tabs: [
                 Tab(
                   child: Text(
-                    'Checklist',
+                    'checklist',
                     style: _getTabTitleStyle(theme),
                   ),
                 ),

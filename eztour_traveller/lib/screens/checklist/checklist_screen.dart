@@ -2,13 +2,13 @@
 import 'dart:ui';
 
 import 'package:eztour_traveller/constants.dart';
+import 'package:eztour_traveller/route/route.dart';
 import 'package:eztour_traveller/schema/checklist/todo.dart';
-import 'package:eztour_traveller/screens/Checklist/checklist_screen_controller.dart';
-import 'package:eztour_traveller/screens/Main/main_screen_controller.dart';
+import 'package:eztour_traveller/screens/checklist/checklist_controller.dart';
+import 'package:eztour_traveller/screens/main/main_screen_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get/get.dart';
-import 'package:grouped_list/grouped_list.dart';
 import 'package:hexcolor/hexcolor.dart';
 
 final colorList = [
@@ -54,20 +54,15 @@ class ChecklistScreen extends StatelessWidget {
                 child: Row(
                   children: [
                     const Spacer(),
-                    TextButton(
+                    TextButton.icon(
                       onPressed: (){},
-                      child: Row(
-                        children: [
-                          Icon(Icons.add, color: theme.colorScheme.onSurface),
-                          const SizedBox(width: defaultPadding),
-                          Text(
-                            'Add checklist',
-                            style: theme.textTheme.button!.copyWith(
-                              color: theme.colorScheme.onSurface
-                            )
-                          ),
-                        ],
-                      )
+                      icon: Icon(Icons.add, color: theme.colorScheme.onSurface),
+                      label: Text(
+                        'Add checklist',
+                        style: theme.textTheme.button!.copyWith(
+                          color: theme.colorScheme.onSurface
+                        )
+                      ),
                     ),
                   ],
                 ),
@@ -80,10 +75,15 @@ class ChecklistScreen extends StatelessWidget {
                     itemCount: _controller.categories.length,
                     itemBuilder: (context, index) {
                       final category = _controller.categories.keys.elementAt(index);
-                      return ChecklistCard(
-                        title: category,
-                        todos: _controller.categories[category]!,
-                        color: colorList[index],
+
+                      return InkWell(
+                        onTap: () => Get.toNamed(ROUTE_CHECKLIST_DETAIL, arguments: category),
+                        child: ChecklistCard(
+                          key: UniqueKey(),
+                          title: category,
+                          todos: _controller.categories[category]!,
+                          color: colorList[index],
+                        ),
                       );
                     },
                     staggeredTileBuilder: (index) => const StaggeredTile.fit(1),

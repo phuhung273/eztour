@@ -39,4 +39,20 @@ class ChecklistScreenController extends GetxController {
     categories.value = groupBy(todos, (Todo item) => item.category!);
   }
 
+  Future toggle(Todo item) async {
+    final result = await _checklistDB.toggle(item);
+
+    if(result > 0){
+      categories.forEach((key, category) {
+        for(final todo in category){
+          if(todo.id == item.id){
+            todo.toggle();
+            categories.refresh();
+            return;
+          }
+        }
+      });
+    }
+  }
+
 }

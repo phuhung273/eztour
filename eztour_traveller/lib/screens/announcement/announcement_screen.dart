@@ -1,10 +1,11 @@
 
-import 'package:eztour_traveller/screens/Announcement/announcement_screen_controller.dart';
-import 'package:eztour_traveller/screens/Main/main_screen_controller.dart';
+import 'package:eztour_traveller/screens/main/main_screen_controller.dart';
 import 'package:eztour_traveller/widgets/inline_text_field.dart';
 import 'package:eztour_traveller/widgets/swipeable_inline_edit_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
+import 'announcement_screen_controller.dart';
 
 class AnnouncementScreen extends StatelessWidget {
 

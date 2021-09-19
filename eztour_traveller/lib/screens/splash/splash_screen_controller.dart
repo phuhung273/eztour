@@ -6,7 +6,7 @@ import 'package:device_info_plus/device_info_plus.dart';
 import 'package:eztour_traveller/datasource/local/local_storage.dart';
 import 'package:eztour_traveller/notifications/notification_api.dart';
 import 'package:eztour_traveller/route/route.dart';
-import 'package:eztour_traveller/screens/Main/main_screen.dart';
+import 'package:eztour_traveller/screens/main/main_screen.dart';
 import 'package:get/get.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:socket_io_client/socket_io_client.dart';

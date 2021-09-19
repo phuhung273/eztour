@@ -16,7 +16,7 @@ class MessageScreenBinding extends Bindings {
 
 class MessageScreenController extends GetxController {
 
-  var messages = List<ChatMessage>.empty().obs;
+  final messages = List<ChatMessage>.empty().obs;
 
   final Socket _socket = Get.find();
   final LocalStorage _localStorage = Get.find();
@@ -54,6 +54,7 @@ class MessageScreenController extends GetxController {
 
       _chatUserDB.addMessage(response);
       messages.add(newMessage);
+      messages.refresh();
       _scrollToBottom();
     });
   }
@@ -70,6 +71,7 @@ class MessageScreenController extends GetxController {
     final result = await _chatUserDB.addMessage(newSocketMessage);
     if(result > 0){
       messages.add(newMessage);
+      messages.refresh();
       _scrollToBottom();
     }
   }

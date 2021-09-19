@@ -29,6 +29,10 @@ final appTheme = _base.copyWith(
   // ),
   inputDecorationTheme: const InputDecorationTheme(
     border: InputBorder.none,
+  ),
+  dividerTheme: const DividerThemeData(
+    color: Colors.white,
+    space: defaultPadding,
   )
 );
 

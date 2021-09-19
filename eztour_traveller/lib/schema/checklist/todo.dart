@@ -30,4 +30,7 @@ class Todo {
     return done == 1;
   }
 
+  void toggle(){
+    done = isDone() ? 0 : 1;
+  }
 }

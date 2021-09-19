@@ -1,16 +1,17 @@
 
 import 'package:eztour_traveller/constants.dart';
-import 'package:eztour_traveller/screens/Home/discovery_slider.dart';
-import 'package:eztour_traveller/screens/Home/home_screen_controller.dart';
-import 'package:eztour_traveller/screens/Home/location_carousel.dart';
-import 'package:eztour_traveller/screens/Home/moment_grid.dart';
-import 'package:eztour_traveller/screens/Home/notice_tabbar.dart';
-import 'package:eztour_traveller/screens/Main/main_screen_controller.dart';
+import 'package:eztour_traveller/screens/main/main_screen_controller.dart';
 import 'package:flag/flag.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:instant/instant.dart';
 import 'package:intl/intl.dart';
+
+import 'discovery_slider.dart';
+import 'home_screen_controller.dart';
+import 'location_carousel.dart';
+import 'moment_grid.dart';
+import 'notice_tabbar.dart';
 
 class HomeScreen extends StatelessWidget {
 
@@ -103,7 +104,7 @@ class HomeScreen extends StatelessWidget {
                     bottom: defaultSpacing
                   ),
                   child: LocationCarousel(
-                    title: 'Schedule',
+                    title: 'schedule',
                     locations: _controller.locations,
                     borderRadius: 15.0,
                     initialPage: _controller.initialPage.value,
@@ -128,7 +129,7 @@ class HomeScreen extends StatelessWidget {
                     title: 'Discovery',
                   ),
                 ),
-                const SizedBox(height: defaultSpacing)
+                const Divider(height: defaultSpacing)
               ],
             ),
           )

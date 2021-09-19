@@ -1,11 +1,11 @@
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 import 'package:animations/animations.dart';
-import 'package:eztour_traveller/Screens/Home/home_screen.dart';
-import 'package:eztour_traveller/screens/Announcement/announcement_screen.dart';
-import 'package:eztour_traveller/screens/Chat/chat_screen.dart';
-import 'package:eztour_traveller/screens/Checklist/checklist_screen.dart';
-import 'package:eztour_traveller/screens/Main/main_screen_controller.dart';
-import 'package:eztour_traveller/screens/Schedule/schedule_screen.dart';
+import 'package:eztour_traveller/Screens/home/home_screen.dart';
+import 'package:eztour_traveller/screens/announcement/announcement_screen.dart';
+import 'package:eztour_traveller/screens/chat/chat_screen.dart';
+import 'package:eztour_traveller/screens/checklist/checklist_screen.dart';
+import 'package:eztour_traveller/screens/main/main_screen_controller.dart';
+import 'package:eztour_traveller/screens/schedule/schedule_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

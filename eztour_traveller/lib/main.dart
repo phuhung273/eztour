@@ -1,6 +1,6 @@
 import 'package:eztour_traveller/di/di.dart';
 import 'package:eztour_traveller/route/route.dart';
-import 'package:eztour_traveller/screens/Splash/splash_screen_controller.dart';
+import 'package:eztour_traveller/screens/splash/splash_screen_controller.dart';
 import 'package:eztour_traveller/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
