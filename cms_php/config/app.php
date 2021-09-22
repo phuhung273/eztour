@@ -123,6 +123,8 @@ return [
 
     'cipher' => 'AES-256-CBC',
 
+    'seed_pwd' => env('SEED_USER_PWD'),
+
     /*
     |--------------------------------------------------------------------------
     | Autoloaded Service Providers

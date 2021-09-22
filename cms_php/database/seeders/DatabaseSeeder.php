@@ -16,8 +16,9 @@ class DatabaseSeeder extends Seeder
         // User::factory(10)->create();
         $this->call([
             GreetingSeeder::class,
-            TourSeeder::class,
             TodoCategorySeeder::class,
+            AnnouncementCategorySeeder::class,
+            UserSeeder::class,
         ]);
     }
 }

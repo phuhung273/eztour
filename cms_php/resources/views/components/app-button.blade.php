@@ -1,6 +1,6 @@
 @props([
 'scheme' => null,
-'text',
+'text' => '',
 'purpose' => null
 ])
 

@@ -7,6 +7,7 @@ use App\Http\Controllers\GreetingController;
 use App\Http\Controllers\LocationController;
 use App\Http\Controllers\TodoController;
 use App\Http\Livewire\AnnouncementPage;
+use App\Http\Livewire\DashboardPage;
 use App\Http\Livewire\GreetingPage;
 use App\Http\Livewire\TourPage;
 use Illuminate\Support\Facades\Route;
@@ -25,7 +26,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
 
-    Route::view('/', 'dashboard')->name('dashboard');
+    Route::get('/', DashboardPage::class)->name('dashboard');
     Route::get('/schedule', SchedulePage::class)->name('schedule');
     Route::get('/todo', ChecklistPage::class)->name('todo');
     Route::get('/greeting', GreetingPage::class)->name('greeting');

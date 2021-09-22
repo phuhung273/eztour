@@ -5,15 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 // use Illuminate\Database\Eloquent\Model;
 use GoldSpecDigital\LaravelEloquentUUID\Database\Eloquent\Model;
-class TodoCategory extends Model
+
+class AnnouncementCategory extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name'];
-
     public $timestamps = false;
 
-    public function todos(){
-        return $this->hasMany(Todo::class);
+    protected $fillable = ['name'];
+
+    public function announcements(){
+        return $this->hasMany(Announcement::class);
     }
 }

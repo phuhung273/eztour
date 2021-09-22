@@ -14,11 +14,14 @@ class CreateLocationsTable extends Migration
     public function up()
     {
         Schema::create('locations', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
             $table->string('name');
-            $table->string('image');
-            $table->integer('tour_id');
+            $table->string('image')->nullable();
+            $table->foreignUuid('team_id')->cascadeOnDelete();
             $table->integer('day');
+            $table->string('description')->default('description');
+            $table->timeTz('from')->default('06:00:00');
+            $table->timeTz('to')->default('09:00:00');
         });
     }
 

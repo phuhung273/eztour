@@ -1,5 +1,7 @@
-@props(['error'])
+@props(['for'])
 
+@error('for')
 <span class="text-xs text-red-600">
-    {{ $error }}
+    {{ $message }}
 </span>
+@enderror

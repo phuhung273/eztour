@@ -14,7 +14,7 @@ class CreateGreetingsTable extends Migration
     public function up()
     {
         Schema::create('greetings', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
             $table->string('message');
             $table->timeTz('alarm_time');
         });

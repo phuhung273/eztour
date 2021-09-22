@@ -8,12 +8,8 @@
 
                 <x-forms.form-group label="Start date">
 
-                    {{-- <x-forms.input-text wire:model.defer="date" /> --}}
                     <x-forms.date-picker wire:model.defer="date" />
-
-                    @error('date')
-                    <x-forms.error-text :error="$message" />
-                    @enderror
+                    <x-forms.error-text for="date" />
 
                 </x-forms.form-group>
 

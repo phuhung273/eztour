@@ -1,11 +1,10 @@
 <?php
 
-use App\Models\TodoCategory;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class TodoAddCategoryRelationshipRemoveDone extends Migration
+class CreateAnnouncementCategoriesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,9 +13,9 @@ class TodoAddCategoryRelationshipRemoveDone extends Migration
      */
     public function up()
     {
-        Schema::table('todos', function (Blueprint $table) {
-            $table->foreignIdFor(TodoCategory::class)->constrained();
-            $table->dropColumn('done');
+        Schema::create('announcement_categories', function (Blueprint $table) {
+            $table->uuid('id')->primary();
+            $table->string('name');
         });
     }
 
@@ -27,8 +26,6 @@ class TodoAddCategoryRelationshipRemoveDone extends Migration
      */
     public function down()
     {
-        Schema::table('todos', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('announcement_categories');
     }
 }

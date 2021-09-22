@@ -106,13 +106,6 @@
                     this.isModalOpen = false
                     this.trapCleanup()
                 },
-                isNotificationsMenuOpen: false,
-                toggleNotificationsMenu() {
-                    this.isNotificationsMenuOpen = !this.isNotificationsMenuOpen
-                },
-                closeNotificationsMenu() {
-                    this.isNotificationsMenuOpen = false
-                },
                 isProfileMenuOpen: false,
                 toggleProfileMenu() {
                     this.isProfileMenuOpen = !this.isProfileMenuOpen
