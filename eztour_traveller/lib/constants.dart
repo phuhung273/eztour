@@ -20,6 +20,7 @@ const defaultPadding = 8.0;
 
 final pillBorderRadius = BorderRadius.circular(999);
 final roundedRectangleBorderRadius = BorderRadius.circular(16.0);
+final thinRoundedRectangleBorderRadius = BorderRadius.circular(8.0);
 
 final pillShape = RoundedRectangleBorder(
   borderRadius: pillBorderRadius,
@@ -29,8 +30,8 @@ final roundedRectangleShape = RoundedRectangleBorder(
   borderRadius: roundedRectangleBorderRadius,
 );
 
-const HOST_URL = 'http://157.245.60.30';
-const CHAT_HOST_URL = 'http://157.245.60.30';
+// const HOST_URL = 'http://157.245.60.30';
+// const CHAT_HOST_URL = 'http://157.245.60.30';
 
-// const HOST_URL = 'http://10.0.2.2:8000';
-// const CHAT_HOST_URL = 'http://10.0.2.2:3000';
+const HOST_URL = 'http://10.0.2.2:8000';
+const CHAT_HOST_URL = 'http://10.0.2.2:3000';

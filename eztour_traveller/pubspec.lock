@@ -247,7 +247,7 @@ packages:
     source: hosted
     version: "4.0.0"
   enum_to_string:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: enum_to_string
       url: "https://pub.dartlang.org"

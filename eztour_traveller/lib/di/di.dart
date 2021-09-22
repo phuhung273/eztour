@@ -4,6 +4,7 @@ import 'package:eztour_traveller/datasource/local/chat_user_db.dart';
 import 'package:eztour_traveller/datasource/local/checklist_db.dart';
 import 'package:eztour_traveller/datasource/local/local_storage.dart';
 import 'package:eztour_traveller/datasource/local/user_announcement_db.dart';
+import 'package:eztour_traveller/datasource/local/my_checklist_db.dart';
 import 'package:get/get.dart';
 import 'package:dio/dio.dart';
 import 'package:get_storage/get_storage.dart';
@@ -25,6 +26,8 @@ Future configureDependencies() async {
   Get.put(UserAnnouncementDB.instance);
 
   Get.put(ChecklistDB.instance);
+
+  Get.put(MyChecklistDB.instance);
 
 }
 

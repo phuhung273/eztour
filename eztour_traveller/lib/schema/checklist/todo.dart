@@ -2,24 +2,30 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'todo.g.dart';
 
+const FIELD_ID = 'id';
+const FIELD_MESSAGE = 'message';
+const FIELD_DONE = 'done';
+const FIELD_CATEGORY = 'category';
+
 @JsonSerializable()
 class Todo {
 
-  @JsonKey(name: 'id')
-  int id;
+  @JsonKey(name: FIELD_ID)
+  int? id;
 
-  @JsonKey(name: 'message')
+  @JsonKey(name: FIELD_MESSAGE)
   String message;
 
-  @JsonKey(name: 'done')
+  @JsonKey(name: FIELD_DONE)
   int? done = 0;
 
-  @JsonKey(name: 'category')
+  @JsonKey(name: FIELD_CATEGORY)
   String? category;
 
   Todo({
-    required this.id,
     required this.message,
+    this.done,
+    this.category,
   });
 
   factory Todo.fromJson(Map<String, dynamic> json) => _$TodoFromJson(json);
@@ -33,4 +39,10 @@ class Todo {
   void toggle(){
     done = isDone() ? 0 : 1;
   }
+
+  Map<String, dynamic> toJsonWithoutId() => {
+    FIELD_MESSAGE: message,
+    FIELD_DONE: done,
+    FIELD_CATEGORY: category,
+  };
 }

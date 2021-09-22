@@ -63,13 +63,13 @@
             function getThemeFromLocalStorage() {
                 // if user already changed the theme, use it
                 if (window.localStorage.getItem('dark')) {
-                return JSON.parse(window.localStorage.getItem('dark'))
+                    return JSON.parse(window.localStorage.getItem('dark'))
                 }
 
                 // else return their preferences
                 return (
-                !!window.matchMedia &&
-                window.matchMedia('(prefers-color-scheme: dark)').matches
+                    !!window.matchMedia &&
+                    window.matchMedia('(prefers-color-scheme: dark)').matches
                 )
             }
 
@@ -81,30 +81,30 @@
                 // dark: getThemeFromLocalStorage(),
                 dark: false,
                 toggleTheme() {
-                this.dark = !this.dark
-                setThemeToLocalStorage(this.dark)
+                    this.dark = !this.dark
+                    setThemeToLocalStorage(this.dark)
                 },
                 isSideMenuOpen: false,
                 toggleSideMenu() {
-                this.isSideMenuOpen = !this.isSideMenuOpen
+                    this.isSideMenuOpen = !this.isSideMenuOpen
                 },
                 closeSideMenu() {
-                this.isSideMenuOpen = false
+                    this.isSideMenuOpen = false
                 },
                 isPagesMenuOpen: false,
                 togglePagesMenu() {
-                this.isPagesMenuOpen = !this.isPagesMenuOpen
+                    this.isPagesMenuOpen = !this.isPagesMenuOpen
                 },
                 // Modal
                 isModalOpen: false,
                 trapCleanup: null,
                 openModal() {
-                this.isModalOpen = true
-                this.trapCleanup = focusTrap(document.querySelector('#modal'))
+                    this.isModalOpen = true
+                    this.trapCleanup = focusTrap(document.querySelector('#modal'))
                 },
                 closeModal() {
-                this.isModalOpen = false
-                this.trapCleanup()
+                    this.isModalOpen = false
+                    this.trapCleanup()
                 },
                 isNotificationsMenuOpen: false,
                 toggleNotificationsMenu() {

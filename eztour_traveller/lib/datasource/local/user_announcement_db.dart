@@ -1,6 +1,7 @@
 
 import 'dart:core';
 
+import 'package:eztour_traveller/datasource/local/base_db.dart';
 import 'package:eztour_traveller/schema/announcement/announcement.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
@@ -9,43 +10,41 @@ const DB_NAME = 'user_announcements';
 const COLUMN_ID = 'id';
 const COLUMN_MESSAGE = 'message';
 
-class UserAnnouncementDB{
+class UserAnnouncementDB extends BaseDB{
+  @override
+  String tableName = DB_NAME;
+
   static final UserAnnouncementDB instance = UserAnnouncementDB._init();
 
-  static Database? _database;
-
   UserAnnouncementDB._init();
+
+  static Database? _database;
 
   Future<Database> get database async {
     if (_database != null) return _database!;
 
-    _database = await _initDB('$DB_NAME.db');
+    _database = await initDB('$tableName.db');
     return _database!;
   }
-  Future<Database> _initDB(String filePath) async {
-    final dbPath = await getDatabasesPath();
-    final path = join(dbPath, filePath);
 
-    return openDatabase(path, version: 1, onCreate: _createDB);
-  }
-
-  Future _createDB(Database db, int version) async {
-    const idType = 'INTEGER PRIMARY KEY';
-    const textType = 'TEXT NOT NULL';
-    const integerType = 'INTEGER NOT NULL';
-
+  @override
+  Future createDB(Database db, int version) async {
     await db.execute('''
-        CREATE TABLE $DB_NAME ( 
+        CREATE TABLE $tableName (
           $COLUMN_ID $idType,
           $COLUMN_MESSAGE $textType
         )
-     ''');
+    ''');
+  }
+
+  @override
+  Future? onConfigure(Database db) {
   }
 
   Future<List<Announcement>> getAll() async {
     final db = await instance.database;
 
-    final List<Map<String, dynamic>> maps = await db.query(DB_NAME);
+    final List<Map<String, dynamic>> maps = await db.query(tableName);
 
     return List.generate(maps.length, (i) => Announcement.fromJson(maps[i]));
   }
@@ -53,13 +52,13 @@ class UserAnnouncementDB{
   Future<int> add(String message) async {
     final db = await instance.database;
 
-    return db.insert(DB_NAME, {COLUMN_MESSAGE: message});
+    return db.insert(tableName, {COLUMN_MESSAGE: message});
   }
 
   Future<int> update(Announcement announcement) async {
     final db = await instance.database;
 
-    return db.update(DB_NAME,
+    return db.update(tableName,
         announcement.toJson(),
         where: '$COLUMN_ID = ?',
         whereArgs: [announcement.id]
@@ -69,12 +68,13 @@ class UserAnnouncementDB{
   Future<int> delete(int id) async {
     final db = await instance.database;
 
-    return db.delete(DB_NAME, where: '$COLUMN_ID = ?', whereArgs: [id]);
+    return db.delete(tableName, where: '$COLUMN_ID = ?', whereArgs: [id]);
   }
 
   Future clear() async {
     final db = await instance.database;
 
-    db.delete(DB_NAME);
+    db.delete(tableName);
   }
+
 }

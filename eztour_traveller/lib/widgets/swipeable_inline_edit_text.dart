@@ -1,8 +1,9 @@
+import 'package:eztour_traveller/mixins/swipeable.dart';
 import 'package:eztour_traveller/widgets/inline_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swipe_action_cell/flutter_swipe_action_cell.dart';
 
-class SwipeableInlineEditText extends StatefulWidget {
+class SwipeableInlineEditText extends StatefulWidget{
   final String text;
   final void Function(String value) onEditingComplete;
   final void Function() onDelete;
@@ -18,7 +19,7 @@ class SwipeableInlineEditText extends StatefulWidget {
   _SwipeableInlineEditTextState createState() => _SwipeableInlineEditTextState();
 }
 
-class _SwipeableInlineEditTextState extends State<SwipeableInlineEditText> {
+class _SwipeableInlineEditTextState extends State<SwipeableInlineEditText> with Swipeable{
 
   late TextEditingController textEditingController;
 
@@ -42,7 +43,7 @@ class _SwipeableInlineEditTextState extends State<SwipeableInlineEditText> {
           color: Colors.transparent,
 
           ///set content instead of title of icon
-          content: _buildIconButton(Colors.red, Icons.delete),
+          content: buildIconButton(Colors.red, Icons.delete),
           onTap: (handler) async {
             await handler(true);
             widget.onDelete();
@@ -67,22 +68,6 @@ class _SwipeableInlineEditTextState extends State<SwipeableInlineEditText> {
           ),
         ),
       )
-    );
-  }
-
-  Widget _buildIconButton(Color color, IconData icon) {
-    return Container(
-      width: 50.0,
-      height: 25.0,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
-        color: color,
-      ),
-      child: Icon(
-        icon,
-        color: Colors.white,
-        size: 20.0,
-      ),
     );
   }
 }
