@@ -1,17 +1,17 @@
 <div x-data="dashboard()">
     <x-loading-indicator />
 
-    <div class="h-64 grid gap-y-4 gap-x-16">
+    <div class="grid grid-cols-1">
 
-        <div class="flex items-start justify-between">
+        <div class="col-span-1 flex items-start justify-between mb-4">
 
             <div class="flex-1">
-                @if ($defaultTeam)
+                @if ($currentTeam)
                 <div class="flex flex-col justify-items-center px-4 py-3 ">
                     <h4 class="mb-4 text-lg font-semibold text-gray-600 dark:text-gray-300">
                         You're viewing
                     </h4>
-                    {{ $defaultTeam->name }}
+                    {{ $currentTeam->name }}
                 </div>
                 @endif
             </div>
@@ -27,7 +27,7 @@
 
         </div>
 
-        <div x-show="showForm">
+        <div class="col-span-1" x-show="showForm">
             <div class="px-4 py-3 mb-8 bg-white rounded-lg shadow-md">
                 <h4 class="mb-4 text-lg font-semibold text-gray-600 dark:text-gray-300">
                     Create your tour
@@ -70,12 +70,11 @@
             </div>
         </div>
 
-        @if ($defaultTeam)
-        <div class="px-4 py-3 mb-8 bg-white rounded-lg shadow-md">
+        <div class="col-span-1 px-4 py-3 mb-8 bg-white rounded-lg shadow-md">
             <x-tour-table :data="$data" />
         </div>
-        @endif
     </div>
+
 </div>
 
 @push('scripts')

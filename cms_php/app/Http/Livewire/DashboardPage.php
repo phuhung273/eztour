@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\Team;
 use Exception;
 use Livewire\WithFileUploads;
 
@@ -14,10 +15,12 @@ class DashboardPage extends BaseComponent
     const IMAGE_STORAGE_DIRECTORY   = 'public/img/locations';
 
     public $data;
-    public $defaultTeam;
 
-    public $date;
+    public $currentTeam;
+    public $viewingTeamId;
+
     public $name;
+    public $date;
     public $image;
 
     protected $rules = [
@@ -29,50 +32,28 @@ class DashboardPage extends BaseComponent
     public function mount() {
         $user = Auth::user();
         $teamList = $user->ownedTeams()->get();
-        $this->defaultTeam = $teamList->first();
 
-        $currentTeam = null;
         try {
-            $currentTeam = $user->currentTeam;
+            $this->currentTeam = $user->currentTeam;
         } catch (Exception $e) {
         }
 
-        $this->data = $teamList->map(function($item, $key) use ($currentTeam){
-            return $this->parseRow($item, $currentTeam);
-        });
+        $this->viewingTeamId = session(config('app.viewing_team_session_key'));
 
+        $this->data = $teamList->map(fn($e) => $this->parseRow($e, $user, $this->viewingTeamId))->all();
+        
         $this->date = date("Y-m-d");
     }
 
-    private function parseRow($team, $currentTeam) {
+    private function parseRow($team, $user, $viewingTeamId) {
         return [
             'id' => $team->id,
-            'image' => $this->parseTeam($team),
-            'current' => $this->parseStatus($currentTeam ? $currentTeam->id == $team->id : false),
+            'name' => $team->name,
+            'image' => $team->image,
+            'current' => $this->currentTeam ? $user->isCurrentTeam($team) : false,
+            'viewing' => $viewingTeamId == $team->id,
             'start_date' => $team->start_date,
         ];
-    }
-
-    private function parseStatus($status){
-        return $status
-            ? '<span
-                class="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100">
-                Owned
-            </span>'
-            : '';
-    }
-
-    private function parseTeam($team){
-        $url = asset("storage/img/locations/{$team->image}");
-
-        return "<div class='flex items-center text-sm'>
-                    <div class='w-40 mr-3 rounded-lg md:block'>
-                        <img src='{$url}' />
-                    </div>
-                    <div class='w-60'>
-                        <p class='font-semibold whitespace-normal'>{$team->name}</p>
-                    </div>
-                </div>";
     }
 
     public function submit(){
@@ -82,18 +63,45 @@ class DashboardPage extends BaseComponent
         $this->image->storeAs(self::IMAGE_STORAGE_DIRECTORY, $image_name);
 
         $user = Auth::user();
-        $this->defaultTeam = $user->ownedTeams()->create([
+        $newTeam = $user->ownedTeams()->create([
             'name' => $this->name,
             'personal_team' => false,
             'start_date' => $this->date,
             'image' => $image_name,
         ]);
 
-        $this->data[] = $this->defaultTeam;
+        $this->data[] = $this->parseRow($newTeam, $user, $this->viewingTeamId);
 
         $this->modalSuccess('Tour created successfully!');
 
         $this->resetForm();
+    }
+
+    public function changeCurrentTeam(Team $team) {
+        $result = Auth::user()->switchTeam($team);
+
+        if ($result) {
+
+            $this->data = array_map(function ($row) use ($team) { 
+                $row['current'] = $row['id'] == $team->id;
+                return $row;
+            }, $this->data);
+    
+            $this->modalSuccess('Default tour changed!');
+        }
+    }
+
+    public function changeViewingTeam(Team $team) {
+
+        session([config('app.viewing_team_session_key') => $team->id]);
+        $this->viewingTeamId = $team->id;
+
+        $this->data = array_map(function ($row) use ($team) { 
+            $row['viewing'] =  $row['id'] == $team->id;
+            return $row;
+        }, $this->data);
+
+        $this->modalSuccess('Viewing tour changed!');
     }
 
     private function resetForm() {

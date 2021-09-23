@@ -124,6 +124,7 @@ return [
     'cipher' => 'AES-256-CBC',
 
     'seed_pwd' => env('SEED_USER_PWD'),
+    'viewing_team_session_key' => env('VIEWING_TEAM_SESSION_KEY'),
 
     /*
     |--------------------------------------------------------------------------
