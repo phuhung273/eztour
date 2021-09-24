@@ -67,4 +67,18 @@ class Team extends JetstreamTeam
     public function locations(){
         return $this->hasMany(Location::class);
     }
+
+    public function admins(){
+        return $this->belongsToMany(User::class)
+                    ->wherePivot('role', 'admin');
+    }
+
+    public function travellers(){
+        return $this->belongsToMany(User::class)
+                    ->wherePivotNull('role');
+    }
+
+    public function addAdmin(User $user){
+        $this->users()->attach($user, ['role' => 'admin']);
+    }
 }

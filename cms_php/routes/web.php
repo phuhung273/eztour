@@ -9,7 +9,7 @@ use App\Http\Controllers\TodoController;
 use App\Http\Livewire\AnnouncementPage;
 use App\Http\Livewire\DashboardPage;
 use App\Http\Livewire\GreetingPage;
-use App\Http\Livewire\TourPage;
+use App\Http\Livewire\MemberPage;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -31,7 +31,7 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
     Route::get('/todo', ChecklistPage::class)->name('todo');
     Route::get('/greeting', GreetingPage::class)->name('greeting');
     Route::get('/announcement', AnnouncementPage::class)->name('announcement');
-    Route::get('/tour', TourPage::class)->name('tour');
+    Route::get('/member', MemberPage::class)->name('member');
     
 });
 

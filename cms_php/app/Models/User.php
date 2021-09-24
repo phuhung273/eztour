@@ -58,4 +58,12 @@ class User extends Authenticatable
     protected $appends = [
         'profile_photo_url',
     ];
+
+    public static function admins() {
+        return (new static)::where('is_admin', true);
+    }
+
+    public static function findByName($name) {
+        return (new static)::where('name', $name)->firstOrFail();
+    }
 }

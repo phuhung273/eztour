@@ -23,7 +23,7 @@
                 <a href="#">
                     <x-app-button scheme="success" text="Update" />
                 </a>
-                <x-app-button scheme="danger" text="Delete" onclick="modalDelete({{ $location->id }})" />
+                <x-app-button scheme="danger" text="Delete" onclick="modalDelete('{{ $location->id }}')" />
             </div>
         </div>
     </div>

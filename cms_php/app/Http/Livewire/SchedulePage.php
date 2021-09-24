@@ -4,6 +4,7 @@ namespace App\Http\Livewire;
 
 use App\Helpers\TimeHelper;
 use App\Models\Location;
+use App\Models\Team;
 use Livewire\WithFileUploads;
 
 class SchedulePage extends BaseComponent
@@ -14,6 +15,8 @@ class SchedulePage extends BaseComponent
     const DEFAULT_DAY               = 1;
     const DEFAULT_FROM              = '6:00 AM';
     const DEFAULT_TO                = '9:00 AM';
+
+    public $viewingTeam;
 
     public $image;
     public $label;
@@ -36,8 +39,13 @@ class SchedulePage extends BaseComponent
 
 
     public function mount() {
-        $this->data = Location::all();
-        $this->max_day = $this->data->reduce(fn($last, $item) => $item->day > $last ? $item->day : $last, 0);
+        $viewingTeamId = session(config('app.viewing_team_session_key'));
+
+        if ($viewingTeamId) {
+            $this->viewingTeam = Team::find($viewingTeamId);
+            $this->data = $this->viewingTeam->locations()->get();
+            $this->max_day = $this->data->reduce(fn($last, $item) => $item->day > $last ? $item->day : $last, 0);
+        }
     }
 
     public function submit()
@@ -49,17 +57,14 @@ class SchedulePage extends BaseComponent
         $image_name = $this->image->getClientOriginalName();
         $this->image->storeAs(self::IMAGE_STORAGE_DIRECTORY, $image_name);
 
-        $item = new Location([
+        $item = $this->viewingTeam->locations()->create([
             'image' => $image_name,
             'name' => $this->label,
             'description' => $this->description,
             'day' => $this->day,
             'from' => TimeHelper::gia2his($this->from),
             'to' => TimeHelper::gia2his($this->to),
-            'tour_id' => 1
         ]);
-
-        $item->save();
 
         $this->data->push($item);
 
@@ -83,6 +88,6 @@ class SchedulePage extends BaseComponent
     public function render()
     {
         return view('livewire.schedule-page')
-            ->layout('layouts.app', ['title' => 'Schedule']);;
+            ->layout('layouts.app', ['title' => 'Schedule']);
     }
 }
