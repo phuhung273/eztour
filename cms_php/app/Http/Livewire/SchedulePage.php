@@ -7,7 +7,7 @@ use App\Models\Location;
 use App\Models\Team;
 use Livewire\WithFileUploads;
 
-class SchedulePage extends BaseComponent
+class SchedulePage extends BaseTourPage
 {
     use WithFileUploads;
 
@@ -15,8 +15,6 @@ class SchedulePage extends BaseComponent
     const DEFAULT_DAY               = 1;
     const DEFAULT_FROM              = '6:00 AM';
     const DEFAULT_TO                = '9:00 AM';
-
-    public $viewingTeam;
 
     public $image;
     public $label;
@@ -38,14 +36,9 @@ class SchedulePage extends BaseComponent
     ];
 
 
-    public function mount() {
-        $viewingTeamId = session(config('app.viewing_team_session_key'));
-
-        if ($viewingTeamId) {
-            $this->viewingTeam = Team::find($viewingTeamId);
-            $this->data = $this->viewingTeam->locations()->get();
-            $this->max_day = $this->data->reduce(fn($last, $item) => $item->day > $last ? $item->day : $last, 0);
-        }
+    protected function init() {
+        $this->data = $this->viewingTeam->locations()->get();
+        $this->max_day = $this->data->reduce(fn($last, $item) => $item->day > $last ? $item->day : $last, 0);
     }
 
     public function submit()

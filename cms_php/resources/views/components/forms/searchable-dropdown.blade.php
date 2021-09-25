@@ -1,4 +1,7 @@
-@props(['label', 'options'])
+@props([
+'label' => '',
+'options' => []
+])
 
 @php
 $programmingLabel = str_replace(' ', '', strtolower($label));
@@ -13,8 +16,8 @@ $fakeId = $programmingLabel . '-select2-fake';
     <div>
         <select id="{{ $fakeId }}"
             class=" block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
-            @foreach($options as $option)
-            <option value="{{ $option->id }}">{{ $option->name }}</option>
+            @foreach($options as $key => $value)
+            <option value="{{ $value->id }}">{{ $value->name }}</option>
             @endforeach
         </select>
     </div>

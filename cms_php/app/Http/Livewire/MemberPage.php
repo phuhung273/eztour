@@ -2,52 +2,99 @@
 
 namespace App\Http\Livewire;
 
-use App\Models\Team;
+use App\Imports\NormalUserImport;
 use App\Models\User;
-
-class MemberPage extends BaseComponent
+use Livewire\WithFileUploads;
+use Maatwebsite\Excel\Facades\Excel;
+class MemberPage extends BaseTourPage
 {
-    public $viewingTeam;
-    public $tourGuideList;
-    public $tourGuideOptions;
+    use WithFileUploads;
 
-    public $travellerName;
-    public $tourGuideId;
+    public $admins;
+    public $adminOptions;
 
-    public $travellers;
+    public $normalUserName;
+    public $adminId;
 
+    public $normalUsers;
 
-    public function mount() {
-        $viewingTeamId = session(config('app.viewing_team_session_key'));
+    public $file;
 
-        if ($viewingTeamId) {
-            $this->viewingTeam = Team::find($viewingTeamId);
-            $this->travellers = $this->viewingTeam->travellers()
-                            ->get()
-                            ->map(fn($user) => $this->parseRow($user))->all();
+    protected function init() {
+        $this->normalUsers = $this->viewingTeam->normalUsers()
+                        ->get()
+                        ->map(fn($user) => $this->parseRow($user))->all();
 
-            $this->tourGuideList = $this->viewingTeam->admins()->get();
-        }
+        $this->admins = $this->viewingTeam->admins()->get();
 
-        $this->tourGuideOptions = User::admins()->get();
+        $this->adminOptions = User::admins()->get();
+        $this->adminId = $this->adminOptions->first()->id;
     }
 
-    private function parseRow($user) {
+    private function parseRow($row) {
         return [
-            'id' => $user->id,
-            'name' => $user->name,
+            'id' => $row->id,
+            'name' => $row->name,
         ];
     }
 
-    public function addTourGuide(){
+    public function addNormalUser(){
 
-        $user = User::find($this->tourGuideId);
-        $this->tourGuideList[] = $user;
-        $this->viewingTeam->addAdmin($user);
+        $this->validate([
+            'normalUserName' => 'required',
+        ]);
 
-        $this->modalSuccess('Tour guide added!');
+        $user = User::createNormalUser($this->normalUserName);
+        $this->viewingTeam->addNormalUser($user);
 
-        $this->reset(['tourGuideId']);
+        if ($user) {
+            $this->normalUsers[] = $this->parseRow($user);
+            $this->modalSuccess('Traveller added!');
+    
+            $this->reset(['normalUserName']);
+        }
+    }
+
+    public function addAdmin(){
+
+        $this->validate([
+            'adminId' => 'required',
+        ]);
+
+        $user = User::find($this->adminId);
+
+        if ($user) {
+            $this->admins[] = $user;
+            $this->viewingTeam->addAdmin($user);
+            $this->modalSuccess('Tour guide added!');
+            $this->reset(['adminId']);
+        }
+    }
+
+    public function importExcel(){
+
+        $this->validate([
+            'file' => 'required',
+        ]);
+
+        // Output: ['Nguyễn Văn A', 'Quách Thị B']
+        $names = Excel::toCollection(new NormalUserImport, $this->file)->first();
+
+        $users = User::bulkCreateNormalUser($names);
+
+        if ($users) {
+            $this->viewingTeam->bulkAddNormalUser($users);
+            $users = $users->map(fn($user) => $this->parseRow($user));
+            $this->normalUsers = [...$this->normalUsers, ...$users];
+            $this->modalSuccess('Travellers added!');
+            $this->reset(['file']);
+        }
+    }
+
+    public function delete(User $item) {
+        $item->delete();
+        $this->normalUsers = array_filter($this->normalUsers, fn ($e) => $e['id'] != $item->id);
+        $this->modalSuccess('Deleted!');
     }
 
     public function render()
