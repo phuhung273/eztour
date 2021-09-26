@@ -14,7 +14,7 @@ class AnnouncementController extends Controller
      */
     public function index()
     {
-        $data = Announcement::visibleAttributes();
+        $data = Announcement::visibleAttributes()->get();
 
         return [
             'announcements' => $data,
