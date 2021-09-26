@@ -10,6 +10,7 @@ use App\Models\Todo;
 use App\Models\TodoCategory;
 use App\Models\Tour;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class MobileHomeController extends Controller
 {
@@ -18,11 +19,13 @@ class MobileHomeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request, Tour $tour)
+    public function index(Request $request)
     {
         $request->validate([
             'local_time' => 'required',
         ]);
+
+        $team = Auth::user()->currentTeam;
 
         $input = $request->all();
 
@@ -34,7 +37,7 @@ class MobileHomeController extends Controller
 
         $announcements = Announcement::limit(3)->get();
 
-        $start_date = $tour->start_date;
+        $start_date = $team->start_date;
 
         $max_day = Location::max('day');
 

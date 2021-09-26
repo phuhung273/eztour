@@ -21,24 +21,25 @@ class MobileAuthController extends Controller
         $user = User::where('email', $request->email)->first();
     
         if (! $user || ! Hash::check($request->password, $user->password)) {
-            throw ValidationException::withMessages([
-                'email' => ['The provided credentials are incorrect.'],
-            ]);
+            return [
+                'message' => 'Incorrect credential',
+                'statusCode' => '422',
+            ];
         }
 
         $team = $user->activeTeam();
 
         if ($team) {
             return [
-                'data' => [
-                    'access_token' => $user->createToken($request->device_name)->plainTextToken,
-                    'user_id' => $user->id,
-                    'user_name' => $user->email,
-                ]
+                'access_token' => $user->createToken($request->device_name)->plainTextToken,
+                'user_id' => $user->id,
+                'user_name' => $user->email,
+                'statusCode' => '200',
             ];
         } else {
             return [
-                'message' => 'Credential is correct but no active tour, contact your tour guide for support.'
+                'message' => 'Credential is correct but no active tour, contact your tour guide for support.',
+                'statusCode' => '423',
             ];
         }
     

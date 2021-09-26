@@ -5,7 +5,10 @@ part 'announcement.g.dart';
 @JsonSerializable()
 class Announcement {
 
-  int id;
+  @JsonKey(name: 'id')
+  String id;
+
+  @JsonKey(name: 'message')
   String message;
 
   Announcement({

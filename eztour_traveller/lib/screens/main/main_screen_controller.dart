@@ -30,7 +30,7 @@ class MainScreenController extends GetxController{
   }
 
   void logOut(){
-    _localStorage.removeAccessToken();
+    _localStorage.removeCredentials();
     Get.offAndToNamed(ROUTE_LOGIN);
   }
 }

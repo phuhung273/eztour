@@ -4,8 +4,10 @@ import 'dart:io';
 
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:eztour_traveller/datasource/local/local_storage.dart';
+import 'package:eztour_traveller/datasource/remote/auth_service.dart';
 import 'package:eztour_traveller/notifications/notification_api.dart';
 import 'package:eztour_traveller/route/route.dart';
+import 'package:eztour_traveller/schema/auth/login_request.dart';
 import 'package:eztour_traveller/screens/main/main_screen.dart';
 import 'package:get/get.dart';
 import 'package:rxdart/rxdart.dart';
@@ -20,6 +22,8 @@ class SplashScreenBinding implements Bindings{
 }
 
 class SplashScreenController extends GetxController{
+
+  final AuthService _service = Get.find();
 
   final BehaviorSubject<String?> _selectNotificationSubject = Get.find();
 
@@ -54,6 +58,22 @@ class SplashScreenController extends GetxController{
 
   Future _onDoneLoading() async {
     if(_isEnoughInfo()){
+
+      final request = LoginRequest(
+          username: _localStorage.getUsername()!,
+          password: _localStorage.getPassword()!,
+          device: _localStorage.getDeviceName() ?? 'test'
+      );
+
+      final response = await _service.login(request);
+
+      if(response.success()){
+        _localStorage.saveAccessToken(response.accessToken!);
+        Get.offAndToNamed(ROUTE_MAIN);
+      } else {
+        Get.offAndToNamed(ROUTE_LOGIN);
+      }
+
       Get.offAndToNamed(ROUTE_MAIN);
     } else {
       Get.offAndToNamed(ROUTE_LOGIN);
@@ -78,7 +98,6 @@ class SplashScreenController extends GetxController{
 
   bool _isEnoughInfo(){
     return _localStorage.getUsername() != null
-        && _localStorage.getAccessToken() != null
-        && _localStorage.getUserID() != null;
+        && _localStorage.getPassword() != null;
   }
 }

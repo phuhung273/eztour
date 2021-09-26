@@ -3,6 +3,7 @@ import 'package:eztour_traveller/datasource/remote/announcement_service.dart';
 import 'package:eztour_traveller/schema/announcement/announcement.dart';
 import 'package:eztour_traveller/schema/announcement/announcement_list_request.dart';
 import 'package:get/get.dart';
+import 'package:uuid/uuid.dart';
 
 class AnnouncementScreenBinding extends Bindings {
   @override
@@ -22,6 +23,8 @@ class AnnouncementScreenController extends GetxController {
   final announcements = List<Announcement>.empty().obs;
 
   final myAnnouncements = List<Announcement>.empty().obs;
+
+  final uuid = const Uuid();
 
   // final announcements = [
   //   announcement(id: 1, message: "Design"),
@@ -49,10 +52,11 @@ class AnnouncementScreenController extends GetxController {
   }
 
   Future add(String value) async {
-    final id = await _userAnnouncementDB.add(value);
+    final item = Announcement(id: uuid.v4(), message: value);
+    final result = await _userAnnouncementDB.add(item);
 
-    if(id > 0){
-      myAnnouncements.add(Announcement(id: id, message: value));
+    if(result > 0){
+      myAnnouncements.add(item);
     }
   }
 

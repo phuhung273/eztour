@@ -7,7 +7,7 @@ part 'todo_category.g.dart';
 class TodoCategory {
 
   @JsonKey(name: 'id')
-  int id;
+  String id;
 
   @JsonKey(name: 'name')
   String name;

@@ -69,7 +69,7 @@ class ChecklistScreenController extends GetxController {
     myCategories.refresh();
   }
 
-  void delete(String category, int id) {
+  void delete(String category, String id) {
     myCategories[category]?.removeWhere((element) => element.id == id);
     myCategories.refresh();
   }

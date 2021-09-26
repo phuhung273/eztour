@@ -27,7 +27,7 @@ class MyChecklistDB extends BaseChecklistDB{
   Future createDB(Database db, int version) async {
     await db.execute('''
         CREATE TABLE $tableName (
-          $columnID $idType,
+          $columnID $textType,
           $columnMessage $textType,
           $columnCategory $textType,
           $columnDone $integerType
@@ -38,7 +38,7 @@ class MyChecklistDB extends BaseChecklistDB{
   Future<int> insert(Todo item) async {
     final db = await instance.database;
 
-    return db.insert(tableName, item.toJsonWithoutId());
+    return db.insert(tableName, item.toJson());
   }
 
   @override
@@ -55,7 +55,7 @@ class MyChecklistDB extends BaseChecklistDB{
     return db.getAll(tableName);
   }
 
-  Future<int> delete(int id) async {
+  Future<int> delete(String id) async {
     final db = await instance.database;
 
     return db.delete(tableName, where: '$columnID = ?', whereArgs: [id]);

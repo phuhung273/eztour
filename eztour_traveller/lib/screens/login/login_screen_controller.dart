@@ -4,13 +4,13 @@ import 'package:eztour_traveller/datasource/remote/auth_service.dart';
 import 'package:eztour_traveller/route/route.dart';
 import 'package:eztour_traveller/schema/auth/basic_auth_credential.dart';
 import 'package:eztour_traveller/schema/auth/login_request.dart';
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 
 class LoginScreenBinding extends Bindings {
   @override
   void dependencies() {
     Get.lazyPut(() => LoginScreenController());
-    Get.lazyPut(() => AuthService(Get.find()));
   }
 }
 
@@ -38,6 +38,7 @@ class LoginScreenController extends GetxController {
   }
 
   Future login() async {
+
     try{
       final request = LoginRequest(
           username: _credential.username,
@@ -47,14 +48,20 @@ class LoginScreenController extends GetxController {
 
       final response = await _service.login(request);
 
-      _localStorage.saveUserID(response.userID!);
-      _localStorage.saveUsername(response.username!);
-      _localStorage.saveAccessToken(response.accessToken!);
+      if(response.success()){
+        _localStorage.saveUserID(response.userID!);
+        _localStorage.saveUsername(response.username!);
+        _localStorage.savePassword(_credential.password);
+        _localStorage.saveAccessToken(response.accessToken!);
 
-      Get.offAndToNamed(ROUTE_MAIN);
+        Get.offAndToNamed(ROUTE_MAIN);
+      } else {
+        barcodeResult.value = response.message ?? 'Unexpected error';
+      }
 
     } catch(e){
-      barcodeResult.value = 'Invalid credential, try again';
+      barcodeResult.value = 'Unexpected error';
+      debugPrint(e.toString());
     }
 
   }

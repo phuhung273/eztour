@@ -31,7 +31,7 @@ class UserAnnouncementDB extends BaseDB{
   Future createDB(Database db, int version) async {
     await db.execute('''
         CREATE TABLE $tableName (
-          $COLUMN_ID $idType,
+          $COLUMN_ID $textType,
           $COLUMN_MESSAGE $textType
         )
     ''');
@@ -49,10 +49,10 @@ class UserAnnouncementDB extends BaseDB{
     return List.generate(maps.length, (i) => Announcement.fromJson(maps[i]));
   }
 
-  Future<int> add(String message) async {
+  Future<int> add(Announcement announcement) async {
     final db = await instance.database;
 
-    return db.insert(tableName, {COLUMN_MESSAGE: message});
+    return db.insert(tableName, announcement.toJson());
   }
 
   Future<int> update(Announcement announcement) async {
@@ -65,7 +65,7 @@ class UserAnnouncementDB extends BaseDB{
     );
   }
 
-  Future<int> delete(int id) async {
+  Future<int> delete(String id) async {
     final db = await instance.database;
 
     return db.delete(tableName, where: '$COLUMN_ID = ?', whereArgs: [id]);

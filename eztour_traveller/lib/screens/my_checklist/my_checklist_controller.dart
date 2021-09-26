@@ -4,6 +4,7 @@ import 'package:eztour_traveller/schema/checklist/todo.dart';
 import 'package:eztour_traveller/screens/checklist/checklist_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:uuid/uuid.dart';
 
 class MyChecklistScreenBinding extends Bindings {
   @override
@@ -27,6 +28,8 @@ class MyChecklistScreenController extends GetxController {
   final ChecklistScreenController _checklistController = Get.find();
 
   final TextEditingController titleController = TextEditingController();
+
+  final uuid = const Uuid();
 
   String category = '';
   final todos = List<Todo>.empty().obs;
@@ -76,10 +79,10 @@ class MyChecklistScreenController extends GetxController {
   }
 
   Future addTodo(String message) async {
-    final todo = Todo(message: message, done: 0, category: category);
-    todo.id = await _myChecklistDB.insert(todo);
+    final todo = Todo(id: uuid.v4() , message: message, done: 0, category: category);
+    final result = await _myChecklistDB.insert(todo);
 
-    if(todo.id! > 0){
+    if(result > 0){
       todos.add(todo);
       _checklistController.add(category, todo);
     }
