@@ -2,7 +2,7 @@
 
 @php
 
-$heads = ['Message'];
+$heads = ['Message', 'Category'];
 @endphp
 
 <x-datatable :data="$data" :heads="$heads" />

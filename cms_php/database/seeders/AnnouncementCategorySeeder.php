@@ -21,5 +21,9 @@ class AnnouncementCategorySeeder extends Seeder
         AnnouncementCategory::updateOrCreate(
             ['name' => 'Contacts']
         );
+
+        AnnouncementCategory::updateOrCreate(
+            ['name' => 'Others']
+        );
     }
 }

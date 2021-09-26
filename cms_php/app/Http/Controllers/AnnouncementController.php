@@ -14,7 +14,7 @@ class AnnouncementController extends Controller
      */
     public function index()
     {
-        $data = Announcement::all();
+        $data = Announcement::visibleAttributes();
 
         return [
             'announcements' => $data,
@@ -45,9 +45,11 @@ class AnnouncementController extends Controller
 
         $input = $request->all();
 
+        $input['done'] = $request->has('done');
+
         Announcement::create($input);
 
-        return back();
+        return redirect()->route('announcement.view');
     }
 
     /**

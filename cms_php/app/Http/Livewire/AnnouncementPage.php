@@ -3,19 +3,27 @@
 namespace App\Http\Livewire;
 
 use App\Models\Announcement;
+use App\Models\AnnouncementCategory;
+
 
 class AnnouncementPage extends BaseComponent
 {
     public $content;
-    
+
     public $data;
+    public $category;
+    public $categories;
 
     protected $rules = [
         'content' => 'required|min:4',
+        'category' =>'required'
     ];
 
     public function mount() {
-        $this->data = Announcement::all()->toArray();
+        $this->data = Announcement::visibleAttributes()->get()->toArray();
+    
+        $this->categories = AnnouncementCategory::all();
+        $this->category = $this->categories[0]->id;
     }
 
     public function submit()
@@ -24,22 +32,23 @@ class AnnouncementPage extends BaseComponent
 
         // Execution doesn't reach here if validation fails.
 
-        $item = new Announcement([
+        $category = AnnouncementCategory::find($this->category);
+
+        $item = $category->announcements()->create([
             'message' => $this->content,
         ]);
-
-        $item->save();
 
         $newData = [
             'id' => $item->id,
             'message' => $item->message,
+            'category' => $category->name,
         ];
 
         $this->data[] = $newData;
 
-        $this->modalSuccess('Saved!');
-
         $this->resetForm();
+
+        $this->modalSuccess('Saved!');
     }
 
     private function resetForm() {

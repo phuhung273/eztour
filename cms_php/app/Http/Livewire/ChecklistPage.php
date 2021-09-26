@@ -8,7 +8,7 @@ use App\Models\TodoCategory;
 class ChecklistPage extends BaseComponent
 {
     public $content;
-    
+
     public $data;
     public $category;
     public $categories;
