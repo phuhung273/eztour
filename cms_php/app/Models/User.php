@@ -12,6 +12,7 @@ use Laravel\Jetstream\HasTeams;
 use Laravel\Sanctum\HasApiTokens;
 
 use App\Helpers\StringHelper;
+use Exception;
 use Illuminate\Support\Collection as SupportCollection;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Hash;
@@ -111,12 +112,18 @@ class User extends Authenticatable
         return User::hydrate($data);
     }
 
-    public function activeTeam(){
-        $id = $this->id;
-
+    public function isTeamMember(Team $team):bool {
         return $this->belongsToMany(Team::class)
-                    ->wherePivot('user_id', $id)
-                    ->orderByDesc('start_date')
-                    ->first();
+                    ->wherePivot('team_id', $team->id)
+                    ->exists();
+    }
+
+    public function activeTeam(){
+        try {
+            return $this->currentTeam;
+        } catch (Exception $e) {
+            // User is not going on any tour
+            return null;
+        }
     }
 }

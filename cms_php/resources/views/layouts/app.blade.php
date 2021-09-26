@@ -54,7 +54,8 @@
     <script>
         window.addEventListener('swal:modal', event => { 
             Swal.fire({
-                title: event.detail.message,
+                title: event.detail.title,
+                text: event.detail.text,
                 icon: event.detail.type,
             });
         });

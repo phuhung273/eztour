@@ -3,6 +3,7 @@
 namespace App\Http\Livewire;
 
 use App\Models\Team;
+use Exception;
 use Livewire\WithFileUploads;
 
 use Illuminate\Support\Facades\Auth;
@@ -15,6 +16,7 @@ class DashboardPage extends BaseComponent
 
     public $data;
 
+    public $currentTeam;
     public $viewingTeamId;
 
     public $name;
@@ -28,20 +30,27 @@ class DashboardPage extends BaseComponent
     ];
 
     public function mount() {
+        $user = Auth::user();
         $teamList = Team::all();
+
+        try {
+            $this->currentTeam = $user->currentTeam;
+        } catch (Exception $e) {
+        }
 
         $this->viewingTeamId = session(config('app.viewing_team_session_key'));
 
-        $this->data = $teamList->map(fn($e) => $this->parseRow($e, $this->viewingTeamId))->all();
+        $this->data = $teamList->map(fn($e) => $this->parseRow($e, $user, $this->viewingTeamId))->all();
         
         $this->date = date("Y-m-d");
     }
 
-    private function parseRow($team, $viewingTeamId) {
+    private function parseRow($team, $user, $viewingTeamId) {
         return [
             'id' => $team->id,
             'name' => $team->name,
             'image' => $team->image,
+            'current' => $this->currentTeam ? $user->isCurrentTeam($team) : false,
             'viewing' => $viewingTeamId == $team->id,
             'start_date' => $team->start_date,
         ];
@@ -79,6 +88,25 @@ class DashboardPage extends BaseComponent
         }, $this->data);
 
         $this->modalSuccess('Viewing tour changed!');
+    }
+
+    public function changeCurrentTeam(Team $team) {
+        $user = Auth::user();
+
+        if ($user->isTeamMember($team)) {
+
+            if ($user->switchTeam($team)) {
+            
+                $this->data = array_map(function ($row) use ($team) { 
+                    $row['current'] = $row['id'] == $team->id;
+                    return $row;
+                }, $this->data);
+    
+                $this->modalSuccess('Default tour changed!');
+            }
+        } else {
+            $this->modalFail("You're not tour guide", "Go to Member Page to make yourself tour guide");
+        }
     }
 
     private function resetForm() {

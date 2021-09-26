@@ -40,17 +40,7 @@ class TodoController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'message' => 'required|min:4',
-        ]);
-
-        $input = $request->all();
-
-        $input['done'] = $request->has('done');
-
-        Todo::create($input);
-
-        return redirect()->route('todos.view');
+        //
     }
 
     /**
@@ -95,7 +85,6 @@ class TodoController extends Controller
      */
     public function destroy(Todo $todo)
     {
-        $todo->delete();
-        return back();
+        //
     }
 }

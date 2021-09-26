@@ -13,7 +13,7 @@
 
         <div class="flex flex-col justify-items-center px-4 py-3 ">
             <h4 class="mb-4 text-lg font-semibold text-gray-600 dark:text-gray-300">
-                No tour selected. Please choose tour.
+                No tour selected. Navigate to Dashboard to choose tour.
             </h4>
         </div>
 

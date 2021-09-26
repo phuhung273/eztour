@@ -39,15 +39,7 @@ class AnnouncementController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'message' => 'required|min:4',
-        ]);
-
-        $input = $request->all();
-
-        Announcement::create($input);
-
-        return back();
+        //
     }
 
     /**
@@ -92,7 +84,6 @@ class AnnouncementController extends Controller
      */
     public function destroy(Announcement $announcement)
     {
-        $announcement->delete();
-        return back();
+        
     }
 }

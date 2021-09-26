@@ -32,7 +32,6 @@ class MobileAuthController extends Controller
             return [
                 'data' => [
                     'access_token' => $user->createToken($request->device_name)->plainTextToken,
-                    'tour_id' => $team->id,
                     'user_id' => $user->id,
                     'user_name' => $user->email,
                 ]

@@ -41,18 +41,7 @@ class GreetingController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'message' => 'required|min:4',
-            'alarm_time' => 'required',
-        ]);
-
-        $input = $request->all();
-
-        $input['alarm_time'] = TimeHelper::gia2his($input['alarm_time']);
-
-        Greeting::create($input);
-
-        return redirect()->route('greetings.view');
+        //
     }
 
     /**
@@ -97,7 +86,6 @@ class GreetingController extends Controller
      */
     public function destroy(Greeting $greeting)
     {
-        $greeting->delete();
-        return back();
+        
     }
 }

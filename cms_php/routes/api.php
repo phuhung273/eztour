@@ -28,7 +28,7 @@ Route::middleware('auth:sanctum')->group(function(){
 
         Route::name('locations.')->group(function() {
             Route::prefix('locations')->group(function() {
-                Route::get('/{team}', [LocationController::class, 'getAllByTour'])->name('index');
+                Route::get('/', [LocationController::class, 'index'])->name('index');
             });
         });
     

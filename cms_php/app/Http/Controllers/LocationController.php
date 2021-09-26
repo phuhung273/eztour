@@ -6,11 +6,19 @@ use App\Helpers\TimeHelper;
 use App\Models\Location;
 use App\Models\Team;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class LocationController extends Controller
 {
-    public function getAllByTour(Team $team){
-
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        $team = Auth::user()->currentTeam;
+        
         $locations = $team->locations()->get();
 
         $max_day = $locations->max('day') ?? 0;
@@ -20,16 +28,6 @@ class LocationController extends Controller
             'max_day' => $max_day,
             'start_date' => $team->start_date,
         ];
-    }
-
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        // 
     }
 
     /**
@@ -50,35 +48,7 @@ class LocationController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'name' => 'required|min:4',
-            'description' => 'required|min:4',
-            'day' => 'required',
-            'from' => 'required',
-            'to' => 'required',
-        ]);
-
-        $input = $request->all();
-
-        if ($request->hasFile('image')) {
-            $destination_path = 'public/img/locations';
-            $image = $request->file('image');
-            $image_name = $image->getClientOriginalName();
-            $request->file('image')->storeAs($destination_path, $image_name);
-
-            $input['image'] = $image_name;
-        }
-
-        $input['tour_id'] = 1;
-        $input['from'] = TimeHelper::gia2his($input['from']);
-        $input['to'] = TimeHelper::gia2his($input['to']);
-
-        $team = Tour::find($input['tour_id']);
-        $team->locations()->create($input);
-
-        // Location::create($input);
-
-        return back();
+        //
     }
 
     /**
@@ -123,8 +93,6 @@ class LocationController extends Controller
      */
     public function destroy(Location $location)
     {
-        $location->delete();
-
-        return back();
+        //
     }
 }

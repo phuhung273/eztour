@@ -83,11 +83,14 @@ class MemberPage extends BaseTourPage
         $users = User::bulkCreateNormalUser($names);
 
         if ($users) {
-            $this->viewingTeam->bulkAddNormalUser($users);
-            $users = $users->map(fn($user) => $this->parseRow($user));
-            $this->normalUsers = [...$this->normalUsers, ...$users];
-            $this->modalSuccess('Travellers added!');
-            $this->reset(['file']);
+            $result = $this->viewingTeam->bulkAddNormalUser($users);
+
+            if ($result > 0) {
+                $users = $users->map(fn($user) => $this->parseRow($user));
+                $this->normalUsers = [...$this->normalUsers, ...$users];
+                $this->modalSuccess('Travellers added!');
+                $this->reset(['file']);
+            }
         }
     }
 
