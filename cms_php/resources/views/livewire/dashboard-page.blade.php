@@ -21,10 +21,6 @@
 
         <div class="col-span-1" x-show="showForm">
             <div class="px-4 py-3 mb-8 bg-white rounded-lg shadow-md">
-                <h4 class="mb-4 text-lg font-semibold text-gray-600 dark:text-gray-300">
-                    Create your tour
-                </h4>
-
                 <form wire:submit.prevent="submit">
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
 

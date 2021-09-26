@@ -25,11 +25,22 @@ class MobileAuthController extends Controller
                 'email' => ['The provided credentials are incorrect.'],
             ]);
         }
+
+        $team = $user->activeTeam();
+
+        if ($team) {
+            return [
+                'data' => [
+                    'access_token' => $user->createToken($request->device_name)->plainTextToken,
+                    'user_id' => $user->id,
+                    'user_name' => $user->email,
+                ]
+            ];
+        } else {
+            return [
+                'message' => 'Credential is correct but no active tour, contact your tour guide for support.'
+            ];
+        }
     
-        return [
-            'access_token' => $user->createToken($request->device_name)->plainTextToken,
-            'user_id' => $user->id,
-            'user_name' => $user->email,
-        ];
     }
 }

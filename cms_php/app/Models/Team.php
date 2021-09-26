@@ -7,6 +7,8 @@ use Laravel\Jetstream\Events\TeamDeleted;
 use Laravel\Jetstream\Events\TeamUpdated;
 use Laravel\Jetstream\Team as JetstreamTeam;
 use GoldSpecDigital\LaravelEloquentUUID\Database\Eloquent\Uuid;
+use Illuminate\Database\Eloquent\Collection;
+
 class Team extends JetstreamTeam
 {
     use Uuid;
@@ -73,12 +75,22 @@ class Team extends JetstreamTeam
                     ->wherePivot('role', 'admin');
     }
 
-    public function travellers(){
+    public function normalUsers(){
         return $this->belongsToMany(User::class)
                     ->wherePivotNull('role');
     }
 
     public function addAdmin(User $user){
         $this->users()->attach($user, ['role' => 'admin']);
+    }
+
+    public function addNormalUser(User $user){
+        $this->users()->attach($user);
+    }
+
+    public function bulkAddNormalUser(Collection $users){
+        $this->users()->attach($users);
+        $id = $this->id;
+        return $users->toQuery()->update(['current_team_id' => $id]);
     }
 }

@@ -11,6 +11,13 @@ use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Jetstream\HasTeams;
 use Laravel\Sanctum\HasApiTokens;
 
+use App\Helpers\StringHelper;
+use Exception;
+use Illuminate\Support\Collection as SupportCollection;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
+
 class User extends Authenticatable
 {
     use HasApiTokens;
@@ -48,6 +55,7 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'is_admin' => 'boolean',
     ];
 
     /**
@@ -63,7 +71,59 @@ class User extends Authenticatable
         return (new static)::where('is_admin', true);
     }
 
-    public static function findByName($name) {
+    public static function findByName(string $name) {
         return (new static)::where('name', $name)->firstOrFail();
+    }
+
+    public static function createNormalUser(string $name) {
+        $programmingStr = StringHelper::vietnameseToProgrammingString($name);
+        $email =  $programmingStr . '@email.com';
+        $password = $programmingStr . '13579';
+        
+        return (new static)::create([
+            'name' => $name,
+            'email' => $email,
+            'password' => Hash::make($password),
+            'is_admin' => false,
+        ]);
+    }
+
+    public static function bulkCreateNormalUser(SupportCollection $names):Collection {
+        $data = $names->map(function($row) {
+            $name = $row->first();
+            $programmingStr = StringHelper::vietnameseToProgrammingString($name);
+            $email =  $programmingStr . '@email.com';
+            $password = $programmingStr . '13579';
+            $now = now();
+            
+            return [
+                'id' => Str::uuid(),
+                'name' => $name,
+                'email' => $email,
+                'password' => Hash::make($password),
+                'is_admin' => false,
+                'created_at' => $now,
+                'updated_at' => $now,
+            ];
+        })->all();
+
+        User::insert($data);
+
+        return User::hydrate($data);
+    }
+
+    public function isTeamMember(Team $team):bool {
+        return $this->belongsToMany(Team::class)
+                    ->wherePivot('team_id', $team->id)
+                    ->exists();
+    }
+
+    public function activeTeam(){
+        try {
+            return $this->currentTeam;
+        } catch (Exception $e) {
+            // User is not going on any tour
+            return null;
+        }
     }
 }

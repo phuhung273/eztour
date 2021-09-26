@@ -1,11 +1,11 @@
 @props(['label'])
 
-<label class="block text-sm mt-4">
+<div class="font-semibold my-4">
     @isset($label)
-    <span class="text-gray-700">
+    <div class="text-lg text-gray-600 mb-2">
         {{$label}}
-    </span>
+    </div>
     @endisset
 
     {{$slot}}
-</label>
+</div>

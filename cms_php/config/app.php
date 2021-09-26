@@ -168,6 +168,7 @@ return [
         /*
          * Package Service Providers...
          */
+        Maatwebsite\Excel\ExcelServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -233,6 +234,8 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'TimeHelper' => App\Helpers\TimeHelper::class,
         'ArrayHelper' => App\Helpers\ArrayHelper::class,
+        'StringHelper' => App\Helpers\StringHelper::class,
+        'Excel' => Maatwebsite\Excel\Facades\Excel::class,
     ],
 
 ];

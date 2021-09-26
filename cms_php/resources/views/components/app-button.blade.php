@@ -9,7 +9,7 @@ $modifier = 'bg-purple-600 hover:bg-purple-700';
 
 switch ($scheme) {
 case 'secondary':
-$modifier = 'bg-purple-teal-600 hover:bg-teal-700';
+$modifier = 'bg-teal-600 hover:bg-teal-700';
 break;
 
 case 'success':
