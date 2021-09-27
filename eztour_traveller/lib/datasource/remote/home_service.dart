@@ -10,9 +10,8 @@ part 'home_service.g.dart';
 abstract class HomeService {
   factory HomeService(Dio dio, {String baseUrl}) = _HomeService;
 
-  @POST("/{tourId}")
+  @POST("/")
   Future<HomeIndexResponse> getHomeInfo(
-    @Path() int tourId,
     @Body() HomeIndexRequest request
   );
 }
