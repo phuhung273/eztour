@@ -86,7 +86,7 @@ class MemberPage extends BaseTourPage
             $result = $this->viewingTeam->bulkAddNormalUser($users);
 
             if ($result > 0) {
-                $users = $users->map(fn($user) => $this->parseRow($user));
+                $users->transform(fn($user) => $this->parseRow($user));
                 $this->normalUsers = [...$this->normalUsers, ...$users];
                 $this->modalSuccess('Travellers added!');
                 $this->reset(['file']);

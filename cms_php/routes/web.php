@@ -28,7 +28,7 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
 
     Route::get('/', DashboardPage::class)->name('dashboard');
     Route::get('/schedule', SchedulePage::class)->name('schedule');
-    Route::get('/todo', ChecklistPage::class)->name('todo');
+    Route::get('/checklist', ChecklistPage::class)->name('checklist');
     Route::get('/greeting', GreetingPage::class)->name('greeting');
     Route::get('/announcement', AnnouncementPage::class)->name('announcement');
     Route::get('/member', MemberPage::class)->name('member');

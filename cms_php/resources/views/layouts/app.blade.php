@@ -52,12 +52,25 @@
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script>
-        window.addEventListener('swal:modal', event => { 
-            Swal.fire({
-                title: event.detail.title,
-                text: event.detail.text,
-                icon: event.detail.type,
-            });
+        window.addEventListener('swal:modal', event => {
+            if (event.detail.type == 'success' && event.detail.toast) {
+                Swal.fire({
+                    title: event.detail.title,
+                    text: event.detail.text,
+                    icon: 'success',
+                    toast: true,
+                    position: 'top-end',
+                    timer: 3000,
+                    timerProgressBar: true,
+                    showConfirmButton: false,
+                });
+            } else {
+                Swal.fire({
+                    title: event.detail.title,
+                    text: event.detail.text,
+                    icon: event.detail.type,
+                });
+            }
         });
 
         function data() {
@@ -95,17 +108,6 @@
                 isPagesMenuOpen: false,
                 togglePagesMenu() {
                     this.isPagesMenuOpen = !this.isPagesMenuOpen
-                },
-                // Modal
-                isModalOpen: false,
-                trapCleanup: null,
-                openModal() {
-                    this.isModalOpen = true
-                    this.trapCleanup = focusTrap(document.querySelector('#modal'))
-                },
-                closeModal() {
-                    this.isModalOpen = false
-                    this.trapCleanup()
                 },
                 isProfileMenuOpen: false,
                 toggleProfileMenu() {

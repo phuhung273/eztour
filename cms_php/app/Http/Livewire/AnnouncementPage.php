@@ -8,27 +8,28 @@ use App\Models\AnnouncementCategory;
 
 class AnnouncementPage extends BaseComponent
 {
-    public $content;
-
     public $data;
-    public $category;
     public $categories;
 
-    protected $rules = [
-        'content' => 'required|min:4',
-        'category' =>'required'
-    ];
+    public $content;
+    public $category;
+    public $updateContent;
+    public $updateCategory;
 
     public function mount() {
-        $this->data = Announcement::visibleAttributes()->get()->toArray();
+        $this->data = Announcement::with('announcementCategory')->get();
     
         $this->categories = AnnouncementCategory::all();
-        $this->category = $this->categories[0]->id;
     }
 
-    public function submit()
+    public function create($data)
     {
-        $this->validate();
+        $this->content = $data['content'];
+        $this->category = $data['category'];
+        $this->validate([
+            'content' => 'required|min:4',
+            'category' => 'required',
+        ]);
 
         // Execution doesn't reach here if validation fails.
 
@@ -38,26 +39,43 @@ class AnnouncementPage extends BaseComponent
             'message' => $this->content,
         ]);
 
-        $newData = [
-            'id' => $item->id,
-            'message' => $item->message,
-            'category' => $category->name,
-        ];
-
-        $this->data[] = $newData;
-
-        $this->resetForm();
+        $this->data[] = $item;
 
         $this->modalSuccess('Saved!');
+
+        return [
+            'data' => $item,
+        ];
     }
 
-    private function resetForm() {
-        $this->reset(['content']);
+    public function update(Announcement $item, $data){
+        $this->updateContent = $data['updateContent'];
+        $this->updateCategory = $data['updateCategory'];
+        $this->validate([
+            'updateContent' => 'required|min:4',
+            'updateCategory' => 'required',
+        ]);
+
+        $category = AnnouncementCategory::find($this->updateCategory);
+        $item->message = $this->updateContent;
+        
+        $item->announcementCategory()->associate($category);
+        $result = $item->save();
+
+        if ($result) {
+            $this->data->transform(fn($row) => $row->id == $item->id ? $item : $row);
+
+            $this->modalSuccess('Updated!');
+        }
+
+        return [
+            'data' => $item
+        ];
     }
 
     public function delete(Announcement $item) {
         $item->delete();
-        $this->data = array_filter($this->data, fn ($e) => $e['id'] != $item->id);
+        $this->data = $this->data->filter(fn ($e) => $e['id'] != $item->id);
         $this->modalSuccess('Deleted!');
     }
 

@@ -1,8 +1,12 @@
-@props(['label', 'options'])
+@props([
+'label',
+'options',
+'id',
+])
 
 <x-forms.form-group label="{{ $label }}">
 
-    <select {{ $attributes }}
+    <select id="{{ $id }}" name="{{ $id }}"
         class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
         @foreach ($options as $key => $value)
         @if ($key == 0)
@@ -13,6 +17,6 @@
         @endforeach
     </select>
 
-    <x-forms.error-text for="{{ $attributes->wire('model')->value() }}" />
+    <x-forms.error-text for="{{ $id }}" />
 
 </x-forms.form-group>

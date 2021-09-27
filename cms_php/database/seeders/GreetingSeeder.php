@@ -15,12 +15,12 @@ class GreetingSeeder extends Seeder
     public function run()
     {
         Greeting::updateOrCreate(
-            ['alarm_time' => '05:00:00'],
+            ['alarm_time' => '06:00:00'],
             ['message' => 'Good morning']
         );
 
         Greeting::updateOrCreate(
-            ['alarm_time' => '11:00:00'],
+            ['alarm_time' => '12:00:00'],
             ['message' => 'Have a good lunch']
         );
 

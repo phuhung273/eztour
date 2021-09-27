@@ -7,58 +7,77 @@ use App\Models\Greeting;
 
 class GreetingPage extends BaseComponent
 {
-    const DEFAULT_TIME              = '6:00 AM';
-
-    public $content;
-    public $alarm_time = self::DEFAULT_TIME;
-    
     public $data;
 
-    protected $rules = [
-        'content' => 'required|min:4',
-        'alarm_time' => 'required',
-    ];
+    public $content;
+    public $alarmTime;
+    public $updateContent;
+    public $updateAlarmTime;
+    
 
     public function mount() {
-        $this->data = Greeting::all()->toArray();
+        $this->data = Greeting::all();
         foreach ($this->data as $row) {
-            $row['alarm_time'] = TimeHelper::his2gia($row['alarm_time']);
+            $row->alarm_time = TimeHelper::his2gia($row->alarm_time);
         }
     }
 
-    public function submit()
+    public function create($data)
     {
-        $this->validate();
+        $this->content = $data['content'];
+        $this->alarmTime = $data['alarmTime'];
+        $this->validate([
+            'content' => 'required|min:4',
+            'alarmTime' => 'required',
+        ]);
 
         // Execution doesn't reach here if validation fails.
 
         $item = new Greeting([
             'message' => $this->content,
-            'alarm_time' => TimeHelper::gia2his($this->alarm_time),
+            'alarm_time' => TimeHelper::gia2his($this->alarmTime),
         ]);
 
         $item->save();
 
-        $newData = [
-            'id' => $item->id,
-            'message' => $item->message,
-            'alarm_time' => $item->alarm_time,
-        ];
-
-        $this->data[] = $newData;
+        $item->alarm_time = TimeHelper::his2gia($item->alarm_time);
+        $this->data[] = $item;
 
         $this->modalSuccess('Saved!');
 
-        $this->resetForm();
+        return [
+            'data' => $item,
+        ];
     }
 
-    private function resetForm() {
-        $this->reset(['content', 'alarm_time']);
+    public function update(Greeting $item, $data){
+        $this->updateContent = $data['updateContent'];
+        $this->updateAlarmTime = $data['updateAlarmTime'];
+        $this->validate([
+            'updateContent' => 'required|min:4',
+            'updateAlarmTime' => 'required',
+        ]);
+
+        $item->message = $this->updateContent;
+        $item->alarm_time = TimeHelper::gia2his($this->updateAlarmTime);
+        $result = $item->save();
+
+        $item->alarm_time = TimeHelper::his2gia($item->alarm_time);
+
+        if ($result) {
+            $this->data->transform(fn($row) => $row->id == $item->id ? $item : $row);
+
+            $this->modalSuccess('Updated!');
+        }
+
+        return [
+            'data' => $item
+        ];
     }
 
     public function delete(Greeting $item) {
         $item->delete();
-        $this->data = array_filter($this->data, fn ($e) => $e['id'] != $item->id);
+        $this->data = $this->data->filter(fn ($e) => $e['id'] != $item->id);
         $this->modalSuccess('Deleted!');
     }
 

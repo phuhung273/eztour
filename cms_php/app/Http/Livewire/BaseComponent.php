@@ -6,10 +6,11 @@ use Livewire\Component;
 
 class BaseComponent extends Component
 {
-    protected function modalSuccess($message = 'Success!'){
+    protected function modalSuccess($message = 'Success!', $toast=true){
         $this->dispatchBrowserEvent('swal:modal', [
             'type' => 'success',
             'title' => $message,
+            'toast' => $toast,
         ]);
     }
 
