@@ -70,6 +70,14 @@ class Team extends JetstreamTeam
         return $this->hasMany(Location::class);
     }
 
+    public function todos(){
+        return $this->hasMany(Todo::class);
+    }
+
+    public function announcements(){
+        return $this->hasMany(Announcement::class);
+    }
+
     public function admins(){
         return $this->belongsToMany(User::class)
                     ->wherePivot('role', 'admin');

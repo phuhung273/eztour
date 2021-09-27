@@ -16,8 +16,4 @@ class Location extends Model
     public function team(){
         return $this->belongsTo(Team::class);
     }
-
-    public static function getVisibleAttribute(){
-        return (new static)::where('team_id', 1)->get(['id', 'name', 'image', 'day', 'team_id']);
-    }
 }

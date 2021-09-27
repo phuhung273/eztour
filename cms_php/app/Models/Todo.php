@@ -18,6 +18,10 @@ class Todo extends Model
         return $this->belongsTo(TodoCategory::class);
     }
 
+    public function team() {
+        return $this->belongsTo(Team::class);
+    }
+
     public static function visibleAttributes() {
         return (new static)::join('todo_categories', 'todo_categories.id', '=', 'todos.todo_category_id')
         ->select('todos.id', 'todos.message', 'todo_categories.name as category');
