@@ -29,6 +29,8 @@ class ChecklistPage extends BaseTourPage
 
     protected function init() {
         $this->data = $this->viewingTeam->todos()->get();
+        $this->categories = TodoCategory::all();
+        $this->category = $this->categories[0]->id;
         // $this->max_day = $this->data->reduce(fn($last, $item) => $item->day > $last ? $item->day : $last, 0);
     }
 

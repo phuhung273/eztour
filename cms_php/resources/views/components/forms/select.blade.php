@@ -1,4 +1,4 @@
-@props(['label', 'options'])
+@props(['label', 'options' => []])
 
 <x-forms.form-group label="{{ $label }}">
 

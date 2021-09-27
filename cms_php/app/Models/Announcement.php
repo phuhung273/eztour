@@ -17,8 +17,8 @@ class Announcement extends Model
         return $this->belongsTo(AnnouncementCategory::class);
     }
 
-    public function team(){
-        return $this->belongsTo(Team::class);
+    public function teams(){
+        return $this->belongsToMany(Team::class);
     }
 
     public static function visibleAttributes() {

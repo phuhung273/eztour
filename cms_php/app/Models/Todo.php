@@ -18,8 +18,8 @@ class Todo extends Model
         return $this->belongsTo(TodoCategory::class);
     }
 
-    public function team() {
-        return $this->belongsTo(Team::class);
+    public function teams() {
+        return $this->belongsToMany(Team::class);
     }
 
     public static function visibleAttributes() {

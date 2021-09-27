@@ -1,5 +1,4 @@
-<div>
-    <x-loading-indicator />
+<x-base-tour-page :viewingTeam="$viewingTeam">
 
     <div class="grid grid-cols-1 md:grid-cols-3 gap-y-4 gap-x-16">
         <div class="col-span-1">
@@ -23,4 +22,5 @@
             </div>
         </div>
     </div>
-</div>
+
+</x-base-tour-page>
