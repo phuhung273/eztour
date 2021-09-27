@@ -14,7 +14,7 @@ class AnnouncementController extends Controller
      */
     public function index()
     {
-        $data = Announcement::all();
+        $data = Announcement::visibleAttributes()->get();
 
         return [
             'announcements' => $data,
@@ -39,7 +39,17 @@ class AnnouncementController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'message' => 'required|min:4',
+        ]);
+
+        $input = $request->all();
+
+        $input['done'] = $request->has('done');
+
+        Announcement::create($input);
+
+        return redirect()->route('announcement.view');
     }
 
     /**
