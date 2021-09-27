@@ -7,6 +7,7 @@ use App\Models\Location;
 use App\Models\Team;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Resources\LocationResource;
 
 class LocationController extends Controller
 {
@@ -24,7 +25,7 @@ class LocationController extends Controller
         $max_day = $locations->max('day') ?? 0;
 
         return [
-            'locations' => $locations,
+            'locations' => LocationResource::collection($locations),
             'max_day' => $max_day,
             'start_date' => $team->start_date,
         ];
