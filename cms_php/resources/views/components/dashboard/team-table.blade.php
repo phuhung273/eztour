@@ -47,6 +47,7 @@ $data = array_map(fn($row) => [
 'team' => parseTeam($row['image'], $row['name']),
 'status' => parseStatus($row['current'], $row['viewing']),
 'start_date' => $row['start_date'],
+'update_url' => route('teams.edit', ['team' => $row['id']]),
 ], $data);
 
 $heads = ['Tour', 'Status', 'Start Date'];
@@ -55,6 +56,7 @@ $heads = ['Tour', 'Status', 'Start Date'];
 @extends('components.datatable',[
 'data' => $data,
 'heads' => $heads,
+'showModalUpdate' => false,
 ])
 
 @section('body')
@@ -62,12 +64,17 @@ $heads = ['Tour', 'Status', 'Start Date'];
 @foreach ($data as $item)
 <tr class="text-gray-700 dark:text-gray-400">
     @foreach ($item as $key => $value)
-    @if ($key != 'id')
+
+    @if (substr($key, -2) != 'id' && $key != 'update_url')
+
     <td class="px-4 py-3">
         {!! $value !!}
     </td>
+
     @endif
+
     @endforeach
+
     <td class="px-4 py-3">
 
         @php
@@ -97,15 +104,17 @@ $heads = ['Tour', 'Status', 'Start Date'];
                 </svg>
             </button>
 
-            <button wire:loading.attr="disabled"
-                class="flex items-center justify-between px-2 py-2 text-lg font-medium leading-5 text-blue-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray disabled:opacity-50"
-                aria-label="Edit">
-                <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
-                    <path
-                        d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z">
-                    </path>
-                </svg>
-            </button>
+            <a href="{{ $item['update_url'] }}">
+                <button wire:loading.attr="disabled"
+                    class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-blue-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray disabled:opacity-50"
+                    aria-label="Edit">
+                    <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
+                        <path
+                            d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z">
+                        </path>
+                    </svg>
+                </button>
+            </a>
 
             <button wire:loading.attr="disabled" onclick="modalDelete('{{ $id }}')"
                 class="flex items-center justify-between px-2 py-2 text-lg font-medium leading-5 text-orange-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray disabled:opacity-50"

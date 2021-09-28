@@ -17,11 +17,12 @@ class CreateLocationsTable extends Migration
             $table->uuid('id')->primary();
             $table->string('name');
             $table->string('image')->nullable();
-            $table->foreignUuid('team_id')->cascadeOnDelete();
+            $table->foreignUuid('team_id')->constrained()->cascadeOnDelete();
             $table->integer('day');
-            $table->string('description')->default('description');
-            $table->timeTz('from')->default('06:00:00');
-            $table->timeTz('to')->default('09:00:00');
+            $table->longText('description');
+            $table->timeTz('from');
+            $table->timeTz('to');
+            $table->timestamps();
         });
     }
 

@@ -71,11 +71,15 @@ class Team extends JetstreamTeam
     }
 
     public function todos(){
-        return $this->belongsToMany(Todo::class);
+        return $this->hasMany(Todo::class);
     }
 
     public function announcements(){
-        return $this->belongsToMany(Announcement::class);
+        return $this->hasMany(Announcement::class);
+    }
+
+    public function discoveries(){
+        return $this->belongsToMany(Discovery::class);
     }
 
     public function admins(){

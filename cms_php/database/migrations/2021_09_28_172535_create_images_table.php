@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AnnouncementAddCategoryRelationship extends Migration
+class CreateImagesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,11 @@ class AnnouncementAddCategoryRelationship extends Migration
      */
     public function up()
     {
-        Schema::table('announcements', function (Blueprint $table) {
-            $table->foreignUuid('announcement_category_id')->cascadeOnDelete();
+        Schema::create('images', function (Blueprint $table) {
+            $table->uuid('id')->primary();
+            $table->string('name');
+            $table->foreignUuid('discovery_id')->constrained()->cascadeOnDelete();
+            $table->timestamps();
         });
     }
 
@@ -25,8 +28,6 @@ class AnnouncementAddCategoryRelationship extends Migration
      */
     public function down()
     {
-        Schema::table('announcements', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('images');
     }
 }

@@ -6,7 +6,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class LocationResource extends JsonResource
 {
-    const IMAGE_STORAGE_DIRECTORY = "/storage/img/locations/";
+    const IMAGE_STORAGE_DIRECTORY = "/img/locations/";
     /**
      * Transform the resource into an array.
      *

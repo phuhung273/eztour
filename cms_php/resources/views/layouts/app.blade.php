@@ -52,18 +52,36 @@
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script>
+        function toastSuccess(message) {
+            Swal.fire({
+                title: message,
+                icon: 'success',
+                toast: true,
+                position: 'top-end',
+                timer: 3000,
+                timerProgressBar: true,
+                showConfirmButton: false,
+            });
+        }
+
+        @if ($message = Session::get('success'))
+        (function() {
+            toastSuccess('{{ $message }}')
+        })();
+        @endif
+
+        @if ($message = Session::get('error'))
+        (function() {
+            Swal.fire({
+                title: '{{ $message }}',
+                icon: 'error',
+            });
+        })();
+        @endif
+
         window.addEventListener('swal:modal', event => {
             if (event.detail.type == 'success' && event.detail.toast) {
-                Swal.fire({
-                    title: event.detail.title,
-                    text: event.detail.text,
-                    icon: 'success',
-                    toast: true,
-                    position: 'top-end',
-                    timer: 3000,
-                    timerProgressBar: true,
-                    showConfirmButton: false,
-                });
+                toastSuccess(event.detail.title)
             } else {
                 Swal.fire({
                     title: event.detail.title,

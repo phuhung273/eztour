@@ -1,15 +1,17 @@
-<x-base-tour-page :viewingTeam="$viewingTeam">
+<x-base-team-page :viewingTeam="$viewingTeam">
 
     <div x-data="memberPage()" class="grid grid-cols-1 md:grid-cols-3 gap-y-4 gap-x-16">
         <div class="col-span-1">
             <div class="flex flex-col justify-items-center px-4 py-3 mb-8 bg-white rounded-lg shadow-md">
 
-                <form id="formCreate">
+                <div>
+                    <form id="formCreate">
 
-                    <x-forms.input-text id="normalUserName" label="Full Name" />
+                        <x-forms.input-text id="normalUserName" label="Full Name" />
 
-                </form>
-                <x-app-button text="Add traveller" @click="submitCreateNormalUser" />
+                    </form>
+                    <x-app-button text="Add traveller" @click="submitCreateNormalUser" />
+                </div>
 
                 <form wire:submit.prevent="importExcel">
 
@@ -53,7 +55,7 @@
         </div>
     </div>
 
-</x-base-tour-page>
+</x-base-team-page>
 
 @push('scripts')
 <script>

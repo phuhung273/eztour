@@ -16,6 +16,9 @@ class CreateTodosTable extends Migration
         Schema::create('todos', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->string('message');
+            $table->foreignUuid('team_id')->constrained()->cascadeOnDelete();
+            $table->foreignUuid('todo_category_id')->constrained()->cascadeOnDelete();
+            $table->timestamps();
         });
     }
 

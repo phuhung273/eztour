@@ -1,16 +1,16 @@
-@props(['label'])
+@props(['label', 'id', 'url'])
 
 <x-forms.form-group label="{{ $label }}">
 
     <div x-data="imageUpload()" class="col-span-6 ml-2 sm:col-span-4 md:mr-3">
         <!-- Photo File Input -->
-        <input {{ $attributes }} type="file" x-ref="photo" class="hidden" x-on:change="changeImage">
+        <input id="{{ $id }}" name="{{ $id }}" type="file" x-ref="photo" class="hidden" x-on:change="changeImage">
 
         <div class="text-center">
             <!-- Current Photo -->
             <div class="mt-2" x-show="!photoPreview" wire:ignore>
                 <div class="w-10/12 m-auto">
-                    <img class="object-cover" src="{{ asset('img/placeholder-image.png') }} " />
+                    <img class="object-cover" src="{{ $url ?? asset('img/placeholder-image.png') }} " />
                 </div>
             </div>
             <!-- New Photo Preview -->
@@ -28,7 +28,7 @@
         </div>
     </div>
 
-    <x-forms.error-text for="{{ $attributes->wire('model')->value() }}" />
+    <x-forms.error-text for="{{ $id }}" />
 
 </x-forms.form-group>
 

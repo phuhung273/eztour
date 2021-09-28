@@ -4,7 +4,7 @@ namespace App\Http\Livewire;
 
 use App\Models\Team;
 
-abstract class BaseTourPage extends BaseComponent
+abstract class BaseTeamPage extends BaseComponent
 {
     public $viewingTeam;
 

@@ -12,14 +12,12 @@ class Todo extends Model
     
     protected $fillable = ['message'];
 
-    public $timestamps = false;
-
     public function todoCategory() {
         return $this->belongsTo(TodoCategory::class);
     }
 
-    public function teams() {
-        return $this->belongsToMany(Team::class);
+    public function team() {
+        return $this->belongsTo(Team::class);
     }
 
     public static function visibleAttributes() {

@@ -27,7 +27,7 @@
 
                         <div class="col-span-1">
 
-                            <x-forms.image-upload wire:model.defer="image" label="Image" />
+                            <x-forms.image-upload id="image" label="Image" />
 
                         </div>
 
@@ -35,7 +35,7 @@
 
                             <x-forms.input-text id="name" label="Tour name" />
 
-                            <x-forms.date-picker id="date" label="Start date" />
+                            <x-forms.date-picker-livewire id="date" label="Start date" />
 
                             <div class="text-center">
                                 <x-app-button text="Save" @click="submitCreate()" />
@@ -47,7 +47,7 @@
         </div>
 
         <div class="col-span-1 px-4 py-3 mb-8 bg-white rounded-lg shadow-md">
-            <x-tour-table :data="$data" />
+            <x-dashboard.team-table :data="$data" />
         </div>
     </div>
 
@@ -55,60 +55,45 @@
 
 @push('scripts')
 <script>
+    const image = document.getElementById('image');
     const name = document.getElementById('name');
     const date = document.getElementById('date');
     const formCreate = document.getElementById('formCreate');
 
     function dashboard(){
         return {
-            data: @json($data),
-            id: null,
             showForm: false,
             modalUpdate(id){
                 this.id = id;
                 const row = this.data.find(e => e.id == id);
-                updateContent.value = row.message;
-                updateCategory.value = row.todo_category_id;
+                name.value = row.name;
+                date.value = row.date;
                 this.openModal();
             },
             submitCreate(){
                 const self = this;
+                // Upload a file:
                 const data = {
                     name: name.value,
                     date: date.value,
                 }
-                @this.create(data).then(function(response){
-                    if (response != null) {
-                        name.value = '';
-                        self.data.push(response.data);
-                        self.showForm = false;
-                    }
+                @this.upload('image', image.files[0], (uploadedFilename) => {
+                    @this.create(data).then(function(response){
+                        if (response != null) {
+                            name.value = '';
+                            self.showForm = false;
+                        }
+                    })
+                }, () => {
+                    // Error callback.
+                }, (event) => {
+                    // Progress callback.
+                    // event.detail.progress contains a number between 1 and 100 as the upload progresses.
                 })
-            },
-            submitUpdate(){
-                const self = this;
-                const data = Object.fromEntries(new FormData(formUpdate).entries());
-                const index = this.data.findIndex(e => e.id == this.id);
-                @this.update(this.id, data).then(function(response) {
-                    if (response != null) {
-                        self.data[index] = response.data;
-                        self.closeModal();
-                    }
-                })
+
             },
             toggleForm: function(){
                 this.showForm = !this.showForm;
-            },
-            // Modal
-            isModalOpen: false,
-            // trapCleanup: null,
-            openModal() {
-                this.isModalOpen = true;
-                // this.trapCleanup = focusTrap(document.querySelector('#modal'));
-            },
-            closeModal() {
-                this.isModalOpen = false;
-                // this.trapCleanup();
             },
         }
     }

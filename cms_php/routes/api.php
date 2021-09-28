@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\MobileAuthController;
 use App\Http\Controllers\GreetingController;
 use App\Http\Controllers\LocationController;
 use App\Http\Controllers\MobileHomeController;
+use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\TodoController;
 
 use Illuminate\Http\Request;
@@ -28,7 +29,7 @@ Route::middleware('auth:sanctum')->group(function(){
 
         Route::name('locations.')->group(function() {
             Route::prefix('locations')->group(function() {
-                Route::get('/', [LocationController::class, 'index'])->name('index');
+                Route::get('/', [ScheduleController::class, 'index'])->name('index');
             });
         });
     

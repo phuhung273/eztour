@@ -75,7 +75,7 @@ class DashboardPage extends BaseComponent
         $this->modalSuccess('Tour created successfully!');
 
         return [
-            "data" => $newTeam
+            'statusCode' => '200'
         ];
     }
 
@@ -109,6 +109,17 @@ class DashboardPage extends BaseComponent
         } else {
             $this->modalFail("You're not tour guide", "Go to Member Page to make yourself tour guide");
         }
+    }
+
+    public function delete(Team $item) {
+        $item->delete();
+        $this->data = array_filter($this->data, fn ($e) => $e['id'] != $item->id);
+
+        if ($item->id == $this->viewingTeamId) {
+            session(config('app.viewing_team_session_key'), null);
+        }
+        
+        $this->modalSuccess('Deleted!');
     }
 
     public function render()

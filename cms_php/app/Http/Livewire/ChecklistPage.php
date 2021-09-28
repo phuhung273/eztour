@@ -5,7 +5,7 @@ namespace App\Http\Livewire;
 use App\Models\Todo;
 use App\Models\TodoCategory;
 
-class ChecklistPage extends BaseTourPage
+class ChecklistPage extends BaseTeamPage
 {
     public $data;
     public $categories;
@@ -16,8 +16,11 @@ class ChecklistPage extends BaseTourPage
     public $updateCategory;
 
     protected function init() {
-        $this->data = $this->viewingTeam->todos()->with('todoCategory')->get();
-        $this->data = $this->viewingTeam->todos()->get();
+        if ($this->viewingTeam) {
+            $this->data = $this->viewingTeam->todos()->with('todoCategory')->get();
+        }else {
+            $this->data = collect();
+        }
         $this->categories = TodoCategory::all();
     }
 
@@ -34,9 +37,12 @@ class ChecklistPage extends BaseTourPage
 
         $category = TodoCategory::find($this->category);
 
-        $item = $category->todos()->create([
-            'message' => $this->content,
-        ]);
+        $item = new Todo;
+        $item->message = $this->content;
+        // Save multiple relationship
+        $item->todoCategory()->associate($category);
+        $item->team()->associate($this->viewingTeam);
+        $item->save();
 
         $this->data[] = $item;
 

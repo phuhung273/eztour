@@ -6,7 +6,7 @@ use App\Models\Announcement;
 use App\Models\AnnouncementCategory;
 
 
-class AnnouncementPage extends BaseComponent
+class AnnouncementPage extends BaseTeamPage
 {
     public $data;
     public $categories;
@@ -16,9 +16,12 @@ class AnnouncementPage extends BaseComponent
     public $updateContent;
     public $updateCategory;
 
-    public function mount() {
-        $this->data = Announcement::with('announcementCategory')->get();
-    
+    protected function init() {
+        if ($this->viewingTeam) {
+            $this->data = $this->viewingTeam->announcements()->with('announcementCategory')->get();
+        }else {
+            $this->data = collect();
+        }
         $this->categories = AnnouncementCategory::all();
     }
 
@@ -35,9 +38,12 @@ class AnnouncementPage extends BaseComponent
 
         $category = AnnouncementCategory::find($this->category);
 
-        $item = $category->announcements()->create([
-            'message' => $this->content,
-        ]);
+        $item = new Announcement;
+        $item->message = $this->content;
+        // Save multiple relationship
+        $item->announcementCategory()->associate($category);
+        $item->team()->associate($this->viewingTeam);
+        $item->save();
 
         $this->data[] = $item;
 

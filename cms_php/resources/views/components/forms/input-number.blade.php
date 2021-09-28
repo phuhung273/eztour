@@ -1,4 +1,4 @@
-@props(['label'])
+@props(['label', 'id'])
 
 <x-forms.form-group label="{{ $label }}">
 
@@ -10,8 +10,8 @@
       </div>
       <input type="number" {{ $attributes }} class="col-span-1 outline-none focus:outline-none text-center w-full
         bg-gray-300 font-semibold text-md hover:text-black
-        focus:text-black md:text-basecursor-default flex items-center text-gray-700 outline-none"
-        name="custom-input-number"></input>
+        focus:text-black md:text-basecursor-default flex items-center text-gray-700 outline-none" id="{{ $id }}"
+        name="{{ $id }}"></input>
       <div data-action="increment"
         class="col-span-1 bg-gray-300 text-center text-2xl font-thin text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-full rounded-r cursor-pointer">
         +
@@ -19,7 +19,7 @@
     </div>
   </div>
 
-  <x-forms.error-text for="{{ $attributes->wire('model')->value() }}" />
+  <x-forms.error-text for="{{ $id }}" />
 
 </x-forms.form-group>
 
@@ -32,7 +32,7 @@
     const target = btn.nextElementSibling;
     let value = Number(target.value);
     value--;
-    target.value = value;
+    target.value = Math.max(value, 0);
     target.dispatchEvent(new Event('input'));
   }
 

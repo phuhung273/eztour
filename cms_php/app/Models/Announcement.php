@@ -11,14 +11,12 @@ class Announcement extends Model
 
     protected $fillable = ['message'];
 
-    public $timestamps = false;
-
     public function announcementCategory() {
         return $this->belongsTo(AnnouncementCategory::class);
     }
 
-    public function teams(){
-        return $this->belongsToMany(Team::class);
+    public function team(){
+        return $this->belongsTo(Team::class);
     }
 
     public static function visibleAttributes() {

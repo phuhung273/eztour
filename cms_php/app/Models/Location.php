@@ -11,8 +11,6 @@ class Location extends Model
 
     protected $fillable = ['name', 'image', 'day', 'description', 'from', 'to'];
 
-    public $timestamps = false;
-
     public function team(){
         return $this->belongsTo(Team::class);
     }

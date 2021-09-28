@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateAnnouncementsTable extends Migration
+class CreateDiscoveriesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,12 @@ class CreateAnnouncementsTable extends Migration
      */
     public function up()
     {
-        Schema::create('announcements', function (Blueprint $table) {
+        Schema::create('discoveries', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->string('message');
-            $table->foreignUuid('team_id')->constrained()->cascadeOnDelete();
-            $table->foreignUuid('announcement_category_id')->constrained()->cascadeOnDelete();
+            $table->string('title');
+            $table->string('place');
+            $table->string('address');
+            $table->longText('about');
             $table->timestamps();
         });
     }
@@ -29,6 +30,6 @@ class CreateAnnouncementsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('announcements');
+        Schema::dropIfExists('discoveries');
     }
 }

@@ -6,7 +6,7 @@ use App\Helpers\TimeHelper;
 use App\Models\Location;
 use Livewire\WithFileUploads;
 
-class SchedulePage extends BaseTourPage
+class SchedulePage extends BaseTeamPage
 {
     use WithFileUploads;
 

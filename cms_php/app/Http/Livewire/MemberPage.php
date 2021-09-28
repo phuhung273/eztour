@@ -7,27 +7,29 @@ use App\Models\User;
 use Livewire\WithFileUploads;
 use Maatwebsite\Excel\Facades\Excel;
 
-class MemberPage extends BaseTourPage
+class MemberPage extends BaseTeamPage
 {
     use WithFileUploads;
 
-    public $admins;
+    public $admins = [];
     public $adminOptions;
 
     public $normalUserName;
     public $updateNormalUserName;
     public $adminId;
 
-    public $normalUsers;
+    public $normalUsers = [];
 
     public $file;
 
     protected function init() {
-        $this->normalUsers = $this->viewingTeam->normalUsers()
-                        ->get()
-                        ->map(fn($user) => $this->parseRow($user))->all();
-
-        $this->admins = $this->viewingTeam->admins()->get();
+        if ($this->viewingTeam) {
+            $this->normalUsers = $this->viewingTeam->normalUsers()
+                            ->get()
+                            ->map(fn($user) => $this->parseRow($user))->all();
+    
+            $this->admins = $this->viewingTeam->admins()->get();
+        }
 
         $this->adminOptions = User::admins()->get();
         $this->adminId = $this->adminOptions->first()->id;

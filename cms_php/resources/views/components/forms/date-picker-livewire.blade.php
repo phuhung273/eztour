@@ -1,4 +1,4 @@
-@props(['label', 'id', 'value'])
+@props(['label', 'id'])
 
 <x-forms.form-group label="{{ $label }}">
 
@@ -6,8 +6,7 @@
         <div class="mb-5 w-64">
 
             <div class="relative">
-                <input id="{{ $id }}" name="{{ $id }}" @isset($value) value="{{ $value }}" @endisset type="hidden"
-                    x-ref="date">
+                <input id="{{ $id }}" name="{{ $id }}" type="hidden" x-ref="date">
                 <input type="text" readonly x-model="datepickerValue" @click="showDatepicker = !showDatepicker"
                     @keydown.escape="showDatepicker = false"
                     class="w-full pl-4 pr-10 py-3 leading-none rounded-lg shadow-sm focus:outline-none focus:shadow-outline text-gray-600 font-medium"
@@ -101,7 +100,6 @@
 <script>
     const MONTH_NAMES = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
     const DAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-    const initDate = document.getElementById('{{ $id }}').value;
 
     function datePicker(){
         return {
@@ -114,20 +112,20 @@
             blankdays: [],
 
             initDate() {
-                let today = new Date(initDate);
+                let today = new Date(@this.date);
                 this.month = today.getMonth();
                 this.year = today.getFullYear();
                 this.datepickerValue = new Date(this.year, this.month, today.getDate()).toDateString();
-                let selectedYear = today.getFullYear();
-                let selectedMonth = ('0'+ (today.getMonth() + 1)).slice(-2);
-                let selecteddate = ('0' + today.getDate()).slice(-2);
+                let selectedYear = today.getFullYear()
+                let selectedMonth = ('0'+ (today.getMonth() + 1)).slice(-2)
+                let selecteddate = ('0' + today.getDate()).slice(-2)
 
                 this.$refs.date.value = `${selectedYear}-${selectedMonth}-${selecteddate}`;
                 this.$refs.date.dispatchEvent(new Event('input'));
             },
 
             isToday(date) {
-                const today = new Date(initDate);
+                const today = new Date(@this.date);
                 const d = new Date(this.year, this.month, date);
 
                 return today.toDateString() === d.toDateString();
@@ -137,9 +135,9 @@
                 let selectedDate = new Date(this.year, this.month, date);
                 this.datepickerValue = selectedDate.toDateString();
 
-                let selectedYear = selectedDate.getFullYear();
-                let selectedMonth = ('0'+ (selectedDate.getMonth() + 1)).slice(-2);
-                let selecteddate = ('0' + selectedDate.getDate()).slice(-2);
+                let selectedYear = selectedDate.getFullYear()
+                let selectedMonth = ('0'+ (selectedDate.getMonth() + 1)).slice(-2)
+                let selecteddate = ('0' + selectedDate.getDate()).slice(-2)
 
                 this.$refs.date.value = `${selectedYear}-${selectedMonth}-${selecteddate}`;
                 this.$refs.date.dispatchEvent(new Event('input'));
