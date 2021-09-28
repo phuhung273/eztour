@@ -21,7 +21,8 @@
 
         <div class="col-span-1" x-show="showForm">
             <div class="px-4 py-3 mb-8 bg-white rounded-lg shadow-md">
-                <form wire:submit.prevent="submit">
+
+                <form id="formCreate" onsubmit="event.preventDefault()">
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
 
                         <div class="col-span-1">
@@ -32,13 +33,12 @@
 
                         <div class="col-span-2">
 
-                            <x-forms.input-text wire:model.defer="name" label="Tour name" />
+                            <x-forms.input-text id="name" label="Tour name" />
 
-                            <x-forms.date-picker wire:model.defer="date" label="Start date" />
+                            <x-forms.date-picker id="date" label="Start date" />
 
                             <div class="text-center">
-                                <x-app-button text="Save" @click="submit()" />
-                                <x-app-button x-ref="btnSubmit" purpose="submit" class="hidden" />
+                                <x-app-button text="Save" @click="submitCreate()" />
                             </div>
                         </div>
                     </div>
@@ -55,16 +55,61 @@
 
 @push('scripts')
 <script>
+    const name = document.getElementById('name');
+    const date = document.getElementById('date');
+    const formCreate = document.getElementById('formCreate');
+
     function dashboard(){
         return {
+            data: @json($data),
+            id: null,
             showForm: false,
-            toggleForm: function(){
-                this.showForm = !this.showForm
+            modalUpdate(id){
+                this.id = id;
+                const row = this.data.find(e => e.id == id);
+                updateContent.value = row.message;
+                updateCategory.value = row.todo_category_id;
+                this.openModal();
             },
-            submit: function(){
-                this.$refs.btnSubmit.click();
-                this.showForm = false;
-            }
+            submitCreate(){
+                const self = this;
+                const data = {
+                    name: name.value,
+                    date: date.value,
+                }
+                @this.create(data).then(function(response){
+                    if (response != null) {
+                        name.value = '';
+                        self.data.push(response.data);
+                        self.showForm = false;
+                    }
+                })
+            },
+            submitUpdate(){
+                const self = this;
+                const data = Object.fromEntries(new FormData(formUpdate).entries());
+                const index = this.data.findIndex(e => e.id == this.id);
+                @this.update(this.id, data).then(function(response) {
+                    if (response != null) {
+                        self.data[index] = response.data;
+                        self.closeModal();
+                    }
+                })
+            },
+            toggleForm: function(){
+                this.showForm = !this.showForm;
+            },
+            // Modal
+            isModalOpen: false,
+            // trapCleanup: null,
+            openModal() {
+                this.isModalOpen = true;
+                // this.trapCleanup = focusTrap(document.querySelector('#modal'));
+            },
+            closeModal() {
+                this.isModalOpen = false;
+                // this.trapCleanup();
+            },
         }
     }
 </script>

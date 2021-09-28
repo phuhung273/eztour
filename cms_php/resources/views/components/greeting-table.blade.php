@@ -1,4 +1,6 @@
-@props(['data'])
+@props([
+'data' => collect(),
+])
 
 @php
 

@@ -23,12 +23,6 @@ class DashboardPage extends BaseComponent
     public $date;
     public $image;
 
-    protected $rules = [
-        'name' => 'required|min:10',
-        'date' => 'required',
-        'image' => 'required',
-    ];
-
     public function mount() {
         $user = Auth::user();
         $teamList = Team::all();
@@ -56,8 +50,14 @@ class DashboardPage extends BaseComponent
         ];
     }
 
-    public function submit(){
-        $this->validate();
+    public function create($data){
+        $this->name = $data['name'];
+        $this->date = empty($data['date']) ? date("Y-m-d") : $data['date'];
+        $this->validate([
+            'name' => 'required|min:10',
+            'date' => 'required',
+            'image' => 'required',
+        ]);
 
         $image_name = $this->image->getClientOriginalName();
         $this->image->storeAs(self::IMAGE_STORAGE_DIRECTORY, $image_name);
@@ -74,7 +74,9 @@ class DashboardPage extends BaseComponent
 
         $this->modalSuccess('Tour created successfully!');
 
-        $this->resetForm();
+        return [
+            "data" => $newTeam
+        ];
     }
 
     public function changeViewingTeam(Team $team) {
@@ -107,10 +109,6 @@ class DashboardPage extends BaseComponent
         } else {
             $this->modalFail("You're not tour guide", "Go to Member Page to make yourself tour guide");
         }
-    }
-
-    private function resetForm() {
-        $this->reset(['name']);
     }
 
     public function render()

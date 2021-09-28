@@ -1,4 +1,4 @@
-@props(['label'])
+@props(['label', 'id'])
 
 <x-forms.form-group label="{{ $label }}">
 
@@ -6,7 +6,7 @@
         <div class="mb-5 w-64">
 
             <div class="relative">
-                <input {{ $attributes }} type="hidden" x-ref="date">
+                <input id="{{ $id }}" name="{{ $id }}" type="hidden" x-ref="date">
                 <input type="text" readonly x-model="datepickerValue" @click="showDatepicker = !showDatepicker"
                     @keydown.escape="showDatepicker = false"
                     class="w-full pl-4 pr-10 py-3 leading-none rounded-lg shadow-sm focus:outline-none focus:shadow-outline text-gray-600 font-medium"
@@ -84,7 +84,7 @@
         </div>
     </div>
 
-    <x-forms.error-text for="{{ $attributes->wire('model')->value() }}" />
+    <x-forms.error-text for="{{ $id }}" />
 
 </x-forms.form-group>
 
@@ -116,6 +116,12 @@
                 this.month = today.getMonth();
                 this.year = today.getFullYear();
                 this.datepickerValue = new Date(this.year, this.month, today.getDate()).toDateString();
+                let selectedYear = today.getFullYear()
+                let selectedMonth = ('0'+ (today.getMonth() + 1)).slice(-2)
+                let selecteddate = ('0' + today.getDate()).slice(-2)
+
+                this.$refs.date.value = `${selectedYear}-${selectedMonth}-${selecteddate}`;
+                this.$refs.date.dispatchEvent(new Event('input'));
             },
 
             isToday(date) {

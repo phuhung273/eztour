@@ -5,7 +5,7 @@ namespace App\Http\Livewire;
 use App\Models\Todo;
 use App\Models\TodoCategory;
 
-class ChecklistPage extends BaseComponent
+class ChecklistPage extends BaseTourPage
 {
     public $data;
     public $categories;
@@ -15,9 +15,9 @@ class ChecklistPage extends BaseComponent
     public $updateContent;
     public $updateCategory;
 
-    public function mount() {
-        $this->data = Todo::with('todoCategory')->get();
-
+    protected function init() {
+        $this->data = $this->viewingTeam->todos()->with('todoCategory')->get();
+        $this->data = $this->viewingTeam->todos()->get();
         $this->categories = TodoCategory::all();
     }
 

@@ -4,7 +4,6 @@ namespace App\Http\Livewire;
 
 use App\Helpers\TimeHelper;
 use App\Models\Location;
-use App\Models\Team;
 use Livewire\WithFileUploads;
 
 class SchedulePage extends BaseTourPage

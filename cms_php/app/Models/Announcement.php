@@ -9,12 +9,16 @@ class Announcement extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['message', 'announcement_category_id'];
+    protected $fillable = ['message'];
 
     public $timestamps = false;
 
     public function announcementCategory() {
         return $this->belongsTo(AnnouncementCategory::class);
+    }
+
+    public function teams(){
+        return $this->belongsToMany(Team::class);
     }
 
     public static function visibleAttributes() {

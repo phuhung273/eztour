@@ -10,12 +10,16 @@ class Todo extends Model
 
     use HasFactory;
     
-    protected $fillable = ['message', 'todo_category_id'];
+    protected $fillable = ['message'];
 
     public $timestamps = false;
 
     public function todoCategory() {
         return $this->belongsTo(TodoCategory::class);
+    }
+
+    public function teams() {
+        return $this->belongsToMany(Team::class);
     }
 
     public static function visibleAttributes() {

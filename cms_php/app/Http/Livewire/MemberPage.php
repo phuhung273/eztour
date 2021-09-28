@@ -6,6 +6,7 @@ use App\Imports\NormalUserImport;
 use App\Models\User;
 use Livewire\WithFileUploads;
 use Maatwebsite\Excel\Facades\Excel;
+
 class MemberPage extends BaseTourPage
 {
     use WithFileUploads;
@@ -14,6 +15,7 @@ class MemberPage extends BaseTourPage
     public $adminOptions;
 
     public $normalUserName;
+    public $updateNormalUserName;
     public $adminId;
 
     public $normalUsers;
@@ -38,20 +40,25 @@ class MemberPage extends BaseTourPage
         ];
     }
 
-    public function addNormalUser(){
-
+    public function addNormalUser($data){
+        $this->normalUserName = $data['normalUserName'];
         $this->validate([
             'normalUserName' => 'required',
         ]);
 
         $user = User::createNormalUser($this->normalUserName);
         $this->viewingTeam->addNormalUser($user);
+        $newUser = $this->parseRow($user);
 
         if ($user) {
-            $this->normalUsers[] = $this->parseRow($user);
+            $this->normalUsers[] = $newUser;
             $this->modalSuccess('Traveller added!');
     
             $this->reset(['normalUserName']);
+
+            return [
+                'data' => $newUser
+            ];
         }
     }
 
