@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\AnnouncementController;
 use App\Http\Livewire\ChecklistPage;
-use App\Http\Livewire\SchedulePage;
 use App\Http\Controllers\GreetingController;
 use App\Http\Controllers\LocationController;
 use App\Http\Controllers\TeamController;
