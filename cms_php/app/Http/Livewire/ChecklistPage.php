@@ -26,6 +26,8 @@ class ChecklistPage extends BaseTeamPage
 
     public function create($data)
     {
+        $this->validateCrudPermission();
+
         $this->content = $data['content'];
         $this->category = $data['category'];
         $this->validate([
@@ -54,6 +56,8 @@ class ChecklistPage extends BaseTeamPage
     }
 
     public function update(Todo $item, $data){
+        $this->validateCrudPermission();
+
         $this->updateContent = $data['updateContent'];
         $this->updateCategory = $data['updateCategory'];
         $this->validate([
@@ -79,6 +83,7 @@ class ChecklistPage extends BaseTeamPage
     }
 
     public function delete(Todo $item) {
+        $this->validateCrudPermission();
         $item->delete();
         $this->data = $this->data->filter(fn ($e) => $e['id'] != $item->id);
         $this->modalSuccess('Deleted!');

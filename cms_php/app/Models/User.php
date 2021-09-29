@@ -118,6 +118,13 @@ class User extends Authenticatable
                     ->exists();
     }
 
+    public function isTeamAdmin(Team $team):bool {
+        return $this->belongsToMany(Team::class)
+                    ->wherePivot('team_id', $team->id)
+                    ->wherePivot('role', 'admin')
+                    ->exists();
+    }
+
     public function activeTeam(){
         try {
             return $this->currentTeam;
