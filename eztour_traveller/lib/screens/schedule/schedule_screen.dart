@@ -109,7 +109,8 @@ class ScheduleScreen extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  location.name,
+                  // location.name,
+                  'test a',
                   style: const TextStyle(
                       fontSize: 24.0
                   )
@@ -141,7 +142,8 @@ class ScheduleScreen extends StatelessWidget {
                 ),
                 Container(
                   padding: const EdgeInsets.symmetric(vertical: 8.0),
-                  child: Text(location.description),
+                  // child: Text(location.description),
+                  child: Text('location.description'),
                 )
               ],
             ),

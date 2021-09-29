@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\TodoResource;
 use App\Models\Todo;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class TodoController extends Controller
 {
@@ -14,12 +16,11 @@ class TodoController extends Controller
      */
     public function index()
     {
-        $data = Todo::visibleAttributes()
-        ->get();
+        $team = Auth::user()->currentTeam;
 
-        return [
-            'todos' => $data,
-        ];
+        $items = $team->todos()->with('todoCategory')->get();
+
+        return TodoResource::collection($items);
     }
 
     /**

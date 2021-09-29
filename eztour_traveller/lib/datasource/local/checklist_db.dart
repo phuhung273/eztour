@@ -2,11 +2,9 @@
 import 'dart:core';
 
 import 'package:eztour_traveller/schema/checklist/todo.dart';
-import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
 import 'base_checklist_db.dart';
-import 'base_db.dart';
 
 const DB_NAME = 'checklists';
 

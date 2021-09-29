@@ -74,7 +74,6 @@ class SplashScreenController extends GetxController{
         Get.offAndToNamed(ROUTE_LOGIN);
       }
 
-      Get.offAndToNamed(ROUTE_MAIN);
     } else {
       Get.offAndToNamed(ROUTE_LOGIN);
     }

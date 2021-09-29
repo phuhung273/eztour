@@ -125,6 +125,7 @@ return [
 
     'seed_pwd' => env('SEED_USER_PWD'),
     'viewing_team_session_key' => env('VIEWING_TEAM_SESSION_KEY', 'viewing-team-id'),
+    'image_upload_dir' => env('IMAGE_UPLOAD_DIR', 'storage/img/locations'),
 
     /*
     |--------------------------------------------------------------------------

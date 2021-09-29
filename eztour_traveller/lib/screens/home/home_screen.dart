@@ -18,17 +18,6 @@ class HomeScreen extends StatelessWidget {
   final HomeScreenController _controller = Get.put(HomeScreenController());
   final MainScreenController _mainController = Get.find();
 
-  final List<String> images = [
-    "https://uae.microless.com/cdn/no_image.jpg",
-    "https://images-na.ssl-images-amazon.com/images/I/81aF3Ob-2KL._UX679_.jpg",
-    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSgUgs8_kmuhScsx-J01d8fA1mhlCR5-1jyvMYxqCB8h3LCqcgl9Q",
-    "https://ae01.alicdn.com/kf/HTB11tA5aiAKL1JjSZFoq6ygCFXaw/Unlocked-Samsung-GALAXY-S2-I9100-Mobile-Phone-Android-Wi-Fi-GPS-8-0MP-camera-Core-4.jpg_640x640.jpg",
-    "https://media.ed.edmunds-media.com/gmc/sierra-3500hd/2018/td/2018_gmc_sierra-3500hd_f34_td_411183_1600.jpg",
-    "https://hips.hearstapps.com/amv-prod-cad-assets.s3.amazonaws.com/images/16q1/665019/2016-chevrolet-silverado-2500hd-high-country-diesel-test-review-car-and-driver-photo-665520-s-original.jpg",
-    "https://media.onthemarket.com/properties/6191869/797156548/composite.jpg",
-    "https://media.onthemarket.com/properties/6191840/797152761/composite.jpg",
-  ];
-
   @override
   Widget build(BuildContext context) {
 
@@ -56,11 +45,11 @@ class HomeScreen extends StatelessWidget {
               background: Stack(
                 children: [
                   Container(
-                    decoration: const BoxDecoration(
+                    decoration: BoxDecoration(
                       image: DecorationImage(
                         fit: BoxFit.cover,
-                        image: AssetImage(
-                          'assets/images/paris_night.jpg',
+                        image: NetworkImage(
+                          _controller.image.value,
                         ),
                       ),
                     ),
@@ -84,15 +73,6 @@ class HomeScreen extends StatelessWidget {
           SliverToBoxAdapter(
             child: Column(
               children: [
-                // Container(
-                //   height: 200.0,
-                //   decoration: const BoxDecoration(
-                //     image: DecorationImage(
-                //       image: AssetImage("assets/images/paris_night.jpg"),
-                //       fit: BoxFit.cover,
-                //     ),
-                //   ),
-                // ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: defaultPadding),
                   child: _buildHometownClock(),
@@ -104,7 +84,7 @@ class HomeScreen extends StatelessWidget {
                     bottom: defaultSpacing
                   ),
                   child: LocationCarousel(
-                    title: 'schedule',
+                    title: 'Schedule',
                     locations: _controller.locations,
                     borderRadius: 15.0,
                     initialPage: _controller.initialPage.value,
@@ -114,14 +94,6 @@ class HomeScreen extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: defaultPadding, vertical: defaultSpacing),
                   child: _buildNoticesTabBar(),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: defaultPadding, vertical: defaultSpacing),
-                  child: SharingGrid(
-                    title: 'Sharing Moments',
-                    imagePathList: images,
-                    borderRadius: 10.0,
-                  ),
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: defaultPadding, vertical: defaultSpacing),
@@ -140,7 +112,10 @@ class HomeScreen extends StatelessWidget {
 
   Widget _buildNoticesTabBar() {
     return _controller.todoCategories.isEmpty ? const CircularProgressIndicator()
-        : NoticeTabBar(todoCategories: _controller.todoCategories, announcements: _controller.announcements);
+        : NoticeTabBar(
+        todoCategories: _controller.todoCategories,
+        announcementCategories: _controller.announcementCategories
+    );
   }
 }
 

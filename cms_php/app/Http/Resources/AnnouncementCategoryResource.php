@@ -17,7 +17,7 @@ class AnnouncementCategoryResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'announcements' => AnnouncementResource::collection($this->announcements),
+            'announcements' => AnnouncementResource::collection($this->whenLoaded('announcements')),
         ];
     }
 }

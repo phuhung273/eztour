@@ -1,5 +1,5 @@
 import 'package:eztour_traveller/constants.dart';
-import 'package:eztour_traveller/schema/announcement/announcement.dart';
+import 'package:eztour_traveller/schema/announcement/announcement_category.dart';
 import 'package:eztour_traveller/schema/checklist/todo_category.dart';
 import 'package:flutter/material.dart';
 
@@ -7,13 +7,13 @@ import 'announcement_card.dart';
 import 'checklist_tab.dart';
 
 class NoticeTabBar extends StatelessWidget {
-  final List<Announcement> announcements;
   final List<TodoCategory> todoCategories;
+  final List<AnnouncementCategory> announcementCategories;
 
   const NoticeTabBar({
     Key? key,
     required this.todoCategories,
-    required this.announcements,
+    required this.announcementCategories,
   }) : super(key: key);
 
   @override
@@ -34,7 +34,7 @@ class NoticeTabBar extends StatelessWidget {
               tabs: [
                 Tab(
                   child: Text(
-                    'checklist',
+                    'Checklist',
                     style: _getTabTitleStyle(theme),
                   ),
                 ),
@@ -59,7 +59,8 @@ class NoticeTabBar extends StatelessWidget {
             child: TabBarView(
               children: [
                 ChecklistTab(todoCategories: todoCategories),
-                AnnouncementCard(announcements: announcements),
+                ChecklistTab(todoCategories: todoCategories),
+                // AnnouncementCard(announcements: announcements),
               ]
             ),
           ),

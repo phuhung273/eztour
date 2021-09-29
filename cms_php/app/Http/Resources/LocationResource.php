@@ -6,7 +6,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class LocationResource extends JsonResource
 {
-    const IMAGE_STORAGE_DIRECTORY = "/img/locations/";
+    const IMAGE_STORAGE_DIRECTORY = "storage/img/locations/";
     /**
      * Transform the resource into an array.
      *
@@ -18,7 +18,7 @@ class LocationResource extends JsonResource
         return [
             'id' => $this->id,
             "name" => $this->name,
-            "image" => self::IMAGE_STORAGE_DIRECTORY. $this->image,
+            "image" => asset(self::IMAGE_STORAGE_DIRECTORY. $this->image),
             "day" => $this->day,
             "description" => $this->description,
             "from" => $this->from,

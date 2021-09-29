@@ -17,7 +17,7 @@ class TodoCategoryResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'todos' => TodoResource::collection($this->todos),
+            'todos' => TodoResource::collection($this->whenLoaded('todos')),
         ];
     }
 }

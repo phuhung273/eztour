@@ -8,6 +8,7 @@ use Laravel\Jetstream\Events\TeamUpdated;
 use Laravel\Jetstream\Team as JetstreamTeam;
 use GoldSpecDigital\LaravelEloquentUUID\Database\Eloquent\Uuid;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\DB;
 
 class Team extends JetstreamTeam
 {
@@ -104,5 +105,14 @@ class Team extends JetstreamTeam
         $this->users()->attach($users);
         $id = $this->id;
         return $users->toQuery()->update(['current_team_id' => $id]);
+    }
+
+    public function overallLocations(){
+        DB::statement("SET SQL_MODE=''");
+        return $this->locations()
+                    ->orderBy('day')
+                    ->groupBy('day')
+                    ->select('name', 'image', 'day')
+                    ->oldest('from');
     }
 }

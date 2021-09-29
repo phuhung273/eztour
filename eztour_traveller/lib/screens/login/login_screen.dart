@@ -20,44 +20,47 @@ class LoginScreen extends StatelessWidget {
     final theme = Theme.of(context);
 
     return Background(
-      child: Obx(
-        () => Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            InkWell(
-              onTap: _scanQR,
-              child: Icon(
-                Icons.qr_code_scanner,
-                size: context.height * 0.2,
-              ),
-            ),
-            Text(_controller.barcodeResult.value, style: theme.textTheme.subtitle1),
-            const SizedBox(height: defaultSpacing * 5),
-            RoundedInputField(
-              hintText: "Your Email",
-              onChanged: (value) => _controller.id = value,
-            ),
-            RoundedPasswordField(
-              onChanged: (value) => _controller.password = value,
-            ),
-            Container(
-              margin: const EdgeInsets.symmetric(vertical: defaultSpacing),
-              width: context.width * 0.8,
-              child: ElevatedButton(
-                onPressed: _controller.login,
-                style: ElevatedButton.styleFrom(
-                  shape: pillShape,
-                  padding: const EdgeInsets.all(defaultPadding * 2),
+      child: Padding(
+        padding: const EdgeInsets.all(defaultPadding),
+        child: Obx(
+          () => Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              InkWell(
+                onTap: _scanQR,
+                child: Icon(
+                  Icons.qr_code_scanner,
+                  size: context.height * 0.2,
                 ),
-                child: Text(
-                  'LOGIN',
-                  style: theme.textTheme.button!.copyWith(
-                    letterSpacing: 1.1,
+              ),
+              Text(_controller.barcodeResult.value, style: theme.textTheme.subtitle1),
+              const SizedBox(height: defaultSpacing * 5),
+              RoundedInputField(
+                hintText: "Your Email",
+                onChanged: (value) => _controller.id = value,
+              ),
+              RoundedPasswordField(
+                onChanged: (value) => _controller.password = value,
+              ),
+              Container(
+                margin: const EdgeInsets.symmetric(vertical: defaultSpacing),
+                width: context.width * 0.8,
+                child: ElevatedButton(
+                  onPressed: _controller.login,
+                  style: ElevatedButton.styleFrom(
+                    shape: pillShape,
+                    padding: const EdgeInsets.all(defaultPadding * 2),
+                  ),
+                  child: Text(
+                    'LOGIN',
+                    style: theme.textTheme.button!.copyWith(
+                      letterSpacing: 1.1,
+                    ),
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

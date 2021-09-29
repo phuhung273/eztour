@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\AnnouncementResource;
 use App\Models\Announcement;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AnnouncementController extends Controller
 {
@@ -14,11 +16,11 @@ class AnnouncementController extends Controller
      */
     public function index()
     {
-        $data = Announcement::visibleAttributes()->get();
+        $team = Auth::user()->currentTeam;
 
-        return [
-            'announcements' => $data,
-        ];
+        $items = $team->announcements()->with('announcementCategory')->get();
+        
+        return AnnouncementResource::collection($items);
     }
 
     /**

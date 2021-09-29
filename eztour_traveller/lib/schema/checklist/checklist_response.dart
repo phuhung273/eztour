@@ -6,7 +6,7 @@ part 'checklist_response.g.dart';
 @JsonSerializable()
 class ChecklistResponse {
 
-  @JsonKey(name: 'todos')
+  @JsonKey(name: 'data')
   List<Todo> todos;
 
   ChecklistResponse({

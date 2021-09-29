@@ -1,6 +1,4 @@
-import 'package:eztour_traveller/schema/announcement/announcement.dart';
-import 'package:eztour_traveller/schema/checklist/todo.dart';
-import 'package:eztour_traveller/schema/checklist/todo_category.dart';
+import 'package:eztour_traveller/schema/home/tour.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'home_index_response.g.dart';
@@ -11,24 +9,12 @@ class HomeIndexResponse {
   @JsonKey(name: 'greeting')
   String greeting;
 
-  @JsonKey(name: 'todoCategories')
-  List<TodoCategory> todoCategories;
-
-  @JsonKey(name: 'announcements')
-  List<Announcement> announcements;
-
-  @JsonKey(name: 'start_date')
-  String startDate;
-
-  @JsonKey(name: 'max_day')
-  int maxDay;
+  @JsonKey(name: 'tour')
+  Tour tour;
 
   HomeIndexResponse({
     required this.greeting,
-    required this.todoCategories,
-    required this.announcements,
-    required this.startDate,
-    required this.maxDay,
+    required this.tour,
   });
 
   factory HomeIndexResponse.fromJson(Map<String, dynamic> json) =>

@@ -1,10 +1,8 @@
 import 'dart:math';
 
-import 'package:eztour_traveller/datasource/local/local_storage.dart';
 import 'package:eztour_traveller/datasource/remote/home_service.dart';
 import 'package:eztour_traveller/helpers/time_helpers.dart';
-import 'package:eztour_traveller/route/route.dart';
-import 'package:eztour_traveller/schema/announcement/announcement.dart';
+import 'package:eztour_traveller/schema/announcement/announcement_category.dart';
 import 'package:eztour_traveller/schema/checklist/todo_category.dart';
 import 'package:eztour_traveller/schema/home/home_index_request.dart';
 import 'package:eztour_traveller/schema/schedule/location.dart';
@@ -27,26 +25,23 @@ class HomeScreenController extends GetxController {
   var initialPage = 0.obs;
   var greeting = ''.obs;
   final todoCategories = List<TodoCategory>.empty().obs;
-  final announcements = List<Announcement>.empty().obs;
-  final locations = [
-    Location(id: 0, name: "Paris", image: "sample_timeline1.jpg", day: 1, description: 'test',from: '6:00 AM', to: '9:00 AM', tourId: 1),
-    Location(id: 0, name: "Paris", image: "sample_timeline1.jpg", day: 1, description: 'test',from: '6:00 AM', to: '9:00 AM', tourId: 1),
-    Location(id: 0, name: "Paris", image: "sample_timeline1.jpg", day: 1, description: 'test',from: '6:00 AM', to: '9:00 AM', tourId: 1),
-    Location(id: 0, name: "Paris", image: "sample_timeline1.jpg", day: 1, description: 'test',from: '6:00 AM', to: '9:00 AM', tourId: 1),
-    Location(id: 0, name: "Paris", image: "sample_timeline1.jpg", day: 1, description: 'test',from: '6:00 AM', to: '9:00 AM', tourId: 1),
-  ].obs;
+  final announcementCategories = List<AnnouncementCategory>.empty().obs;
+  final locations = List<Location>.empty().obs;
+  final image = ''.obs;
 
   @override
   Future onInit() async {
     super.onInit();
 
     _homeIndexRequest.localTime = DateFormat.Hms().format(DateTime.now());
-    final response = await _service.getHomeInfo(1, _homeIndexRequest);
-    final dayDifference = dayDifferenceFromNow(DateTime.parse(response.startDate));
-    initialPage.value = min(dayDifference, response.maxDay - 1);
+    final response = await _service.getHomeInfo(_homeIndexRequest);
+    final dayDifference = dayDifferenceFromNow(DateTime.parse(response.tour.startDate));
+    initialPage.value = min(dayDifference, response.tour.maxDay - 1);
 
     greeting.value = response.greeting;
-    todoCategories.value = response.todoCategories;
-    announcements.value = response.announcements;
+    todoCategories.value = response.tour.todoCategories;
+    announcementCategories.value = response.tour.announcementCategories;
+    locations.value = response.tour.locations;
+    image.value = response.tour.image;
   }
 }

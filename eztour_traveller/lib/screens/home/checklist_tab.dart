@@ -13,11 +13,12 @@ final colorMap = [
   primaryColor,
 ];
 
-final iconMap = [
-  Icons.menu_book,
-  Icons.accessibility,
-  Icons.wash,
-];
+final iconMap = {
+  'Travel Documents': Icons.menu_book,
+  'Personal Items': Icons.accessibility,
+  'Clothing Essentials': Icons.checkroom,
+  'Toiletries': Icons.wash,
+};
 
 const RIBBON_WIDTH = 60.0;
 const RIBBON_HEIGHT = 100.0;
@@ -40,7 +41,7 @@ class ChecklistTab extends StatelessWidget {
         => TodoCategoryCard(
           category: todoCategories[index],
           color: colorMap[index],
-          icon: iconMap[index],
+          icon: iconMap[todoCategories[index].name]!,
         ),
       separatorBuilder: (BuildContext context, int index) => const Divider(),
     );

@@ -41,10 +41,10 @@ class ScheduleScreenController extends GetxController {
   Future onInit() async {
     super.onInit();
 
-    final response = await _service.getScheduleList(1, _listRequest);
+    final response = await _service.getScheduleList(_listRequest);
 
     // locationMap.value = groupBy(_testLocations, (Location item) => item.day);
-    locationMap.value = groupBy(response.locations, (Location item) => item.day);
+    locationMap.value = groupBy(response.locations, (Location item) => item.day!);
 
     final dayDifference = dayDifferenceFromNow(DateTime.parse(response.startDate));
     final destination = min(dayDifference, response.maxDay - 1);

@@ -3,7 +3,6 @@ import 'dart:core';
 
 import 'package:eztour_traveller/datasource/local/base_db.dart';
 import 'package:eztour_traveller/schema/announcement/announcement.dart';
-import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
 const DB_NAME = 'user_announcements';

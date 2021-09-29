@@ -41,8 +41,8 @@ class LocationCarousel extends StatelessWidget {
               final location = locations[index];
 
               return CarouselItem(
-                imagePath: location.image,
-                title: location.name,
+                imagePath: location.image!,
+                title: location.name!,
                 description: 'Day ${index + 1}',
                 borderRadius: borderRadius,
               );
@@ -87,7 +87,7 @@ class CarouselItem extends StatelessWidget {
               image: DecorationImage(
                 fit: BoxFit.cover,
                 image: NetworkImage(
-                  '$HOST_URL/storage/img/locations/$imagePath',
+                  imagePath
                 ),
               ),
             ),
@@ -104,48 +104,43 @@ class CarouselItem extends StatelessWidget {
                 )
             ),
           ),
-          Positioned(
-            bottom: 0,
-            left: 0,
-            child: Padding(
-              padding: const EdgeInsets.only(left: defaultPadding),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 4.0),
-                    child: Text(
-                      title,
-                      style: theme.textTheme.bodyText1!.copyWith(
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(left: defaultPadding, bottom: 4.0),
+                child: Text(
+                  title,
+                  style: theme.textTheme.bodyText1!.copyWith(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w600
+                  ),
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: defaultPadding, bottom: defaultPadding),
+                child: Row(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.only(right: 4.0),
+                      child: Icon(
+                        Icons.access_time,
                         color: Colors.white,
-                        fontWeight: FontWeight.w600
+                        size: theme.textTheme.bodyText2!.fontSize,
                       ),
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: defaultPadding),
-                    child: Row(
-                      children: [
-                        Container(
-                          padding: const EdgeInsets.only(right: 4.0),
-                          child: Icon(
-                            Icons.access_time,
-                            color: Colors.white,
-                            size: theme.textTheme.bodyText2!.fontSize,
-                          ),
-                        ),
-                        Text(
-                          description,
-                          style: theme.textTheme.bodyText2!.copyWith(
-                            color: Colors.white,
-                          ),
-                        ),
-                      ],
+                    Text(
+                      description,
+                      style: theme.textTheme.bodyText2!.copyWith(
+                        color: Colors.white,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
+            ],
           ),
           const Positioned(
             bottom: 0,

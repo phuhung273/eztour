@@ -6,38 +6,38 @@ part 'location.g.dart';
 class Location {
 
   @JsonKey(name: 'id')
-  int id;
+  int? id;
 
   @JsonKey(name: 'name')
-  String name;
+  String? name;
 
   @JsonKey(name: 'image')
-  String image;
+  String? image;
 
   @JsonKey(name: 'day')
-  int day;
+  int? day;
 
   @JsonKey(name: 'description')
-  String description;
+  String? description;
 
   @JsonKey(name: 'from')
-  String from;
+  String? from;
 
   @JsonKey(name: 'to')
-  String to;
+  String? to;
 
-  @JsonKey(name: 'tour_id')
-  int tourId;
+  @JsonKey(name: 'team_id')
+  int? tourId;
 
   Location({
-    required this.id,
-    required this.name,
-    required this.image,
-    required this.day,
-    required this.description,
-    required this.from,
-    required this.to,
-    required this.tourId,
+    this.id,
+    this.name,
+    this.image,
+    this.day,
+    this.description,
+    this.from,
+    this.to,
+    this.tourId,
   });
 
 

@@ -53,7 +53,7 @@ Route::middleware('auth:sanctum')->group(function(){
     
         Route::name('home.')->group(function() {
             Route::prefix('home')->group(function() {
-                Route::post('/{tour}', [MobileHomeController::class, 'index'])->name('index');
+                Route::post('/', [MobileHomeController::class, 'index'])->name('index');
             });
         });
     });

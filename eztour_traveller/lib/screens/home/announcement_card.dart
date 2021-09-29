@@ -1,9 +1,9 @@
 
-import 'package:eztour_traveller/schema/announcement/announcement.dart';
+import 'package:eztour_traveller/schema/checklist/todo.dart';
 import 'package:flutter/material.dart';
 
 class AnnouncementCard extends StatelessWidget {
-  final List<Announcement> announcements;
+  final List<Todo> announcements;
 
   const AnnouncementCard({
     Key? key,
