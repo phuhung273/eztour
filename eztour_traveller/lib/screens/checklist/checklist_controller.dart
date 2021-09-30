@@ -1,3 +1,4 @@
+
 import 'package:collection/collection.dart';
 import 'package:eztour_traveller/datasource/local/checklist_db.dart';
 import 'package:eztour_traveller/datasource/local/my_checklist_db.dart';
@@ -27,6 +28,8 @@ class ChecklistScreenController extends GetxController {
 
   final myCategories = <String, List<Todo>>{}.obs;
 
+  late List<String> _titles;
+
   @override
   Future onInit() async {
     super.onInit();
@@ -46,6 +49,7 @@ class ChecklistScreenController extends GetxController {
     final myTodos = await _userChecklistDB.getAll();
 
     myCategories.value = groupBy(myTodos, (Todo item) => item.category!);
+    _titles = myCategories.keys.toList();
   }
 
   Future toggle(Todo item) async {
@@ -64,8 +68,8 @@ class ChecklistScreenController extends GetxController {
     }
   }
 
-  void add(String category, Todo todo){
-    myCategories[category]?.add(todo);
+  void add(String category, Todo item){
+    myCategories[category]?.add(item);
     myCategories.refresh();
   }
 
@@ -74,10 +78,10 @@ class ChecklistScreenController extends GetxController {
     myCategories.refresh();
   }
 
-  void updateItem(String category, Todo todo) {
-    final index = myCategories[category]?.indexOf(todo);
+  void updateItem(String category, Todo item) {
+    final index = myCategories[category]?.indexOf(item);
     if(index != null && index > 0){
-      myCategories[category]?[index] = todo;
+      myCategories[category]?[index] = item;
       myCategories.refresh();
     }
   }
@@ -86,18 +90,22 @@ class ChecklistScreenController extends GetxController {
     myCategories.remove(category);
   }
 
-  // Usage: update items without changing key or append
-  void assignCategory(String category, List<Todo> items){
+  void addCategory(String category, List<Todo> items){
     myCategories[category] = items;
-    myCategories.refresh();
+    _titles.add(category);
   }
   
-  // Usage: change key name and update items
-  void assignChangeCategoryName(String lastCategory, String category, List<Todo> items){
+  void updateChangeCategoryName(String lastCategory, String category, List<Todo> items){
     myCategories.value = myCategories.map((key, value)
       => key == lastCategory
           ? MapEntry(category, items)
           : MapEntry(key, value)
     );
+    _titles.remove(lastCategory);
+    _titles.add(category);
+  }
+
+  bool isTitleExist(String value){
+    return _titles.contains(value);
   }
 }

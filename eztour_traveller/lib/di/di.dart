@@ -3,7 +3,7 @@ import 'package:eztour_traveller/chat/chat_api.dart';
 import 'package:eztour_traveller/datasource/local/chat_user_db.dart';
 import 'package:eztour_traveller/datasource/local/checklist_db.dart';
 import 'package:eztour_traveller/datasource/local/local_storage.dart';
-import 'package:eztour_traveller/datasource/local/user_announcement_db.dart';
+import 'package:eztour_traveller/datasource/local/my_announcement_db.dart';
 import 'package:eztour_traveller/datasource/local/my_checklist_db.dart';
 import 'package:eztour_traveller/datasource/remote/auth_service.dart';
 import 'package:get/get.dart';
@@ -24,7 +24,7 @@ Future configureDependencies() async {
 
   Get.put(ChatUserDB.instance);
 
-  Get.put(UserAnnouncementDB.instance);
+  Get.put(MyAnnouncementDB.instance);
 
   Get.put(ChecklistDB.instance);
 

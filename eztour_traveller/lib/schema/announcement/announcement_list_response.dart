@@ -6,7 +6,7 @@ part 'announcement_list_response.g.dart';
 @JsonSerializable()
 class AnnouncementListResponse {
 
-  @JsonKey(name: 'announcements')
+  @JsonKey(name: 'data')
   List<Announcement> announcements;
 
   AnnouncementListResponse({

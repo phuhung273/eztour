@@ -1,31 +1,31 @@
 import 'package:enum_to_string/enum_to_string.dart';
-import 'package:eztour_traveller/datasource/local/my_checklist_db.dart';
+import 'package:eztour_traveller/datasource/local/my_announcement_db.dart';
 import 'package:eztour_traveller/enum.dart';
-import 'package:eztour_traveller/schema/checklist/todo.dart';
-import 'package:eztour_traveller/screens/checklist/checklist_controller.dart';
+import 'package:eztour_traveller/schema/announcement/announcement.dart';
+import 'package:eztour_traveller/screens/announcement/announcement_screen_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:uuid/uuid.dart';
 
-class MyChecklistScreenBinding extends Bindings {
+class MyAnnouncementScreenBinding extends Bindings {
   @override
   void dependencies() {
-    Get.lazyPut(() => MyChecklistScreenController());
+    Get.lazyPut(() => MyAnnouncementScreenController());
   }
 }
 
-class MyChecklistScreenController extends GetxController {
+class MyAnnouncementScreenController extends GetxController {
 
-  final MyChecklistDB _myDB = Get.find();
+  final MyAnnouncementDB _myDB = Get.find();
 
-  final ChecklistScreenController _mainController = Get.find();
+  final AnnouncementScreenController _mainController = Get.find();
 
   final TextEditingController titleController = TextEditingController();
 
   final uuid = const Uuid();
 
   String category = '';
-  final items = List<Todo>.empty().obs;
+  final items = List<Announcement>.empty().obs;
   late Mode? mode;
   String? lastCategory;
 
@@ -68,18 +68,8 @@ class MyChecklistScreenController extends GetxController {
     return true;
   }
 
-  Future toggle(int index) async {
-    final result = await _myDB.toggle(items[index]);
-
-    if(result > 0){
-      items[index].toggle();
-      items.refresh();
-      _mainController.myCategories.refresh();
-    }
-  }
-
   Future add(String message) async {
-    final item = Todo(id: uuid.v4() , message: message, done: 0, category: category);
+    final item = Announcement(id: uuid.v4() , message: message, category: category);
     final result = await _myDB.insert(item);
 
     if(result > 0){
@@ -87,6 +77,7 @@ class MyChecklistScreenController extends GetxController {
       _mainController.add(category, item);
     }
   }
+
 
   Future deleteAt(int index) async {
     final id = items[index].id;

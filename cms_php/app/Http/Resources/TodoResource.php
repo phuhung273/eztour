@@ -14,12 +14,10 @@ class TodoResource extends JsonResource
      */
     public function toArray($request)
     {
-        $category = $this->whenLoaded('todoCategory');
-
         return [
             'id' => $this->id,
             'message' => $this->message,
-            'category' => $category->name,
+            'category' => $this->whenLoaded('todoCategory', fn() => $this->todoCategory->name),
         ];
     }
 }

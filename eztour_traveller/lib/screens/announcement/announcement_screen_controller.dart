@@ -1,9 +1,11 @@
-import 'package:eztour_traveller/datasource/local/user_announcement_db.dart';
+import 'package:collection/collection.dart';
+import 'package:eztour_traveller/datasource/local/my_announcement_db.dart';
 import 'package:eztour_traveller/datasource/remote/announcement_service.dart';
 import 'package:eztour_traveller/schema/announcement/announcement.dart';
 import 'package:eztour_traveller/schema/announcement/announcement_list_request.dart';
 import 'package:get/get.dart';
 import 'package:uuid/uuid.dart';
+
 
 class AnnouncementScreenBinding extends Bindings {
   @override
@@ -16,65 +18,68 @@ class AnnouncementScreenController extends GetxController {
 
   final _service = Get.put(AnnouncementService(Get.find()));
 
-  final UserAnnouncementDB _userAnnouncementDB = Get.find();
+  final MyAnnouncementDB _userAnnouncementDB = Get.find();
 
   final _announcementListRequest = Get.put(AnnouncementListRequest());
 
-  final announcements = List<Announcement>.empty().obs;
+  final categories = <String, List<Announcement>>{}.obs;
 
-  final myAnnouncements = List<Announcement>.empty().obs;
+  final myCategories = <String, List<Announcement>>{}.obs;
 
   final uuid = const Uuid();
 
-  // final announcements = [
-  //   announcement(id: 1, message: "Design"),
-  //   announcement(id: 2, message: "Code"),
-  //   announcement(id: 3, message: "Review"),
-  // ].obs;
-
-  // final myAnnouncements = [
-  //   announcement(id: 1, message: "Design"),
-  //   announcement(id: 2, message: "Code"),
-  //   announcement(id: 3, message: "Review"),
-  //   announcement(id: 3, message: "await handler(true) : Means that you will await the animation to complete(you should call setState after it so that you will get an animation)"),
-  //   announcement(id: 3, message: "await handler(true) : Means that you will await the animation to complete(you should call setState after it so that you will get an animation)"),
-  //   announcement(id: 3, message: "await handler(true) : Means that you will await the animation to complete(you should call setState after it so that you will get an animation)"),
-  //   announcement(id: 3, message: "await handler(true) : Means that you will await the animation to complete(you should call setState after it so that you will get an animation)"),
-  // ].obs;
+  late List<String> _titles;
 
   @override
   Future onInit() async {
     super.onInit();
 
     final response = await _service.getAnnouncementList(_announcementListRequest);
-    announcements.value = response.announcements;
-    myAnnouncements.value = await _userAnnouncementDB.getAll();
+    categories.value = groupBy(response.announcements, (Announcement item) => item.category!);
+
+    final myAnnouncements = await _userAnnouncementDB.getAll();
+    myCategories.value = groupBy(myAnnouncements, (Announcement item) => item.category!);
+    _titles = myCategories.keys.toList();
   }
 
-  Future add(String value) async {
-    final item = Announcement(id: uuid.v4(), message: value);
-    final result = await _userAnnouncementDB.add(item);
+  Future add(String category, Announcement item) async {
+    myCategories[category]?.add(item);
+    myCategories.refresh();
+  }
 
-    if(result > 0){
-      myAnnouncements.add(item);
+  void delete(String category, String id) {
+    myCategories[category]?.removeWhere((element) => element.id == id);
+    myCategories.refresh();
+  }
+
+  void updateItem(String category, Announcement item) {
+    final index = myCategories[category]?.indexOf(item);
+    if(index != null && index > 0){
+      myCategories[category]?[index] = item;
+      myCategories.refresh();
     }
   }
 
-  Future removeAt(int index) async {
-    final result = await _userAnnouncementDB.delete(myAnnouncements[index].id);
-
-    if(result > 0){
-      myAnnouncements.removeAt(index);
-    }
+  void removeCategory(String category){
+    myCategories.remove(category);
   }
 
-  Future updateAt(int index, String value) async {
-    final announcement = myAnnouncements[index];
-    announcement.message = value;
-    final result = await _userAnnouncementDB.update(announcement);
+  void addCategory(String category, List<Announcement> items){
+    myCategories[category] = items;
+    _titles.add(category);
+  }
 
-    if(result > 0){
-      myAnnouncements[index].message = value;
-    }
+  void updateChangeCategoryName(String lastCategory, String category, List<Announcement> items){
+    myCategories.value = myCategories.map((key, value)
+    => key == lastCategory
+        ? MapEntry(category, items)
+        : MapEntry(key, value)
+    );
+    _titles.remove(lastCategory);
+    _titles.add(category);
+  }
+
+  bool isTitleExist(String value){
+    return _titles.contains(value);
   }
 }

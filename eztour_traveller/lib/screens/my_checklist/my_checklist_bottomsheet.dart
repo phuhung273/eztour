@@ -39,44 +39,51 @@ class _MyChecklistBottomSheetState extends State<MyChecklistBottomSheet> {
 
     return Container(
       margin: const EdgeInsets.all(defaultPadding),
-      height: 160,
+      height: 150,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           Container(
-            height: 125,
+            // height: 150,
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: thinRoundedRectangleBorderRadius,
             ),
             child: Column(
-                children: <Widget>[
-                  Container(
-                    height: 50,
-                    alignment: Alignment.center,
-                    padding: const EdgeInsets.all(10),
-                    margin: const EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                      color: theme.colorScheme.surface,
-                      borderRadius: thinRoundedRectangleBorderRadius,
-                    ),
-                    child: TextField(
-                      decoration: decoration,
-                      autofocus: true,
-                      controller: _controller,
-                      onChanged: (value){
-                        setState(() {
-                          _value = value;
-                        });
-                      },
+              children: <Widget>[
+                Container(
+                  height: 50,
+                  alignment: Alignment.center,
+                  margin: const EdgeInsets.all(defaultPadding),
+                  padding: const EdgeInsets.all(defaultPadding),
+                  decoration: BoxDecoration(
+                    color: theme.colorScheme.surface,
+                    borderRadius: thinRoundedRectangleBorderRadius,
+                  ),
+                  child: TextField(
+                    decoration: decoration,
+                    autofocus: true,
+                    controller: _controller,
+                    onChanged: (value){
+                      setState(() {
+                        _value = value;
+                      });
+                    },
+                  ),
+                ),
+                SizedBox(
+                  width: double.infinity,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: defaultPadding),
+                    child: ElevatedButton.icon(
+                      icon: const Icon(Icons.save),
+                      label: const Text('Save'),
+                      onPressed: () => widget.onSave(_value),
                     ),
                   ),
-                  ElevatedButton.icon(
-                    icon: const Icon(Icons.save),
-                    label: const Text('Save'),
-                    onPressed: () => widget.onSave(_value),
-                  )
-                ]),
+                )
+              ]
+            ),
           )
         ],
       ),

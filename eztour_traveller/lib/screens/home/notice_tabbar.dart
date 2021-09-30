@@ -1,9 +1,9 @@
 import 'package:eztour_traveller/constants.dart';
 import 'package:eztour_traveller/schema/announcement/announcement_category.dart';
 import 'package:eztour_traveller/schema/checklist/todo_category.dart';
+import 'package:eztour_traveller/screens/home/announcement_tab.dart';
 import 'package:flutter/material.dart';
 
-import 'announcement_card.dart';
 import 'checklist_tab.dart';
 
 class NoticeTabBar extends StatelessWidget {
@@ -58,9 +58,8 @@ class NoticeTabBar extends StatelessWidget {
             margin: const EdgeInsets.only(top: defaultSpacing),
             child: TabBarView(
               children: [
-                ChecklistTab(todoCategories: todoCategories),
-                ChecklistTab(todoCategories: todoCategories),
-                // AnnouncementCard(announcements: announcements),
+                ChecklistTab(categories: todoCategories),
+                AnnouncementTab(categories: announcementCategories)
               ]
             ),
           ),

@@ -11,7 +11,7 @@ const FIELD_CATEGORY = 'category';
 class Todo {
 
   @JsonKey(name: FIELD_ID)
-  String? id;
+  String id;
 
   @JsonKey(name: FIELD_MESSAGE)
   String message;
@@ -23,7 +23,7 @@ class Todo {
   String? category;
 
   Todo({
-    this.id,
+    required this.id,
     required this.message,
     this.done,
     this.category,

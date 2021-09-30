@@ -1,16 +1,16 @@
 import 'package:eztour_traveller/constants.dart';
 import 'package:eztour_traveller/mixins/dialog.dart';
+import 'package:eztour_traveller/screens/my_checklist/my_checklist_bottomsheet.dart';
 import 'package:eztour_traveller/widgets/keyboard_friendly_body.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import 'checklist_tile.dart';
-import 'my_checklist_bottomsheet.dart';
-import 'my_checklist_controller.dart';
+import 'annoucement_tile.dart';
+import 'my_announcements_controller.dart';
 
-class MyChecklistScreen extends StatelessWidget with Dialogable {
+class MyAnnouncementScreen extends StatelessWidget with Dialogable{
 
-  final MyChecklistScreenController _controller = Get.find();
+  final MyAnnouncementScreenController _controller = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +19,7 @@ class MyChecklistScreen extends StatelessWidget with Dialogable {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Your checklist'),
+        title: const Text('Your notes'),
         actions: [
           IconButton(
             onPressed: () {
@@ -66,9 +66,8 @@ class MyChecklistScreen extends StatelessWidget with Dialogable {
                   itemBuilder: (context, index){
                     final item = _controller.items[index];
 
-                    return ChecklistTile(
+                    return AnnouncementTile(
                       item: item,
-                      onTap: () => _controller.toggle(index),
                       onDelete: () => _controller.deleteAt(index),
                       onUpdate: () => Get.bottomSheet(
                           MyChecklistBottomSheet(

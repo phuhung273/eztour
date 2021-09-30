@@ -1,19 +1,17 @@
 
 import 'package:eztour_traveller/mixins/swipeable.dart';
-import 'package:eztour_traveller/schema/checklist/todo.dart';
+import 'package:eztour_traveller/schema/announcement/announcement.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swipe_action_cell/flutter_swipe_action_cell.dart';
 
-class ChecklistTile extends StatelessWidget with Swipeable {
-  final Todo item;
-  final VoidCallback onTap;
+class AnnouncementTile extends StatelessWidget with Swipeable {
+  final Announcement item;
   final Function onDelete;
   final Function onUpdate;
 
-  const ChecklistTile({
+  const AnnouncementTile({
     Key? key,
     required this.item,
-    required this.onTap,
     required this.onDelete,
     required this.onUpdate,
   }) : super(key: key);
@@ -49,19 +47,12 @@ class ChecklistTile extends StatelessWidget with Swipeable {
         ),
       ],
       child: ListTile(
-          leading: _buildCheckIcon(item.isDone()),
           minLeadingWidth: 0,
           title: Text(
             item.message,
             style: theme.textTheme.bodyText1,
           ),
-          onTap: onTap
       ),
     );
-  }
-
-  Widget _buildCheckIcon(bool done){
-    return done ? const Icon(Icons.check_circle, color: Colors.green)
-        : const Icon(Icons.radio_button_unchecked, color: Colors.black);
   }
 }

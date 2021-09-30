@@ -3,6 +3,7 @@ import 'dart:ui';
 
 import 'package:enum_to_string/enum_to_string.dart';
 import 'package:eztour_traveller/constants.dart';
+import 'package:eztour_traveller/enum.dart';
 import 'package:eztour_traveller/route/route.dart';
 import 'package:eztour_traveller/screens/checklist/checklist_controller.dart';
 import 'package:eztour_traveller/screens/main/main_screen_controller.dart';
@@ -61,7 +62,7 @@ class ChecklistScreen extends StatelessWidget {
                       onPressed: () => Get.toNamed(
                         ROUTE_MY_CHECKLIST,
                         parameters: {
-                          checklistModeParams: EnumToString.convertToString(ChecklistMode.Add),
+                          modeParams: EnumToString.convertToString(Mode.Add),
                         }
                       ),
                       icon: Icon(Icons.add, color: theme.colorScheme.onSurface),
@@ -104,8 +105,8 @@ class ChecklistScreen extends StatelessWidget {
                         onTap: () => Get.toNamed(
                           ROUTE_MY_CHECKLIST,
                           parameters: {
-                            checklistCategoryParams: category,
-                            checklistModeParams: EnumToString.convertToString(ChecklistMode.Edit),
+                            categoryParams: category,
+                            modeParams: EnumToString.convertToString(Mode.Edit),
                           }
                         ),
                         child: ChecklistCard(

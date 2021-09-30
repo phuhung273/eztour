@@ -24,11 +24,11 @@ const RIBBON_WIDTH = 60.0;
 const RIBBON_HEIGHT = 100.0;
 
 class ChecklistTab extends StatelessWidget {
-  final List<TodoCategory> todoCategories;
+  final List<TodoCategory> categories;
 
   const ChecklistTab({
     Key? key,
-    required this.todoCategories,
+    required this.categories,
   }) : super(key: key);
 
   @override
@@ -36,12 +36,12 @@ class ChecklistTab extends StatelessWidget {
     return ListView.separated(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
-      itemCount: min(TODO_LIMIT, todoCategories.length),
+      itemCount: min(TODO_LIMIT, categories.length),
       itemBuilder: (BuildContext context, int index)
         => TodoCategoryCard(
-          category: todoCategories[index],
+          category: categories[index],
           color: colorMap[index],
-          icon: iconMap[todoCategories[index].name]!,
+          icon: iconMap[categories[index].name]!,
         ),
       separatorBuilder: (BuildContext context, int index) => const Divider(),
     );
@@ -99,15 +99,15 @@ class TodoCategoryCard extends StatelessWidget {
                     physics: const NeverScrollableScrollPhysics(),
                     itemCount: min(TODO_LIMIT, category.todos.length),
                     itemBuilder: (context, index){
-                      final todo = category.todos[index];
+                      final item = category.todos[index];
 
                       return Row(
                         children: [
                           Padding(
                             padding: const EdgeInsets.only(right: defaultPadding),
-                            child: _buildCheckIcon(todo.isDone(), theme.textTheme.bodyText2!.fontSize!),
+                            child: _buildCheckIcon(item.isDone(), theme.textTheme.bodyText2!.fontSize!),
                           ),
-                          Text(todo.message, style: theme.textTheme.bodyText2),
+                          Text(item.message, style: theme.textTheme.bodyText2),
                         ],
                       );
                     },

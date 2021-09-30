@@ -61,21 +61,27 @@ class MyChecklistDB extends BaseChecklistDB{
     return db.delete(tableName, where: '$columnID = ?', whereArgs: [id]);
   }
 
-  Future<int> update(Todo todo) async {
+  Future<int> update(Todo item) async {
     final db = await instance.database;
 
-    return db.update(tableName, todo.toJsonWithoutId(), where: '$columnID = ?', whereArgs: [todo.id]);
+    return db.update(tableName, item.toJsonWithoutId(), where: '$columnID = ?', whereArgs: [item.id]);
   }
 
   Future<int> updateCategory(String from, String to) async {
     final db = await instance.database;
 
     return db.update(tableName,
-      {
-        columnCategory: to,
-      },
-      where: '$columnCategory = ?',
-      whereArgs: [from]
+        {
+          columnCategory: to,
+        },
+        where: '$columnCategory = ?',
+        whereArgs: [from]
     );
+  }
+
+  Future<int> deleteCategory(String category) async {
+    final db = await instance.database;
+
+    return db.delete(tableName, where: '$columnCategory = ?', whereArgs: [category]);
   }
 }
