@@ -23,6 +23,7 @@ class CreateUsersTable extends Migration
             $table->string('current_team_id')->nullable();
             $table->text('profile_photo_path')->nullable();
             $table->boolean('is_admin')->default(false);
+            $table->boolean('is_tourguide')->default(false);
             $table->timestamps();
         });
     }

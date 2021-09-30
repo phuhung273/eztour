@@ -10,6 +10,7 @@ use App\Http\Livewire\AnnouncementPage;
 use App\Http\Livewire\DashboardPage;
 use App\Http\Livewire\GreetingPage;
 use App\Http\Livewire\MemberPage;
+use App\Http\Livewire\RegisterPage;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -32,7 +33,7 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
     Route::get('/greeting', GreetingPage::class)->name('greeting');
     Route::get('/announcement', AnnouncementPage::class)->name('announcement');
     Route::get('/member', MemberPage::class)->name('member');
-    
+    Route::get('/register', RegisterPage::class)->name('register')->middleware(['auth', 'register']);
 });
 
 Route::resources([
