@@ -2,7 +2,14 @@
 'data' => [],
 'heads',
 'showModalUpdate' => true,
+'showActions' => true,
 ])
+
+@php
+if(!$showActions){
+$showModalUpdate = false;
+}
+@endphp
 
 <div class="w-full overflow-hidden rounded-lg shadow-xs">
     <div class="w-full overflow-x-auto">
@@ -13,7 +20,9 @@
                     @foreach ($heads as $head)
                     <th class="px-4 py-3">{{$head}}</th>
                     @endforeach
+                    @if ($showActions)
                     <th class="px-4 py-3">Actions</th>
+                    @endif
                 </tr>
             </thead>
             <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
@@ -33,6 +42,8 @@
                     @endif
 
                     @endforeach
+
+                    @if ($showActions)
                     <td class="px-4 py-3">
 
                         <div class="flex items-center space-x-4 text-sm">
@@ -79,7 +90,9 @@
                                 </svg>
                             </button>
                         </div>
+
                     </td>
+                    @endif
                 </tr>
                 @endforeach
 

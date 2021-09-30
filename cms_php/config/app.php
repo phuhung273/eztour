@@ -170,6 +170,8 @@ return [
          * Package Service Providers...
          */
         Maatwebsite\Excel\ExcelServiceProvider::class,
+        SimpleSoftwareIO\QrCode\QrCodeServiceProvider::class,
+        Barryvdh\DomPDF\ServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -237,6 +239,8 @@ return [
         'ArrayHelper' => App\Helpers\ArrayHelper::class,
         'StringHelper' => App\Helpers\StringHelper::class,
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
+        'QrCode' => SimpleSoftwareIO\QrCode\Facades\QrCode::class,
+        'PDF' => Barryvdh\DomPDF\Facade::class,
     ],
 
 ];

@@ -4,12 +4,14 @@ use App\Http\Controllers\AnnouncementController;
 use App\Http\Livewire\ChecklistPage;
 use App\Http\Controllers\GreetingController;
 use App\Http\Controllers\LocationController;
+use App\Http\Controllers\QrPdfController;
 use App\Http\Controllers\TeamController;
 use App\Http\Controllers\TodoController;
 use App\Http\Livewire\AnnouncementPage;
 use App\Http\Livewire\DashboardPage;
 use App\Http\Livewire\GreetingPage;
 use App\Http\Livewire\MemberPage;
+use App\Http\Livewire\QrPage;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -32,7 +34,8 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
     Route::get('/greeting', GreetingPage::class)->name('greeting');
     Route::get('/announcement', AnnouncementPage::class)->name('announcement');
     Route::get('/member', MemberPage::class)->name('member');
-    
+    Route::get('/qr', QrPage::class)->name('qr');
+    Route::get('/qrPdf/{team}', [QrPdfController::class, 'index'])->name('qrPdf');
 });
 
 Route::resources([

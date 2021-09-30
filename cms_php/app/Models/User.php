@@ -15,6 +15,7 @@ use App\Helpers\StringHelper;
 use Exception;
 use Illuminate\Support\Collection as SupportCollection;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
@@ -132,5 +133,12 @@ class User extends Authenticatable
             // User is not going on any tour
             return null;
         }
+    }
+
+    public function qrEncryptedCode() {
+        return Crypt::encrypt([
+            'email' => $this->email,
+            'password' => $this->password,
+        ]);
     }
 }
