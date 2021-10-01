@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\Auth\MobileAuthController;
+use App\Http\Controllers\DiscoveryController;
 use App\Http\Controllers\GreetingController;
 use App\Http\Controllers\LocationController;
 use App\Http\Controllers\MobileHomeController;
@@ -30,6 +31,12 @@ Route::middleware('auth:sanctum')->group(function(){
         Route::name('locations.')->group(function() {
             Route::prefix('locations')->group(function() {
                 Route::get('/', [ScheduleController::class, 'index'])->name('index');
+            });
+        });
+
+        Route::name('discoveries.')->group(function() {
+            Route::prefix('discoveries')->group(function() {
+                Route::get('/', [DiscoveryController::class, 'index'])->name('index');
             });
         });
     

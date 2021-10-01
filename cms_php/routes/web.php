@@ -8,6 +8,7 @@ use App\Http\Controllers\TeamController;
 use App\Http\Controllers\TodoController;
 use App\Http\Livewire\AnnouncementPage;
 use App\Http\Livewire\DashboardPage;
+use App\Http\Livewire\DiscoveryPage;
 use App\Http\Livewire\GreetingPage;
 use App\Http\Livewire\MemberPage;
 use App\Http\Livewire\RegisterPage;
@@ -34,6 +35,7 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
     Route::get('/announcement', AnnouncementPage::class)->name('announcement');
     Route::get('/member', MemberPage::class)->name('member');
     Route::get('/register', RegisterPage::class)->name('register')->middleware(['auth', 'register']);
+    Route::get('/discovery', DiscoveryPage::class)->name('discovery');
 });
 
 Route::resources([
