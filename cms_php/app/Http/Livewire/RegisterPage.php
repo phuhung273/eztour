@@ -32,10 +32,6 @@ class RegisterPage extends BaseComponent
 
         // Execution doesn't reach here if validation fails.
 
-        // $item = new User([
-        //     'message' => $this->content,
-        //     'alarm_time' => TimeHelper::gia2his($this->alarmTime),
-        // ]);
         $tourGuide = User::createTourGuide($data);
 
         $tourGuide->save();
@@ -51,14 +47,11 @@ class RegisterPage extends BaseComponent
 
     public function update(User $user, $data){
         $this->updateName = $data['updateName'];
-        $this->updateEmail = $data['updateEmail'];
         $this->validate([
-            'updateName' => 'required|min:4',
-            'updateEmail' => 'required',
+            'updateName' => 'required|min:4'
         ]);
 
         $user->name = $this->updateName;
-        $user->email = $this->updateEmail;
 
         $result = $user->save();
 

@@ -1,7 +1,6 @@
-<div x-data="announcementPage()">
-    <x-loading-indicator />
 
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-y-4 gap-x-16">
+<x-base-team-page :viewingTeam="$viewingTeam">
+    <div x-data="announcementPage()" class="grid grid-cols-1 md:grid-cols-3 gap-y-4 gap-x-16">
         <div class="col-span-1">
             <div class="flex flex-col justify-items-center px-4 py-3 mb-8 bg-white rounded-lg shadow-md">
 
@@ -22,7 +21,8 @@
             </div>
         </div>
     </div>
-</div>
+
+</x-base-team-page>
 
 @push('scripts')
 <script>

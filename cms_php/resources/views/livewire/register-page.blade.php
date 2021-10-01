@@ -10,7 +10,7 @@
 
                     <x-forms.input-text id="email" placeholder="email" label="Email" />
 
-                    <x-forms.input-text id="password" placeholder="password" label="Password" />
+                    <x-forms.input-text id="password" placeholder="password" type="password" label="Password" />
 
                 </form>
                 <x-app-button text="Submit" @click="submitCreate" />
@@ -31,7 +31,6 @@
     const email = document.getElementById('email');
     const password = document.getElementById('password');
     const updateName = document.getElementById('updateName');
-    const updateEmail = document.getElementById('updateEmail');
     const formCreate = document.getElementById('formCreate');
     const formUpdate = document.getElementById('formUpdate');
     
@@ -43,7 +42,6 @@
                 this.id = id
                 const row = this.data.find(e => e.id == id)
                 updateName.value = row.name
-                updateEmail.value = row.email
                 this.openModal()
             },
             submitCreate(){
