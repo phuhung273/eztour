@@ -6,7 +6,7 @@ part 'location.g.dart';
 class Location {
 
   @JsonKey(name: 'id')
-  int? id;
+  String? id;
 
   @JsonKey(name: 'name')
   String? name;

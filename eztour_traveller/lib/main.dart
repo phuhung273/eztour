@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Auth',
+      title: 'Eztour',
       theme: appTheme,
       initialBinding: SplashScreenBinding(),
       initialRoute: ROUTE_SPLASH,

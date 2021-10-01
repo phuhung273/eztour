@@ -53,6 +53,8 @@ dependencies:
   flutter_staggered_grid_view: ^0.4.0
   flutter_toggle_tab: ^1.1.7
   enum_to_string: ^2.0.1
+  image_picker: ^0.8.4+2
+  scan: ^1.4.3
 
 dev_dependencies:
   retrofit_generator: ^2.0.1

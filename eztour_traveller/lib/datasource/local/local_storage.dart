@@ -5,7 +5,7 @@ const CHAT_SESSIONID_KEY = 'CHAT_SESSIONID_KEY';
 const ACCESSTOKEN_KEY = 'ACCESSTOKEN_KEY';
 const USERID_KEY = 'USERID_KEY';
 const USERNAME_KEY = 'USERNAME_KEY';
-const PWD_KEY = 'PWD_KEY';
+const CREDENTIAL_KEY = 'CREDENTIAL_KEY';
 const DEVICENAME_KEY = 'DEVICENAME_KEY';
 
 class LocalStorage {
@@ -51,17 +51,17 @@ class LocalStorage {
     return box.read(DEVICENAME_KEY);
   }
 
-  void savePassword(String value){
-    box.write(PWD_KEY, value);
+  void saveCredential(String value){
+    box.write(CREDENTIAL_KEY, value);
   }
 
-  String? getPassword() {
-    return box.read(PWD_KEY);
+  String? getCredential() {
+    return box.read(CREDENTIAL_KEY);
   }
 
   void removeCredentials(){
     box.remove(USERNAME_KEY);
-    box.remove(PWD_KEY);
+    box.remove(CREDENTIAL_KEY);
     box.remove(ACCESSTOKEN_KEY);
   }
 }

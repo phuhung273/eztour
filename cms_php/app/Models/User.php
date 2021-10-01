@@ -13,6 +13,7 @@ use Laravel\Sanctum\HasApiTokens;
 
 use App\Helpers\StringHelper;
 use Exception;
+use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Support\Collection as SupportCollection;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Crypt;
@@ -151,7 +152,7 @@ class User extends Authenticatable
     public function qrEncryptedCode() {
         return Crypt::encrypt([
             'email' => $this->email,
-            'password' => $this->password,
+            'name' => $this->name,
         ]);
     }
 }

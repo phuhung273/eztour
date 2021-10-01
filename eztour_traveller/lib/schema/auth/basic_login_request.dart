@@ -1,9 +1,9 @@
 import 'package:json_annotation/json_annotation.dart';
 
-part 'login_request.g.dart';
+part 'basic_login_request.g.dart';
 
 @JsonSerializable()
-class LoginRequest {
+class BasicLoginRequest {
 
   @JsonKey(name: 'email')
   String username;
@@ -14,15 +14,15 @@ class LoginRequest {
   @JsonKey(name: 'device_name')
   String device;
 
-  LoginRequest({
+  BasicLoginRequest({
     required this.username,
     required this.password,
     required this.device,
   });
 
-  factory LoginRequest.fromJson(Map<String, dynamic> json) =>
-      _$LoginRequestFromJson(json);
+  factory BasicLoginRequest.fromJson(Map<String, dynamic> json) =>
+      _$BasicLoginRequestFromJson(json);
 
-  Map<String, dynamic> toJson() => _$LoginRequestToJson(this);
+  Map<String, dynamic> toJson() => _$BasicLoginRequestToJson(this);
 
 }

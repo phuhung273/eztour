@@ -35,7 +35,10 @@ Future configureDependencies() async {
 }
 
 void _configureApiClient(){
-  final dio = Dio(BaseOptions(contentType: "application/json"));
+  final dio = Dio(BaseOptions(
+    contentType: "application/json",
+    connectTimeout: 5000,
+  ));
 
   dio.interceptors.addAll([
     LogInterceptor(

@@ -23,7 +23,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::middleware('auth:sanctum')->group(function(){
-    Route::get('/user', fn(Request $request) => $request->user);
+    // Route::get('/user', fn(Request $request) => $request->user);
 
     Route::name('api.')->group(function() {
 
@@ -60,7 +60,9 @@ Route::middleware('auth:sanctum')->group(function(){
 
 });
 
-Route::name('api.')->group(function() {
-
-    Route::post('/login', [MobileAuthController::class, 'login'])->name('login');
+Route::name('api.login')->group(function() {
+    Route::prefix('login')->group(function() {
+        Route::post('/basic', [MobileAuthController::class, 'basicLogin'])->name('basic');
+        Route::post('/credential', [MobileAuthController::class, 'credentialLogin'])->name('credential');
+    });
 });

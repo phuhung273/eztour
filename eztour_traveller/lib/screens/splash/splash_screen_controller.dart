@@ -7,7 +7,8 @@ import 'package:eztour_traveller/datasource/local/local_storage.dart';
 import 'package:eztour_traveller/datasource/remote/auth_service.dart';
 import 'package:eztour_traveller/notifications/notification_api.dart';
 import 'package:eztour_traveller/route/route.dart';
-import 'package:eztour_traveller/schema/auth/login_request.dart';
+import 'package:eztour_traveller/schema/auth/basic_login_request.dart';
+import 'package:eztour_traveller/schema/auth/credential_login_request.dart';
 import 'package:eztour_traveller/screens/main/main_screen.dart';
 import 'package:get/get.dart';
 import 'package:rxdart/rxdart.dart';
@@ -59,18 +60,24 @@ class SplashScreenController extends GetxController{
   Future _onDoneLoading() async {
     if(_isEnoughInfo()){
 
-      final request = LoginRequest(
-          username: _localStorage.getUsername()!,
-          password: _localStorage.getPassword()!,
-          device: _localStorage.getDeviceName() ?? 'test'
-      );
+      try{
+        final request = CredentialLoginRequest(
+            credential: _localStorage.getCredential()!,
+            device: _localStorage.getDeviceName() ?? 'test'
+        );
 
-      final response = await _service.login(request);
+        final response = await _service.credentialLogin(request);
 
-      if(response.success()){
-        _localStorage.saveAccessToken(response.accessToken!);
-        Get.offAndToNamed(ROUTE_MAIN);
-      } else {
+        if(response.success()){
+          _localStorage.saveAccessToken(response.accessToken!);
+          _localStorage.saveCredential(response.credential!);
+          Get.offAndToNamed(ROUTE_MAIN);
+        } else {
+          _localStorage.removeCredentials();
+          Get.offAndToNamed(ROUTE_LOGIN);
+        }
+      } catch (e){
+        _localStorage.removeCredentials();
         Get.offAndToNamed(ROUTE_LOGIN);
       }
 
@@ -96,7 +103,6 @@ class SplashScreenController extends GetxController{
   }
 
   bool _isEnoughInfo(){
-    return _localStorage.getUsername() != null
-        && _localStorage.getPassword() != null;
+    return _localStorage.getCredential() != null;
   }
 }

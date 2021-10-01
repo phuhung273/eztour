@@ -15,10 +15,14 @@ class LoginResponse with Response {
   @JsonKey(name: 'user_name')
   String? username;
 
+  @JsonKey(name: 'credential')
+  String? credential;
+
   LoginResponse({
-    required this.accessToken,
-    required this.userID,
-    required this.username,
+    this.accessToken,
+    this.userID,
+    this.username,
+    this.credential,
   });
 
   factory LoginResponse.fromJson(Map<String, dynamic> json) =>

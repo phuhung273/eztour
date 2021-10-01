@@ -3,7 +3,7 @@ function parseQr($code){
 
 return '
 <img src="data:image/png;base64, ' . 
-base64_encode(QrCode::format('png')->size(300)->generate($code)) 
+base64_encode(QrCode::format('png')->size(300)->margin(3)->generate($code)) 
 .'">
 ';
 }
