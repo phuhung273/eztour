@@ -34,7 +34,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password', 'is_tourguide'
     ];
 
     /**
@@ -72,6 +72,10 @@ class User extends Authenticatable
         return (new static)::where('is_admin', true);
     }
 
+    public static function tourguides() {
+        return (new static)::where('is_tourguide', true);
+    }
+
     public static function findByName(string $name) {
         return (new static)::where('name', $name)->firstOrFail();
     }
@@ -85,7 +89,16 @@ class User extends Authenticatable
             'name' => $name,
             'email' => $email,
             'password' => Hash::make($password),
-            'is_admin' => false,
+            'is_tourguide' => false,
+        ]);
+    }
+
+    public static function createTourGuide($data) {
+        return (new static)::create([
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'password' => Hash::make($data['password']),
+            'is_tourguide' => true,
         ]);
     }
 
