@@ -9,9 +9,7 @@ class Discovery extends Model
 {
     use HasFactory;
 
-    public function images(){
-        return $this->hasMany(Image::class);
-    }
+    protected $fillable = ['title', 'image', 'address', 'about', 'place'];
 
     public function teams(){
         return $this->belongsToMany(Team::class);

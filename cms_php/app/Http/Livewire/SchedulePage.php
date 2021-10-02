@@ -46,7 +46,7 @@ class SchedulePage extends BaseTeamPage
 
         // Execution doesn't reach here if validation fails.
 
-        $image_name = $this->image->getClientOriginalName();
+        $image_name = $this->image->getClientOriginalName().date('Ymdhis');
         $this->image->storeAs(self::IMAGE_STORAGE_DIRECTORY, $image_name);
 
         $item = $this->viewingTeam->locations()->create([

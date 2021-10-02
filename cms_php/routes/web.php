@@ -9,6 +9,7 @@ use App\Http\Controllers\TeamController;
 use App\Http\Controllers\TodoController;
 use App\Http\Livewire\AnnouncementPage;
 use App\Http\Livewire\DashboardPage;
+use App\Http\Livewire\DiscoveryPage;
 use App\Http\Livewire\GreetingPage;
 use App\Http\Livewire\MemberPage;
 use App\Http\Livewire\QrPage;
@@ -38,6 +39,7 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
     Route::get('/qr', QrPage::class)->name('qr');
     Route::get('/qrPdf/{team}', [QrPdfController::class, 'index'])->name('qrPdf');
     Route::get('/register', RegisterPage::class)->name('register')->middleware(['auth', 'register']);
+    Route::get('/discovery', DiscoveryPage::class)->name('discovery');
 });
 
 Route::resources([

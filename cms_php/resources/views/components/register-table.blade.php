@@ -22,7 +22,5 @@ $tableData = $data->map(fn($row) => [
 
     <x-forms.input-text id="updateName" label="Tour Guide" />
 
-    <x-forms.input-text id="updateEmail" label="Email" />
-
 </form>
 @endsection

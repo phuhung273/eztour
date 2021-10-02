@@ -19,6 +19,7 @@ class CreateDiscoveriesTable extends Migration
             $table->string('place');
             $table->string('address');
             $table->longText('about');
+            $table->string('image');
             $table->timestamps();
         });
     }

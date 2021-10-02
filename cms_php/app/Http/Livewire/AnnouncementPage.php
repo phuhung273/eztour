@@ -27,6 +27,8 @@ class AnnouncementPage extends BaseTeamPage
 
     public function create($data)
     {
+        $this->validateCrudPermission();
+
         $this->content = $data['content'];
         $this->category = $data['category'];
         $this->validate([
