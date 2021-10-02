@@ -1,15 +1,17 @@
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 import 'package:animations/animations.dart';
-import 'package:eztour_traveller/Screens/home/home_screen.dart';
 import 'package:eztour_traveller/screens/announcement/announcement_screen.dart';
 import 'package:eztour_traveller/screens/chat/chat_screen.dart';
 import 'package:eztour_traveller/screens/checklist/checklist_screen.dart';
+import 'package:eztour_traveller/screens/discovery/discovery_screen.dart';
+import 'package:eztour_traveller/screens/home/home_screen.dart';
 import 'package:eztour_traveller/screens/main/main_screen_controller.dart';
 import 'package:eztour_traveller/screens/schedule/schedule_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-const scheduleScreenIndex = 4;
+const SCHEDULE_SCREEN_INDEX = 4;
+const DISCOVERY_SCREEN_INDEX = 5;
 
 class MainScreen extends StatelessWidget {
 
@@ -53,9 +55,8 @@ class MainScreen extends StatelessWidget {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => _controller.changeTab(scheduleScreenIndex),
+        onPressed: () => _controller.changeTab(SCHEDULE_SCREEN_INDEX),
         child: const Icon(Icons.event),
-
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: _buildBottomNavigationBar(),
@@ -65,7 +66,9 @@ class MainScreen extends StatelessWidget {
   Widget _buildTab(int index){
     switch(index){
       case 0:
-        return HomeScreen();
+        return HomeScreen(
+            toDiscoveryScreen: _toDiscoveryScreen
+        );
 
       case 1:
         return AnnouncementScreen();
@@ -76,13 +79,20 @@ class MainScreen extends StatelessWidget {
       case 3:
         return ChatScreen();
 
-      case 4:
+      case SCHEDULE_SCREEN_INDEX:
         return ScheduleScreen();
 
+      case DISCOVERY_SCREEN_INDEX:
+        return DiscoveryScreen();
+
       default:
-        return HomeScreen();
+        return HomeScreen(
+            toDiscoveryScreen: _toDiscoveryScreen
+        );
     }
   }
+
+  void _toDiscoveryScreen() => _controller.changeTab(DISCOVERY_SCREEN_INDEX);
 }
 
 class _buildBottomNavigationBar extends StatelessWidget {

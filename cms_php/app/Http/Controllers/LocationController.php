@@ -104,9 +104,16 @@ class LocationController extends Controller
     public function update(Request $request, Location $location)
     {
         $this->validateViewingTeam();
-        $this->validateInput($request, self::MODE_UPDATE);
+        $input = $this->validateInput($request, self::MODE_UPDATE, $location->id);
+
+        if (!isset($input)) {
+            return back()->withErrors([
+                'from' => 'Invalid time',
+                'to' => 'Invalid time',
+            ])->withInput();
+        }
     
-        $location->update($this->input);
+        $location->update($input);
         
         return redirect()->route('locations.index')
                         ->with('success','Location updated successfully');
@@ -128,7 +135,7 @@ class LocationController extends Controller
                             ->with('success', 'Location deleted');
     }
 
-    private function validateInput(Request $request, string $mode){
+    private function validateInput(Request $request, string $mode, $id=null){
         if ($mode == self::MODE_CREATE) {
             $request->validate([
                 'image' => 'required|image|max:1024',
@@ -138,7 +145,15 @@ class LocationController extends Controller
                 'from' => 'required',
                 'to' => 'required',
             ]);
-        } elseif ($mode = self::MODE_UPDATE) {
+
+            if ($this->viewingTeam->isTimeInvalid($request->from, $request->to, $request->day)) {
+                return null;
+            }
+        } elseif ($mode = self::MODE_UPDATE && isset($id)) {
+            if (isset($id)) {
+                return null;
+            }
+            
             $request->validate([
                 'name' => 'required|min:4',
                 'description' => 'required|min:20',
@@ -146,10 +161,10 @@ class LocationController extends Controller
                 'from' => 'required',
                 'to' => 'required',
             ]);
-        }
 
-        if ($this->viewingTeam->isTimeInvalid($request->from, $request->to, $request->day)) {
-            return null;
+            if ($this->viewingTeam->isTimeInvalid($request->from, $request->to, $request->day, $id)) {
+                return null;
+            }
         }
   
         $input = $request->all();

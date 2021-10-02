@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AnnouncementController;
+use App\Http\Controllers\DiscoveryController;
 use App\Http\Livewire\ChecklistPage;
 use App\Http\Controllers\GreetingController;
 use App\Http\Controllers\LocationController;
@@ -39,11 +40,11 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
     Route::get('/qr', QrPage::class)->name('qr');
     Route::get('/qrPdf/{team}', [QrPdfController::class, 'index'])->name('qrPdf');
     Route::get('/register', RegisterPage::class)->name('register')->middleware(['auth', 'register']);
-    Route::get('/discovery', DiscoveryPage::class)->name('discovery');
 });
 
 Route::resources([
     'locations' => LocationController::class,
+    'discoveries' => DiscoveryController::class,
     'greetings' => GreetingController::class,
     'todos' => TodoController::class,
     'announcements' => AnnouncementController::class,

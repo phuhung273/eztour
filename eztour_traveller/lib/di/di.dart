@@ -5,7 +5,17 @@ import 'package:eztour_traveller/datasource/local/checklist_db.dart';
 import 'package:eztour_traveller/datasource/local/local_storage.dart';
 import 'package:eztour_traveller/datasource/local/my_announcement_db.dart';
 import 'package:eztour_traveller/datasource/local/my_checklist_db.dart';
+import 'package:eztour_traveller/datasource/remote/announcement_service.dart';
 import 'package:eztour_traveller/datasource/remote/auth_service.dart';
+import 'package:eztour_traveller/datasource/remote/checklist_service.dart';
+import 'package:eztour_traveller/datasource/remote/discovery_service.dart';
+import 'package:eztour_traveller/datasource/remote/home_service.dart';
+import 'package:eztour_traveller/datasource/remote/schedule_service.dart';
+import 'package:eztour_traveller/schema/announcement/announcement_list_request.dart';
+import 'package:eztour_traveller/schema/checklist/checklist_request.dart';
+import 'package:eztour_traveller/schema/discovery/discovery_list_request.dart';
+import 'package:eztour_traveller/schema/home/home_index_request.dart';
+import 'package:eztour_traveller/schema/schedule/schedule_list_request.dart';
 import 'package:get/get.dart';
 import 'package:dio/dio.dart';
 import 'package:get_storage/get_storage.dart';
@@ -30,6 +40,20 @@ Future configureDependencies() async {
 
   Get.put(MyChecklistDB.instance);
 
+  Get.put(AuthService(Get.find()));
+
+  Get.put(DiscoveryListRequest());
+  Get.put(ScheduleListRequest());
+  Get.put(AnnouncementListRequest());
+  Get.put(ChecklistRequest());
+  Get.put(ScheduleListRequest());
+  Get.put(HomeIndexRequest());
+
+  Get.put(HomeService(Get.find()));
+  Get.put(ScheduleService(Get.find()));
+  Get.put(DiscoveryService(Get.find()));
+  Get.put(ChecklistService(Get.find()));
+  Get.put(AnnouncementService(Get.find()));
   Get.put(AuthService(Get.find()));
 
 }

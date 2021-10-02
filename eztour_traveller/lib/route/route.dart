@@ -1,5 +1,8 @@
 
 import 'package:eztour_traveller/screens/checklist/checklist_detail_screen.dart';
+import 'package:eztour_traveller/screens/discovery/discovery_controller.dart';
+import 'package:eztour_traveller/screens/discovery/discovery_detail.dart';
+import 'package:eztour_traveller/screens/discovery/discovery_screen.dart';
 import 'package:eztour_traveller/screens/login/login_screen.dart';
 import 'package:eztour_traveller/screens/login/login_screen_controller.dart';
 import 'package:eztour_traveller/screens/main/main_screen.dart';
@@ -21,6 +24,8 @@ const ROUTE_MESSAGE = '/message';
 const ROUTE_CHECKLIST_DETAIL = '/checklist_detail';
 const ROUTE_MY_CHECKLIST = '/my_checklist';
 const ROUTE_MY_ANNOUNCEMENTS = '/my_announcements';
+const ROUTE_DISCOVERY = '/discovery';
+const ROUTE_DISCOVERY_DETAIL = '/discovery_detail';
 
 var appRoute = [
   GetPage(name: ROUTE_SPLASH, page: () => SplashScreen(), binding: SplashScreenBinding()),
@@ -30,4 +35,6 @@ var appRoute = [
   GetPage(name: ROUTE_CHECKLIST_DETAIL, page: () => ChecklistDetailScreen()),
   GetPage(name: ROUTE_MY_CHECKLIST, page: () => MyChecklistScreen(), binding: MyChecklistScreenBinding()),
   GetPage(name: ROUTE_MY_ANNOUNCEMENTS, page: () => MyAnnouncementScreen(), binding: MyAnnouncementScreenBinding()),
+  GetPage(name: ROUTE_DISCOVERY, page: () => DiscoveryScreen()),
+  GetPage(name: ROUTE_DISCOVERY_DETAIL, page: () => DiscoveryDetailScreen()),
 ];

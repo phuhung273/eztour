@@ -117,11 +117,27 @@ class Team extends JetstreamTeam
                     ->oldest('from');
     }
 
-    public function isTimeInvalid($from, $to, int $day){
-        $existingTimes = $this->locations()
+    public function isTimeInvalid($from, $to, int $day, $excludeId=null){
+        $existingTimes = null;
+
+        if (isset($excludeId)) {
+            $existingTimes = $this->locations()
                     ->where('day', $day)
+                    ->where('id', '!=', $excludeId)
                     ->select('from', 'to')
                     ->get();
+        } else {
+            $existingTimes = $this->locations()
+                        ->where('day', $day)
+                        ->select('from', 'to')
+                        ->get();
+        }
+
+        if (!isset($existingTime) || $existingTimes->isEmpty()) {
+            if ($from >= $to) {
+                return true;
+            }
+        }
         
         foreach ($existingTimes as $existingTime){
             if (!TimeHelper::isNotConflictWithHisRange($from, $to, $existingTime->from, $existingTime->to)) {

@@ -1,5 +1,6 @@
 
 import 'package:eztour_traveller/constants.dart';
+import 'package:eztour_traveller/route/route.dart';
 import 'package:eztour_traveller/screens/main/main_screen_controller.dart';
 import 'package:flag/flag.dart';
 import 'package:flutter/material.dart';
@@ -10,12 +11,24 @@ import 'package:intl/intl.dart';
 import 'discovery_slider.dart';
 import 'home_screen_controller.dart';
 import 'location_carousel.dart';
-import 'moment_grid.dart';
 import 'notice_tabbar.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
+  final VoidCallback toDiscoveryScreen;
+
+  const HomeScreen({
+    required this.toDiscoveryScreen,
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
 
   final HomeScreenController _controller = Get.put(HomeScreenController());
+
   final MainScreenController _mainController = Get.find();
 
   @override
@@ -95,10 +108,13 @@ class HomeScreen extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: defaultPadding, vertical: defaultSpacing),
                   child: _buildNoticesTabBar(),
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: defaultPadding, vertical: defaultSpacing),
-                  child: DiscoverySlider(
-                    title: 'Discovery',
+                InkWell(
+                  onTap: widget.toDiscoveryScreen,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: defaultPadding, vertical: defaultSpacing),
+                    child: DiscoverySlider(
+                      title: 'Discovery',
+                    ),
                   ),
                 ),
                 const Divider(height: defaultSpacing)

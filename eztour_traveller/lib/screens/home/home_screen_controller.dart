@@ -18,9 +18,9 @@ class HomeScreenBinding extends Bindings {
 
 class HomeScreenController extends GetxController {
 
-  final _service = Get.put(HomeService(Get.find()));
+  final HomeService _service = Get.find();
 
-  final _homeIndexRequest = Get.put(HomeIndexRequest());
+  final HomeIndexRequest _homeIndexRequest = Get.find();
 
   var initialPage = 0.obs;
   var greeting = ''.obs;

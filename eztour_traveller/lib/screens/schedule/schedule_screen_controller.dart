@@ -17,8 +17,8 @@ class ScheduleBinding extends Bindings {
 
 class ScheduleScreenController extends GetxController {
 
-  final _service = Get.put(ScheduleService(Get.find()));
-  final _listRequest = Get.put(ScheduleListRequest());
+  final ScheduleService _service = Get.find();
+  final ScheduleListRequest _listRequest = Get.find();
 
   final pageController = PageController();
   final _pageTurnDuration = const Duration(milliseconds: 500);

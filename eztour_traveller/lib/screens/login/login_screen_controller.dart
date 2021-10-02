@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'package:eztour_traveller/datasource/local/local_storage.dart';
 import 'package:eztour_traveller/datasource/remote/auth_service.dart';
 import 'package:eztour_traveller/route/route.dart';
@@ -22,7 +21,7 @@ class LoginScreenController extends GetxController {
 
   final LocalStorage _localStorage = Get.find();
 
-  var _credential = BasicAuthCredential(username: '', password: '');
+  final _credential = BasicAuthCredential(username: '', password: '');
 
   var barcodeResult = "Scan your QR".obs;
 

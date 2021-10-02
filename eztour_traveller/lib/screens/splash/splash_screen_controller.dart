@@ -7,7 +7,6 @@ import 'package:eztour_traveller/datasource/local/local_storage.dart';
 import 'package:eztour_traveller/datasource/remote/auth_service.dart';
 import 'package:eztour_traveller/notifications/notification_api.dart';
 import 'package:eztour_traveller/route/route.dart';
-import 'package:eztour_traveller/schema/auth/basic_login_request.dart';
 import 'package:eztour_traveller/schema/auth/credential_login_request.dart';
 import 'package:eztour_traveller/screens/main/main_screen.dart';
 import 'package:get/get.dart';

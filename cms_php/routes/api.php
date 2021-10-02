@@ -36,7 +36,7 @@ Route::middleware('auth:sanctum')->group(function(){
 
         Route::name('discoveries.')->group(function() {
             Route::prefix('discoveries')->group(function() {
-                Route::get('/', [DiscoveryController::class, 'index'])->name('index');
+                Route::get('/', [DiscoveryController::class, 'mobileIndex'])->name('mobileIndex');
             });
         });
     

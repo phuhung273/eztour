@@ -22,7 +22,7 @@ class TimeHelper {
     }
 
     public static function isNotConflictWithHisRange($inputFrom, $inputTo, $from, $to) {
-        if ($inputFrom == $inputTo) {
+        if ($inputFrom >= $inputTo) {
             return false;
         }
 

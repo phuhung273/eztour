@@ -7,7 +7,6 @@ import 'package:eztour_traveller/enum.dart';
 import 'package:eztour_traveller/route/route.dart';
 import 'package:eztour_traveller/screens/checklist/checklist_controller.dart';
 import 'package:eztour_traveller/screens/main/main_screen_controller.dart';
-import 'package:eztour_traveller/screens/my_checklist/my_checklist_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get/get.dart';

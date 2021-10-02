@@ -16,11 +16,11 @@ class AnnouncementScreenBinding extends Bindings {
 
 class AnnouncementScreenController extends GetxController {
 
-  final _service = Get.put(AnnouncementService(Get.find()));
+  final AnnouncementService _service = Get.find();
 
   final MyAnnouncementDB _userAnnouncementDB = Get.find();
 
-  final _announcementListRequest = Get.put(AnnouncementListRequest());
+  final AnnouncementListRequest _announcementListRequest = Get.find();
 
   final categories = <String, List<Announcement>>{}.obs;
 

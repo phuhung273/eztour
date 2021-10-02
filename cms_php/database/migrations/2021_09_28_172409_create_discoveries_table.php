@@ -17,8 +17,8 @@ class CreateDiscoveriesTable extends Migration
             $table->uuid('id')->primary();
             $table->string('title');
             $table->string('place');
-            $table->string('address');
-            $table->longText('about');
+            $table->string('address')->nullable();
+            $table->longText('about')->nullable();
             $table->string('image');
             $table->timestamps();
         });

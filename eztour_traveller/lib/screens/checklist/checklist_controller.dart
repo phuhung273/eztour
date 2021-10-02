@@ -16,9 +16,9 @@ class ChecklistScreenBinding extends Bindings {
 
 class ChecklistScreenController extends GetxController {
 
-  final _service = Get.put(ChecklistService(Get.find()));
+  final ChecklistService _service = Get.find();
 
-  final _checklistRequest = Get.put(ChecklistRequest());
+  final ChecklistRequest _checklistRequest = Get.find();
 
   final ChecklistDB _checklistDB = Get.find();
 
