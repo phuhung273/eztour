@@ -9,10 +9,8 @@
                     <x-forms.input-text id="name" placeholder="username" label="Tour Guide" />
 
                     <x-forms.input-text id="email" placeholder="email" label="Email" />
-                    <label class="block mt-4 text-sm">
-                        <h4 class="mb-4 text-lg font-semibold text-gray-600 dark:text-gray-300">Password</h4>
-                        <input class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="********" type="password" name="password" />
-                    </label>
+
+                    <x-forms.input-password id="password" label="Password" />
 
                 </form>
                 <x-app-button text="Submit" @click="submitCreate" />
@@ -33,6 +31,7 @@
     const email = document.getElementById('email');
     const password = document.getElementById('password');
     const updateName = document.getElementById('updateName');
+    const updateEmail = document.getElementById('updateEmail');
     const formCreate = document.getElementById('formCreate');
     const formUpdate = document.getElementById('formUpdate');
     
@@ -44,6 +43,7 @@
                 this.id = id
                 const row = this.data.find(e => e.id == id)
                 updateName.value = row.name
+                updateEmail.value = row.email
                 this.openModal()
             },
             submitCreate(){
@@ -51,7 +51,9 @@
                 const data = Object.fromEntries(new FormData(formCreate).entries())
                 @this.create(data).then(function(response){
                     if (response != null) {
-                        content.value = ''
+                        name.value = ''
+                        email.value = ''
+                        password.value = ''
                         self.data.push(response.data)
                     }
                 })

@@ -4,6 +4,7 @@ namespace App\Http\Livewire;
 
 use Livewire\Component;
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 
 class RegisterPage extends BaseComponent
 {
@@ -12,6 +13,9 @@ class RegisterPage extends BaseComponent
     public $name;
     public $email;
     public $password;
+    public $updateName;
+    public $updateEmail;
+    public $updatePassword;
 
     public function mount() {
         
@@ -47,11 +51,17 @@ class RegisterPage extends BaseComponent
 
     public function update(User $user, $data){
         $this->updateName = $data['updateName'];
+        $this->updateEmail = $data['updateEmail'];
+        $this->updatePassword = $data['updatePassword'];
         $this->validate([
-            'updateName' => 'required|min:4'
+            'updateName' => 'required|min:4',
+            'updateEmail' => 'required',
+            'updatePassword' => 'required|min:8'
         ]);
 
         $user->name = $this->updateName;
+        $user->email = $this->updateEmail;
+        $user->password = Hash::make($this->updatePassword);
 
         $result = $user->save();
 
@@ -59,11 +69,12 @@ class RegisterPage extends BaseComponent
             $this->data->transform(fn($row) => $row->id == $user->id ? $user : $row);
 
             $this->modalSuccess('Updated!');
+
+            return [
+                'data' => $user
+            ];
         }
 
-        return [
-            'data' => $user
-        ];
     }
 
     public function delete(User $user) {
