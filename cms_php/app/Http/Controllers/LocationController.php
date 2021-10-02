@@ -6,7 +6,7 @@ use App\Helpers\TimeHelper;
 use App\Models\Location;
 use App\Models\Team;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Redirect;
 
 class LocationController extends Controller
 {
@@ -55,13 +55,19 @@ class LocationController extends Controller
     {
         $this->validateViewingTeam();
 
-        $input = $this->validatedInput($request, self::MODE_CREATE);
-        
+        $input = $this->validateInput($request, self::MODE_CREATE);
+
+        if (!isset($input)) {
+            return back()->withErrors([
+                'from' => 'Invalid time',
+                'to' => 'Invalid time',
+            ])->withInput();
+        }
+
         $this->viewingTeam->locations()->create($input);
-        
+            
         return redirect()->route('locations.index')
                         ->with('success','Location created successfully');
-
     }
 
     /**
@@ -98,9 +104,9 @@ class LocationController extends Controller
     public function update(Request $request, Location $location)
     {
         $this->validateViewingTeam();
-        $input = $this->validatedInput($request, self::MODE_UPDATE);
+        $this->validateInput($request, self::MODE_UPDATE);
     
-        $location->update($input);
+        $location->update($this->input);
         
         return redirect()->route('locations.index')
                         ->with('success','Location updated successfully');
@@ -122,7 +128,7 @@ class LocationController extends Controller
                             ->with('success', 'Location deleted');
     }
 
-    private function validatedInput(Request $request, string $mode){
+    private function validateInput(Request $request, string $mode){
         if ($mode == self::MODE_CREATE) {
             $request->validate([
                 'image' => 'required|image|max:1024',
@@ -140,6 +146,10 @@ class LocationController extends Controller
                 'from' => 'required',
                 'to' => 'required',
             ]);
+        }
+
+        if ($this->viewingTeam->isTimeInvalid($request->from, $request->to, $request->day)) {
+            return null;
         }
   
         $input = $request->all();

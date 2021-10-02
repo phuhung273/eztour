@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Helpers\TimeHelper;
 use Laravel\Jetstream\Events\TeamCreated;
 use Laravel\Jetstream\Events\TeamDeleted;
 use Laravel\Jetstream\Events\TeamUpdated;
@@ -114,5 +115,20 @@ class Team extends JetstreamTeam
                     ->groupBy('day')
                     ->select('name', 'image', 'day')
                     ->oldest('from');
+    }
+
+    public function isTimeInvalid($from, $to, int $day){
+        $existingTimes = $this->locations()
+                    ->where('day', $day)
+                    ->select('from', 'to')
+                    ->get();
+        
+        foreach ($existingTimes as $existingTime){
+            if (!TimeHelper::isNotConflictWithHisRange($from, $to, $existingTime->from, $existingTime->to)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

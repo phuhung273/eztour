@@ -9,15 +9,15 @@
 
                 <x-forms.image-upload id="image" label="Image" url="{{ asset('img/placeholder-image.png') }}" />
 
-                <x-forms.input-text id="name" label="Label" />
+                <x-forms.input-text id="name" label="Label" value="{{ old('name') }}" />
 
-                <x-forms.textarea id="description" label="Description" />
+                <x-forms.textarea id="description" label="Description" value="{{ old('description') }}" />
 
-                <x-forms.input-number id="day" label="Day" />
+                <x-forms.input-number id="day" label="Day" value="{{ old('day') }}" />
 
-                <x-forms.time-picker id="from" label="From (hour)" />
+                <x-forms.time-picker id="from" label="From (hour)" value="{{ old('from') }}" />
 
-                <x-forms.time-picker id="to" label="To (hour)" />
+                <x-forms.time-picker id="to" label="To (hour)" value="{{ old('to') }}" />
 
                 <div class="text-center">
                     <x-app-button text="Save" purpose="submit" class="w-full md:w-1/2" />
