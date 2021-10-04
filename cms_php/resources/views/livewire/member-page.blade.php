@@ -12,13 +12,6 @@
                     </form>
                     <x-app-button text="Add traveller" @click="submitCreateNormalUser" />
                 </div>
-
-                <form wire:submit.prevent="importExcel">
-
-                    <x-forms.file-upload wire:model.defer="file" label="Excel file" instruction="Select Excel file" />
-
-                    <x-app-button text="Submit file" purpose="submit" scheme="success" />
-                </form>
             </div>
 
             <div class="flex flex-col justify-items-center px-4 py-3 mb-8 bg-white rounded-lg shadow-md">
@@ -59,8 +52,10 @@
 
 @push('scripts')
 <script>
-    const name = document.getElementById('normalUserName');
+    const normalUserName = document.getElementById('normalUserName');
+    const updateNormalUserName = document.getElementById('updateNormalUserName');
     const formCreate = document.getElementById('formCreate');
+    const formUpdate = document.getElementById('formUpdate');
 
     function memberPage(){
         return {
@@ -69,7 +64,7 @@
             modalUpdate(id){
                 this.id = id;
                 const row = this.data.find(e => e.id == id);
-                updateContent.value = row.message;
+                updateNormalUserName.value = row.name;
                 this.openModal();
             },
             submitCreateNormalUser(){
@@ -77,7 +72,7 @@
                 const data = Object.fromEntries(new FormData(formCreate).entries())
                 @this.addNormalUser(data).then(function(response){
                     if (response != null) {
-                        name.value = '';
+                        normalUserName.value = '';
                         self.data.push(response.data);
                     }
                 })

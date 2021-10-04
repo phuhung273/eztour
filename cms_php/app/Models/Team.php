@@ -100,14 +100,9 @@ class Team extends JetstreamTeam
 
     public function addNormalUser(User $user){
         $this->users()->attach($user);
+        $user->switchTeam($this);
     }
-
-    public function bulkAddNormalUser(Collection $users){
-        $this->users()->attach($users);
-        $id = $this->id;
-        return $users->toQuery()->update(['current_team_id' => $id]);
-    }
-
+    
     public function overallLocations(){
         DB::statement("SET SQL_MODE=''");
         return $this->locations()

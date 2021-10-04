@@ -94,6 +94,17 @@ class User extends Authenticatable
         ]);
     }
 
+    public function updateNormalUser(string $name) {
+        $programmingStr = StringHelper::vietnameseToProgrammingString($name);
+        $email =  $programmingStr . '@email.com';
+        $password = $programmingStr . '13579';
+
+        $this->name = $name;
+        $this->email = $email;
+        $this->password = Hash::make($password);
+        $this->save();
+    }
+
     public static function createTourGuide($data) {
         return (new static)::create([
             'name' => $data['name'],

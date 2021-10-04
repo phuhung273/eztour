@@ -46,5 +46,7 @@
     <string>Camera permission is required for QR scanning.</string>
     <key>NSPhotoLibraryUsageDescription</key>
     <string>Media Library access is required for picking QR image</string>
+    <key>NSLocationWhenInUseUsageDescription</key>
+    <string>In case you get lost, send location to your tour guide</string>
 </dict>
 </plist>

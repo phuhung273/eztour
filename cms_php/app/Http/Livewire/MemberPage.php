@@ -2,15 +2,11 @@
 
 namespace App\Http\Livewire;
 
-use App\Imports\NormalUserImport;
 use App\Models\User;
-use Livewire\WithFileUploads;
-use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\Http;
 
 class MemberPage extends BaseTeamPage
 {
-    use WithFileUploads;
-
     public $admins = [];
     public $adminOptions;
 
@@ -45,21 +41,55 @@ class MemberPage extends BaseTeamPage
     public function addNormalUser($data){
         $this->normalUserName = $data['normalUserName'];
         $this->validate([
-            'normalUserName' => 'required',
+            'normalUserName' => 'required|min:4',
         ]);
 
         $user = User::createNormalUser($this->normalUserName);
-        $this->viewingTeam->addNormalUser($user);
-        $newUser = $this->parseRow($user);
-
+        
         if ($user) {
-            $this->normalUsers[] = $newUser;
-            $this->modalSuccess('Traveller added!');
+            $this->viewingTeam->addNormalUser($user);
+
+            $response = Http::post(config('app.chat_server') . '/users', [
+                'id' => $user->id,
+                'name' => $user->name,
+            ]);
+
+            if($response->successful()){
+                $newUser = $this->parseRow($user);
+                $this->normalUsers[] = $newUser;
+                $this->modalSuccess('Traveller added!');
+        
+                $this->reset(['normalUserName']);
     
-            $this->reset(['normalUserName']);
+                return [
+                    'data' => $newUser
+                ];
+            }
+
+        }
+    }
+
+    public function update(User $user, $data){
+        $this->updateNormalUserName = $data['updateNormalUserName'];
+        $this->validate([
+            'updateNormalUserName' => 'required|min:4',
+        ]);
+
+        $user->updateNormalUser($this->updateNormalUserName);
+        
+        $response = Http::put(config('app.chat_server') . '/users/' . $user->id, [
+            'name' => $user->name,
+        ]);
+
+        if($response->successful()){
+            $updatedUser = $this->parseRow($user);
+            $this->normalUsers = array_map(fn($row) => $row['id'] == $updatedUser['id'] ? $updatedUser : $row, $this->normalUsers);
+            $this->modalSuccess('Traveller updated!');
+    
+            $this->reset(['updateNormalUserName']);
 
             return [
-                'data' => $newUser
+                'data' => $updatedUser
             ];
         }
     }
@@ -80,33 +110,13 @@ class MemberPage extends BaseTeamPage
         }
     }
 
-    public function importExcel(){
-
-        $this->validate([
-            'file' => 'required',
-        ]);
-
-        // Output: ['Nguyễn Văn A', 'Quách Thị B']
-        $names = Excel::toCollection(new NormalUserImport, $this->file)->first();
-
-        $users = User::bulkCreateNormalUser($names);
-
-        if ($users) {
-            $result = $this->viewingTeam->bulkAddNormalUser($users);
-
-            if ($result > 0) {
-                $users->transform(fn($user) => $this->parseRow($user));
-                $this->normalUsers = [...$this->normalUsers, ...$users];
-                $this->modalSuccess('Travellers added!');
-                $this->reset(['file']);
-            }
-        }
-    }
-
     public function delete(User $item) {
         $item->delete();
-        $this->normalUsers = array_filter($this->normalUsers, fn ($e) => $e['id'] != $item->id);
-        $this->modalSuccess('Deleted!');
+        $response = Http::delete(config('app.chat_server') . '/users/' . $item->id);
+        if ($response->successful()) {
+            $this->normalUsers = array_filter($this->normalUsers, fn ($e) => $e['id'] != $item->id);
+            $this->modalSuccess('Deleted!');
+        }
     }
 
     public function render()

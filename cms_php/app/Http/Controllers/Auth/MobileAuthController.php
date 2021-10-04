@@ -8,7 +8,6 @@ use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\ValidationException;
 
 class MobileAuthController extends Controller
 {
@@ -71,7 +70,7 @@ class MobileAuthController extends Controller
                 'access_token' => $user->createToken($deviceName)->plainTextToken,
                 'credential' => $user->qrEncryptedCode(),
                 'user_id' => $user->id,
-                'user_name' => $user->email,
+                'user_name' => $user->name,
                 'statusCode' => '200',
             ];
         } else {

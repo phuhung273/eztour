@@ -19,8 +19,9 @@ const COLUMN_MESSAGE_ID = FIELD_ID;
 const COLUMN_MESSAGE_CONTENT = FIELD_CONTENT;
 const COLUMN_MESSAGE_FROMID = FIELD_FROM;
 const COLUMN_MESSAGE_TOID = FIELD_TO;
+const COLUMN_MESSAGE_TYPE = FIELD_TYPE;
 
-class ChatUserDB{
+class ChatUserDB {
    static final ChatUserDB instance = ChatUserDB._init();
 
    static Database? _database;
@@ -62,7 +63,8 @@ class ChatUserDB{
           $COLUMN_MESSAGE_ID $textType UNIQUE,
           $COLUMN_MESSAGE_CONTENT $textType,
           $COLUMN_MESSAGE_FROMID $textType,
-          $COLUMN_MESSAGE_TOID $textType
+          $COLUMN_MESSAGE_TOID $textType,
+          $COLUMN_MESSAGE_TYPE $textType
         )
      ''');
    }
@@ -122,5 +124,6 @@ class ChatUserDB{
      final db = await instance.database;
 
      db.delete(TABLE_USER_NAME);
+     db.delete(TABLE_MESSAGES_NAME);
    }
 }

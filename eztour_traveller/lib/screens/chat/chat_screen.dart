@@ -1,5 +1,7 @@
+import 'package:enum_to_string/enum_to_string.dart';
 import 'package:eztour_traveller/route/route.dart';
 import 'package:eztour_traveller/schema/chat/chat.dart';
+import 'package:eztour_traveller/schema/chat/chat_socket_message.dart';
 import 'package:eztour_traveller/screens/main/main_screen_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -35,35 +37,35 @@ class ChatScreen extends StatelessWidget {
         SliverToBoxAdapter(
           child: Column(
             children: [
-              _buildTravelCompanions(),
-              Row(
-                  children: [
-                    Container(
-                      decoration: BoxDecoration(
-                        color: Colors.grey[600],
-                        borderRadius: BorderRadius.circular(20.0),
-                      ),
-                      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-                      margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-                      child: const Text(
-                        'Text with admin',
-                        style: TextStyle(
-                            color: Colors.white
-                        ),
-                      ),
-                    ),
-                  ]
-              ),
-              ChatCard(
-                  chat: Chat(
-                    name: "Administrator",
-                    lastMessage: "Hello Abdullah! I am...",
-                    image: "assets/images/user_2.png",
-                    time: "8m ago",
-                    isActive: true,
-                  ),
-                  press: () => _goToMessageScreen('abc'),
-              ),
+              // _buildTravelCompanions(),
+              // Row(
+              //     children: [
+              //       Container(
+              //         decoration: BoxDecoration(
+              //           color: Colors.grey[600],
+              //           borderRadius: BorderRadius.circular(20.0),
+              //         ),
+              //         padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+              //         margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+              //         child: const Text(
+              //           'Text with admin',
+              //           style: TextStyle(
+              //               color: Colors.white
+              //           ),
+              //         ),
+              //       ),
+              //     ]
+              // ),
+              // ChatCard(
+              //     chat: Chat(
+              //       name: "Administrator",
+              //       lastMessage: '',
+              //       image: "assets/images/user_2.png",
+              //       time: "8m ago",
+              //       isActive: true,
+              //     ),
+              //     press: () => _goToMessageScreen('abc'),
+              // ),
               Row(
                 children: [
                   Container(
@@ -74,7 +76,7 @@ class ChatScreen extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                     margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                     child: const Text(
-                      'Recent messages',
+                      'Your travel companions',
                       style: TextStyle(
                         color: Colors.white
                       ),
@@ -94,16 +96,17 @@ class ChatScreen extends StatelessWidget {
     return Obx(
       () => SliverList(
           delegate: SliverChildBuilderDelegate((context, index) {
-            final chatSocketUser = _controller.users[index];
+            final userId = _controller.users.keys.elementAt(index);
+            final chatSocketUser = _controller.users[userId];
 
             return ChatCard(
               key: UniqueKey(),
               chat: Chat(
-                name: chatSocketUser.username,
+                name: chatSocketUser!.username,
                 isActive: chatSocketUser.connected == 1,
-                image: 'user.jpg',
-                time: '8m ago',
-                lastMessage: 'hello world',
+                image: '',
+                time: '',
+                lastMessage: _getLastMessage(chatSocketUser.messages),
               ),
               press: () => _goToMessageScreen(chatSocketUser.userID),
             );
@@ -114,71 +117,84 @@ class ChatScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildTravelCompanions() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 10.0),
-      child: Column(
-        children: <Widget>[
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20.0),
-            child: Text(
-              'Yours travel companions',
-              style: TextStyle(
-                color: Colors.blueGrey,
-                fontSize: 18.0,
-                fontWeight: FontWeight.bold,
-                letterSpacing: 1.0,
-              ),
-            ),
-          ),
-          SizedBox(
-            height: 100.0,
-            child: Obx(
-              () => ListView.builder(
-                padding: const EdgeInsets.only(left: 10.0),
-                scrollDirection: Axis.horizontal,
-                itemCount: _controller.users.length,
-                itemBuilder: (BuildContext context, int index) {
-                  final chatSocketUser = _controller.users[index];
-                  final chat = Chat(
-                    name: chatSocketUser.username,
-                    isActive: chatSocketUser.connected == 1,
-                    image: 'user.jpg',
-                    time: '8m ago',
-                    lastMessage: 'hello world',
-                  );
+  // Widget _buildTravelCompanions() {
+  //   return Padding(
+  //     padding: const EdgeInsets.symmetric(vertical: 10.0),
+  //     child: Column(
+  //       children: <Widget>[
+  //         const Padding(
+  //           padding: EdgeInsets.symmetric(horizontal: 20.0),
+  //           child: Text(
+  //             'Yours travel companions',
+  //             style: TextStyle(
+  //               color: Colors.blueGrey,
+  //               fontSize: 18.0,
+  //               fontWeight: FontWeight.bold,
+  //               letterSpacing: 1.0,
+  //             ),
+  //           ),
+  //         ),
+  //         SizedBox(
+  //           height: 100.0,
+  //           child: Obx(
+  //             () => ListView.builder(
+  //               padding: const EdgeInsets.only(left: 10.0),
+  //               scrollDirection: Axis.horizontal,
+  //               itemCount: _controller.users.length,
+  //               itemBuilder: (BuildContext context, int index) {
+  //                 final chatSocketUser = _controller.users[index];
+  //                 final chat = Chat(
+  //                   name: chatSocketUser.username,
+  //                   isActive: chatSocketUser.connected == 1,
+  //                   image: '',
+  //                   time: '',
+  //                   lastMessage: '',
+  //                 );
+  //
+  //                 return InkWell(
+  //                   onTap: () => _goToMessageScreen(chatSocketUser.userID),
+  //                   child: Padding(
+  //                     padding: const EdgeInsets.all(10.0),
+  //                     child: Column(
+  //                       children: <Widget>[
+  //                         CircleAvatar(
+  //                           radius: 24,
+  //                           backgroundImage:
+  //                           AssetImage(chat.image),
+  //                         ),
+  //                         const Divider(),
+  //                         Text(
+  //                           chat.name,
+  //                           style: const TextStyle(
+  //                             color: Colors.blueGrey,
+  //                             fontSize: 16.0,
+  //                             fontWeight: FontWeight.w600,
+  //                           ),
+  //                         ),
+  //                       ],
+  //                     ),
+  //                   ),
+  //                 );
+  //               },
+  //             ),
+  //           ),
+  //         ),
+  //       ],
+  //     ),
+  //   );
+  // }
 
-                  return InkWell(
-                    onTap: () => _goToMessageScreen(chatSocketUser.userID),
-                    child: Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: Column(
-                        children: <Widget>[
-                          CircleAvatar(
-                            radius: 24,
-                            backgroundImage:
-                            AssetImage(chat.image),
-                          ),
-                          const Divider(),
-                          Text(
-                            chat.name,
-                            style: const TextStyle(
-                              color: Colors.blueGrey,
-                              fontSize: 16.0,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  );
-                },
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
+  String _getLastMessage(List<ChatSocketMessage>? messages){
+    if(messages == null || messages.isEmpty){
+      return '';
+    }
+
+    final message = messages.last;
+
+    if(message.type == EnumToString.convertToString(MessageType.IMAGE)){
+      return 'Image';
+    }
+    return message.content;
   }
 
   void _goToMessageScreen(String id){

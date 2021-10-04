@@ -23,6 +23,9 @@ class Discovery {
   @JsonKey(name: 'about')
   String? about;
 
+  @JsonKey(name: 'location')
+  String? location;
+
   Discovery({
     required this.id,
     required this.title,
@@ -30,6 +33,7 @@ class Discovery {
     required this.image,
     this.address,
     this.about,
+    this.location,
   });
 
   factory Discovery.fromJson(Map<String, dynamic> json) =>

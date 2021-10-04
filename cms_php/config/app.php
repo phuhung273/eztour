@@ -126,6 +126,7 @@ return [
     'seed_pwd' => env('SEED_USER_PWD'),
     'viewing_team_session_key' => env('VIEWING_TEAM_SESSION_KEY', 'viewing-team-id'),
     'image_upload_dir' => env('IMAGE_UPLOAD_DIR', 'storage/img/locations'),
+    'chat_server' => env('CHAT_SERVER', 'http://localhost:3000'),
 
     /*
     |--------------------------------------------------------------------------
@@ -169,7 +170,6 @@ return [
         /*
          * Package Service Providers...
          */
-        Maatwebsite\Excel\ExcelServiceProvider::class,
         SimpleSoftwareIO\QrCode\QrCodeServiceProvider::class,
         Barryvdh\DomPDF\ServiceProvider::class,
 
@@ -238,7 +238,6 @@ return [
         'TimeHelper' => App\Helpers\TimeHelper::class,
         'ArrayHelper' => App\Helpers\ArrayHelper::class,
         'StringHelper' => App\Helpers\StringHelper::class,
-        'Excel' => Maatwebsite\Excel\Facades\Excel::class,
         'QrCode' => SimpleSoftwareIO\QrCode\Facades\QrCode::class,
         'PDF' => Barryvdh\DomPDF\Facade::class,
     ],

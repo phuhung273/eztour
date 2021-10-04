@@ -1,5 +1,6 @@
 
-import 'package:eztour_traveller/chat/chat_api.dart';
+import 'package:dio/dio.dart';
+import 'package:eztour_traveller/constants.dart';
 import 'package:eztour_traveller/datasource/local/chat_user_db.dart';
 import 'package:eztour_traveller/datasource/local/checklist_db.dart';
 import 'package:eztour_traveller/datasource/local/local_storage.dart';
@@ -17,9 +18,9 @@ import 'package:eztour_traveller/schema/discovery/discovery_list_request.dart';
 import 'package:eztour_traveller/schema/home/home_index_request.dart';
 import 'package:eztour_traveller/schema/schedule/schedule_list_request.dart';
 import 'package:get/get.dart';
-import 'package:dio/dio.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:socket_io_client/socket_io_client.dart';
 
 Future configureDependencies() async {
   await GetStorage.init();
@@ -30,6 +31,12 @@ Future configureDependencies() async {
 
   _configureApiClient();
 
+  final Socket socket = io(CHAT_HOST_URL,
+      OptionBuilder()
+          .setTransports(['websocket'])
+          .disableAutoConnect()
+          .build()
+  );
   Get.put(socket);
 
   Get.put(ChatUserDB.instance);

@@ -27,8 +27,6 @@ class SplashScreenController extends GetxController{
 
   final BehaviorSubject<String?> _selectNotificationSubject = Get.find();
 
-  final Socket socket = Get.find();
-
   final LocalStorage _localStorage = Get.find();
 
   @override

@@ -1,5 +1,6 @@
 import 'package:eztour_traveller/constants.dart';
 import 'package:eztour_traveller/schema/chat/chat.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class ChatCard extends StatefulWidget {
@@ -28,6 +29,8 @@ class _ChatCardState extends State<ChatCard> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return InkWell(
       onTap: widget.press,
       child: Padding(
@@ -40,7 +43,13 @@ class _ChatCardState extends State<ChatCard> {
               children: [
                 CircleAvatar(
                   radius: 24,
-                  backgroundImage: AssetImage(_chat.image),
+                  // backgroundImage: AssetImage(_chat.image),
+                  child: Text(
+                    _chat.name.split(' ').map((e) => e[0]).join(),
+                    style: theme.textTheme.headline6!.copyWith(
+                      color: Colors.white,
+                    ),
+                  ),
                 ),
                 if (_chat.isActive)
                   Positioned(
@@ -50,7 +59,7 @@ class _ChatCardState extends State<ChatCard> {
                       height: 16,
                       width: 16,
                       decoration: BoxDecoration(
-                        // color: kPrimaryColor,
+                        color: Colors.green,
                         shape: BoxShape.circle,
                         border: Border.all(
                             color: Theme.of(context).scaffoldBackgroundColor,
@@ -70,8 +79,7 @@ class _ChatCardState extends State<ChatCard> {
                   children: [
                     Text(
                       _chat.name,
-                      style:
-                      const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                      style: theme.textTheme.subtitle1,
                     ),
                     const Divider(),
                     Opacity(
@@ -86,10 +94,10 @@ class _ChatCardState extends State<ChatCard> {
                 ),
               ),
             ),
-            Opacity(
-              opacity: 0.64,
-              child: Text(_chat.time),
-            ),
+            // Opacity(
+            //   opacity: 0.64,
+            //   child: Text(_chat.time),
+            // ),
           ],
         ),
       ),

@@ -27,13 +27,13 @@ class TeamResource extends JsonResource
         ])
         ->limit(3)->get();
 
-        $max_day = $this->locations()->max('day');
-
         $locations = $this->overallLocations()->get();
         $locations->transform(function ($item, $key) {
             $item->image = asset(config('app.image_upload_dir') . '/' . $item->image);
             return $item;
         });
+
+        $max_day = $this->locations()->max('day') ?? 0;
 
         return [
             'todo_categories' => TodoCategoryResource::collection($todoCategories),

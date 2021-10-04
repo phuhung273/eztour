@@ -4,4 +4,15 @@
 $heads = ['Full Name'];
 @endphp
 
-<x-datatable :data="$data" :heads="$heads" />
+@extends('components.datatable',[
+'data' => $data,
+'heads' => $heads,
+])
+
+@section('modalUpdate')
+<form id="formUpdate">
+
+    <x-forms.input-text id="updateNormalUserName" label="Full Name" />
+
+</form>
+@endsection

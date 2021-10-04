@@ -1,11 +1,21 @@
-const { v4: uuidv4 } = require('uuid');
+require('dotenv').config();
 
-const httpServer = require('http').createServer();
-const io = require('socket.io')(httpServer, {
+const express = require('express');
+const app = express();
+app.use(express.urlencoded({extended: true}));
+app.use(express.json());
+const path = require('path');
+app.use('/public', express.static(path.join(__dirname, 'public')));
+
+const http = require('http');
+const server = http.createServer(app);
+const { Server } = require('socket.io');
+const io = new Server(server,{
   cors: {
     origin: 'http://localhost:8080',
   },
 });
+const fs = require('fs');
 
 const crypto = require('crypto');
 const randomId = () => crypto.randomBytes(8).toString('hex');
@@ -18,6 +28,10 @@ const messageStore = new InMemoryMessageStore();
 
 const CONNECTED = 1;
 const DISCONNECTED = 0;
+
+const TYPE_IMAGE = 'IMAGE';
+const TYPE_STRING = 'STRING';
+const TYPE_LOCATION = 'LOCATION';
 
 io.use((socket, next) => {
   const sessionID = socket.handshake.auth.sessionID;
@@ -88,15 +102,28 @@ io.on('connection', (socket) => {
   });
 
   // forward the private message to the right recipient (and to other tabs of the sender)
-  socket.on('private message', ({ id, content, toID }) => {
+  socket.on('private message', ({ id, content, toID, type }, response) => {
     const message = {
       id,
-      content,
       fromID: socket.userID,
-      toID
+      toID,
+      type,
     };
-    socket.to(toID).to(socket.userID).emit('private message', message);
-    messageStore.saveMessage(message);
+
+    if(type === TYPE_IMAGE){
+      let filePath = saveBase64(content);
+      if (filePath) {
+        message.content = filePath;
+        socket.to(toID).to(socket.userID).emit('private message', message);
+        messageStore.saveMessage(message);
+      }
+    }else if(type === TYPE_STRING || type === TYPE_LOCATION){
+      message.content = content;
+      socket.to(toID).to(socket.userID).emit('private message', message);
+      messageStore.saveMessage(message);
+    }
+
+    response(message);
   });
 
   // notify users upon disconnection
@@ -117,8 +144,57 @@ io.on('connection', (socket) => {
   });
 });
 
+app.post('/users', function(req, res) {
+  const { id, name } = req.body;
+  userStore.addUser({
+    userID: id,
+    sessionID: null,
+    username: name,
+    connected: DISCONNECTED,
+  });
+
+  res.status(200).end();
+});
+
+app.put('/users/:id', function(req, res) {
+  const { id } = req.params;
+  const { name } = req.body;
+  userStore.saveUser(id, {
+    userID: id,
+    sessionID: null,
+    username: name,
+    connected: DISCONNECTED,
+  });
+
+  res.status(200).end();
+});
+
+app.delete('/users/:id', function(req, res) {
+  const { id } = req.params;
+  userStore.deleteUser(id);
+
+  res.status(200).end();
+});
+
 const PORT = process.env.PORT || 3000;
 
-httpServer.listen(PORT, () =>
+server.listen(PORT, () =>
   console.log(`server listening at *:${PORT}`)
 );
+
+function saveBase64(data) {
+  var matches = data.match(/^data:([A-Za-z-+/]+);base64,(.+)$/);
+ 
+  if(matches.length !== 3) {
+    return null;
+  }
+ 
+  let fileName = Date.now()+'.png';
+  try {
+    fs.writeFileSync('./public/' + fileName, matches[2], {encoding: 'base64'});
+    return fileName;
+  } catch (e) {
+    console.log(e.message);
+    return null;
+  }
+}

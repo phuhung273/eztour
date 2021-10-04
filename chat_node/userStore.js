@@ -1,42 +1,23 @@
 
 class InMemoryUserStore {
   constructor() {
-    this.users = [
-      {
-        userID: '1',
-        sessionID: null,
-        username: 'admin@gmail.com',
-        connected: 0,
-      },
-      {
-        userID: '2',
-        sessionID: null,
-        username: 'hoanganh@email.com',
-        connected: 0,
-      },
-      {
-        userID: '3',
-        sessionID: null,
-        username: 'phuocanh@email.com',
-        connected: 0,
-      },
-      {
-        userID: '4',
-        sessionID: null,
-        username: 'sonpham@email.com',
-        connected: 0,
-      }
-    ];
+    this.users = [];
   }
   
   findUserBySessionId(sessionID) {
     return this.users.find(item => item.sessionID === sessionID);
   }
+
+  addUser(user) {
+    this.users.push(user);
+  }
   
   saveUser(userID, user) {
-    this.users = this.users.map((item) => {
-      return item.userID === userID ? user : item;
-    });
+    this.users = this.users.map(item => item.userID === userID ? user : item);
+  }
+
+  deleteUser(userID) {
+    this.users = this.users.filter(item => item.userID !== userID);
   }
   
   findAllUsers() {
