@@ -29,6 +29,7 @@ services:
       - "3000:3000"
     volumes:
       - static-cms:/var/www/cms_php/public
+      - static-chat:/var/www/chat_node/public
       - ./cms_php/storage:/var/www/cms_php/storage
       - ./docker/nginx/log:/var/log/nginx
       - ./docker/nginx/:/etc/nginx/conf.d/
@@ -46,6 +47,8 @@ services:
 
   chat_node:
     build: ./chat_node
+    volumes:
+      - static-chat:/app/public
     expose:
         - 3000
 
