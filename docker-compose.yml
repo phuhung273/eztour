@@ -5,7 +5,7 @@ services:
     build: ./cms_php
     working_dir: /var/www/cms_php
     volumes:
-      - static-content:/var/www/cms_php/public
+      - static-cms:/var/www/cms_php/public
       - ./cms_php/storage:/var/www/cms_php/storage
       - ./docker/php-fpm/fpm-php.www.log:/var/log/fpm-php.www.log
     depends_on:
@@ -28,7 +28,7 @@ services:
       - "443:443"
       - "3000:3000"
     volumes:
-      - static-content:/var/www/cms_php/public
+      - static-cms:/var/www/cms_php/public
       - ./cms_php/storage:/var/www/cms_php/storage
       - ./docker/nginx/log:/var/log/nginx
       - ./docker/nginx/:/etc/nginx/conf.d/
@@ -50,4 +50,5 @@ services:
         - 3000
 
 volumes:
-  static-content:
+  static-cms:
+  static-chat:

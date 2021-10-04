@@ -10,7 +10,9 @@ import 'package:eztour_traveller/schema/chat/chat_socket_user.dart';
 import 'package:eztour_traveller/schema/chat/chat_user_disconnected_response.dart';
 import 'package:eztour_traveller/schema/chat/chat_user_list_response.dart';
 import 'package:get/get.dart';
+import 'package:location/location.dart';
 import 'package:socket_io_client/socket_io_client.dart';
+import 'package:uuid/uuid.dart';
 
 class ChatScreenBinding extends Bindings {
   @override
@@ -27,6 +29,8 @@ class ChatScreenController extends GetxController {
   final LocalStorage _localStorage = Get.find();
 
   final users = <String, ChatSocketUser>{}.obs;
+
+  final uuid = const Uuid();
 
   @override
   Future onInit() async {
@@ -87,21 +91,127 @@ class ChatScreenController extends GetxController {
         newMessage.image = '';
       }
 
-      // final result = await _chatDB.addMessage(response);
-      // if(result > 0){
-      //   users[response.from]?.messages?.add(response);
-      //   users.refresh();
-      // }
-
       final result = await _chatDB.addMessage(response);
-      users[response.from]?.messages?.add(response);
-      users.refresh();
+      if(result > 0){
+        users[response.from]?.messages?.add(response);
+        users.refresh();
+      }
     });
 
   }
 
-  void addMessage(String recipientID, ChatSocketMessage message){
-    users[recipientID]?.messages?.add(message);
-    users.refresh();
+  Future sendStringMessage(ChatMessage newMessage, String toID) async {
+    if(newMessage.text == null || newMessage.text!.isEmpty){
+      return;
+    }
+
+    final newSocketMessage = ChatSocketMessage(
+      id: uuid.v4(),
+      content: newMessage.text!,
+      from: _localStorage.getUserID()!,
+      to: toID,
+      type: EnumToString.convertToString(MessageType.STRING),
+    );
+
+    _socket.emitWithAck('private message', newSocketMessage, ack: (data) {
+      if(data != null){
+        final response = ChatSocketMessage.fromJson(data as Map<String, dynamic>);
+
+        _sendMessage(response, newMessage, toID);
+      }
+    });
+
   }
+
+  Future sendImageMessage(String base64Image, String toID) async {
+    final newSocketMessage = ChatSocketMessage(
+      id: uuid.v4(),
+      content: base64Image,
+      from: _localStorage.getUserID()!,
+      to: toID,
+      type: EnumToString.convertToString(MessageType.IMAGE),
+    );
+
+    _socket.emitWithAck('private message', newSocketMessage, ack: (data) {
+      if(data != null){
+        final response = ChatSocketMessage.fromJson(data as Map<String, dynamic>);
+        final newMessage = ChatMessage(
+          text: '',
+          user: ChatUser(
+              uid: newSocketMessage.from
+          ),
+          image: '$CHAT_PUBLIC_URL/${response.content}',
+        );
+
+        _sendMessage(response, newMessage, toID);
+      }
+    });
+  }
+
+  Future sendLocationMessage(String toID) async {
+
+    final Location location = Location();
+
+    bool _serviceEnabled;
+    PermissionStatus _permissionGranted;
+    LocationData _locationData;
+
+    _serviceEnabled = await location.serviceEnabled();
+    if (!_serviceEnabled) {
+      _serviceEnabled = await location.requestService();
+      if (!_serviceEnabled) {
+        return;
+      }
+    }
+
+    _permissionGranted = await location.hasPermission();
+    if (_permissionGranted == PermissionStatus.denied) {
+      _permissionGranted = await location.requestPermission();
+      if (_permissionGranted != PermissionStatus.granted) {
+        return;
+      }
+    }
+
+    _locationData = await location.getLocation();
+
+    final newSocketMessage = ChatSocketMessage(
+      id: uuid.v4(),
+      content: '${_locationData.latitude},${_locationData.longitude}',
+      from: _localStorage.getUserID()!,
+      to: toID,
+      type: EnumToString.convertToString(MessageType.LOCATION),
+    );
+
+    _socket.emitWithAck('private message', newSocketMessage, ack: (data) {
+      if(data != null){
+        final response = ChatSocketMessage.fromJson(data as Map<String, dynamic>);
+        final newMessage = ChatMessage(
+          text: response.content,
+          user: ChatUser(
+              uid: newSocketMessage.from
+          ),
+          image: '',
+        );
+
+        _sendMessage(response, newMessage, toID);
+      }
+    });
+  }
+
+  Future _sendMessage(ChatSocketMessage socketMessage, ChatMessage chatMessage, String toID) async {
+    final result = await _chatDB.addMessage(socketMessage);
+
+    if(result > 0){
+      users[toID]?.messages?.add(socketMessage);
+      users.refresh();
+    }
+  }
+
+  @override
+  void onClose() {
+    super.onClose();
+    _socket.disconnect();
+    _socket.dispose();
+  }
+
 }

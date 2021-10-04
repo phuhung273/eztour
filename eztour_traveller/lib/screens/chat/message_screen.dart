@@ -3,20 +3,22 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:dash_chat/dash_chat.dart';
+import 'package:enum_to_string/enum_to_string.dart';
 import 'package:eztour_traveller/constants.dart';
 import 'package:eztour_traveller/datasource/local/local_storage.dart';
+import 'package:eztour_traveller/schema/chat/chat_socket_message.dart';
+import 'package:eztour_traveller/screens/chat/chat_screen_controller.dart';
 import 'package:eztour_traveller/widgets/transparent_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:latlong2/latlong.dart';
-import 'message_screen_controller.dart';
 
 
-class MessageScreen extends StatelessWidget {
+class MessageScreen extends GetView<ChatScreenController> {
 
-  final MessageScreenController _controller = Get.find();
+  final String _destinationID = Get.arguments as String;
 
   final LocalStorage _localStorage = Get.find();
 
@@ -26,42 +28,72 @@ class MessageScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: AppBar(
-        title: Obx(() => Text(_controller.name.value)),
+        title: Obx(() => Text(controller.users[_destinationID] != null
+            ? controller.users[_destinationID]!.username
+            : 'Message'
+        )),
         actions: [
           IconButton(
             icon: const Icon(Icons.location_on),
-            onPressed: _controller.sendLocationMessage,
+            onPressed: () => controller.sendLocationMessage(_destinationID),
           )
         ],
       ),
       body: Obx(
-        () => DashChat(
-          key: _chatViewKey,
-          messages: _controller.messages.isEmpty ? [] : _controller.messages,
-          user: ChatUser(
-            name: _localStorage.getUsername(),
-            uid: _localStorage.getUserID(),
-          ),
-          inputDecoration: const InputDecoration.collapsed(hintText: "Add message here..."),
-          messageTimeBuilder: _buildTime,
-          dateBuilder: _buildDate,
-          messageDecorationBuilder: _buildMessageDecoration,
-          messageImageBuilder: _buildImage,
-          inputTextStyle: const TextStyle(fontSize: 16.0),
-          inputContainerStyle: BoxDecoration(
-            border: Border.all(width: 0.0),
-            color: Colors.white,
-          ),
-          trailing: <Widget>[
-            IconButton(
-              icon: const Icon(Icons.photo),
-              onPressed: _onPickImage,
+        (){
+          final user = controller.users[_destinationID];
+          if(user == null) return const SizedBox();
+          final socketMessages = user.messages;
+          if(socketMessages == null) return const SizedBox();
+
+          final messages = socketMessages.map((e){
+            final message = ChatMessage(
+                id: e.id,
+                text: e.content,
+                user: ChatUser(
+                  uid: e.from,
+                )
+            );
+
+            if(e.type == EnumToString.convertToString(MessageType.IMAGE)){
+              message.image = '$CHAT_PUBLIC_URL/${message.text}';
+              message.text = '';
+            } else if(e.type == EnumToString.convertToString(MessageType.LOCATION)){
+              message.image = '';
+            }
+
+            return message;
+          }).toList();
+
+          return DashChat(
+            key: _chatViewKey,
+            messages: messages,
+            user: ChatUser(
+              name: _localStorage.getUsername(),
+              uid: _localStorage.getUserID(),
             ),
-          ],
-          onSend: _controller.sendStringMessage,
-        ),
+            inputDecoration: const InputDecoration.collapsed(hintText: "Add message here..."),
+            messageTimeBuilder: _buildTime,
+            dateBuilder: _buildDate,
+            messageDecorationBuilder: _buildMessageDecoration,
+            messageImageBuilder: _buildImage,
+            inputTextStyle: const TextStyle(fontSize: 16.0),
+            inputContainerStyle: BoxDecoration(
+              border: Border.all(width: 0.0),
+              color: Colors.white,
+            ),
+            trailing: <Widget>[
+              IconButton(
+                icon: const Icon(Icons.photo),
+                onPressed: _onPickImage,
+              ),
+            ],
+            onSend: (msg) => controller.sendStringMessage(msg, _destinationID),
+          );
+        },
       ),
     );
   }
@@ -71,7 +103,7 @@ class MessageScreen extends StatelessWidget {
     if(image != null){
       final bytes = File(image.path).readAsBytesSync();
       final base64Image =  "data:image/png;base64,${base64Encode(bytes)}";
-      _controller.sendImageMessage(base64Image);
+      controller.sendImageMessage(base64Image, _destinationID);
     }
   }
 
@@ -172,7 +204,7 @@ class MapContainer extends StatelessWidget {
   }
 }
 
-extension MessageType on ChatMessage{
+extension ChatMessageType on ChatMessage{
   bool isMapMessage(){
     if(image == null || text == null) return false;
     return image!.isEmpty && text!.isNotEmpty;
