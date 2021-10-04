@@ -19,7 +19,6 @@ class CreateDiscoveriesTable extends Migration
             $table->string('place');
             $table->string('address')->nullable();
             $table->longText('about')->nullable();
-            $table->string('location')->nullable();
             $table->string('image');
             $table->timestamps();
         });

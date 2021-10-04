@@ -63,10 +63,24 @@ class DiscoveryController extends Controller
     {
         $this->validateViewingTeam();
 
-        $input = $this->validateInput($request);
+        $request->validate([
+            'image' => 'required|image|max:1024',
+            'title' => 'required|min:4',
+            'address' => 'required|min:4',
+            'place' => 'required|min:4',
+        ]);
+
+        $input = $request->all();
+        
+        if ($image = $request->file('image')) {
+            $image_name = date("Ymdhys")."_".$image->getClientOriginalName();
+            $image->storeAs(self::IMAGE_STORAGE_DIRECTORY, $image_name);
+            $input['image'] = $image_name;
+        }else{
+            unset($input['image']);
+        }
 
         $this->viewingTeam->discoveries()->create($input);
-            
         return redirect()->route('discoveries.index')
                         ->with('success','Discovery created successfully');
     }
@@ -105,11 +119,18 @@ class DiscoveryController extends Controller
     public function update(Request $request, Discovery $discovery)
     {
         $this->validateViewingTeam();
+
+        $request->validate([
+            'title' => 'required|min:4',
+            'place' => 'required|min:4',
+            'address' => 'required|min:4',
+        ]);
+
         $input = $this->validateInput($request);
     
         $discovery->update($input);
         
-        return redirect()->route('discoveries.index')
+        return redirect()->route('locations.index')
                         ->with('success','Discovery updated successfully');
     }
 
@@ -129,18 +150,6 @@ class DiscoveryController extends Controller
                             ->with('success', 'Discovery deleted');
     }
 
-    private function validateInput(Request $request){
-        $request->validate([
-            'image' => 'required|min:4',
-            'title' => 'required|min:4',
-            'address' => 'required|min:4',
-            'place' => 'required|min:4',
-        ]);
-  
-        $input = $request->all();
-        return $input;
-    }
-
     private function validateViewingTeam() {
         $viewingTeam = Team::find(session(config('app.viewing_team_session_key')));
 
@@ -150,5 +159,20 @@ class DiscoveryController extends Controller
         }
 
         $this->viewingTeam = $viewingTeam;
+    }
+
+    private function validateInput(Request $request){
+  
+        $input = $request->all();
+  
+        if ($image = $request->file('image')) {
+            $image_name = $image->getClientOriginalName();
+            $image->storeAs(self::IMAGE_STORAGE_DIRECTORY, $image_name);
+            $input['image'] = $image_name;
+        }else{
+            unset($input['image']);
+        }
+
+        return $input;
     }
 }
