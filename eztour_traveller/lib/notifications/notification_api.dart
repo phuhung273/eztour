@@ -73,7 +73,26 @@ Future showNotification({
   );
 }
 
-Future showScheduledNotification({
+Future showDateTimeScheduledNotification({
+  int id = 0,
+  String? title,
+  String? body,
+  String? payload,
+  required DateTime time,
+}) async {
+  _flutterLocalNotificationsPlugin.zonedSchedule(
+      id,
+      title,
+      body,
+      tz.TZDateTime.from(time, tz.local),
+      _platformChannelSpecifics,
+      payload: payload,
+      androidAllowWhileIdle: true,
+      uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime,
+  );
+}
+
+Future showTimeScheduledNotification({
   int id = 0,
   String? title,
   String? body,

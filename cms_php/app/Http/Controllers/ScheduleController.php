@@ -18,11 +18,12 @@ class ScheduleController extends Controller
     {
         $team = Auth::user()->currentTeam;
         
-        $locations = $team->locations()->get();
+        $locations = $team->locations()->orderBy('from')->get();
 
         $max_day = $locations->max('day') ?? 0;
 
         return [
+            'name' => $team->name,
             'locations' => LocationResource::collection($locations),
             'max_day' => $max_day,
             'start_date' => $team->start_date,

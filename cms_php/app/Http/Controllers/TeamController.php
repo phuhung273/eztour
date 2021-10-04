@@ -87,6 +87,9 @@ class TeamController extends Controller
             unset($input['image']);
         }
 
+        $input['start_date'] = $input['date'];
+        unset($input['date']);
+
         $team->update($input);
 
         return redirect()->route('dashboard')

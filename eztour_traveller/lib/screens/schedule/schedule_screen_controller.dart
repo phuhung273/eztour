@@ -27,6 +27,8 @@ class ScheduleScreenController extends GetxController {
   // final locations = List<Location>.empty().obs;
 
   var locationMap = <int, List<Location>>{}.obs;
+  var startDate = '';
+  var name = '';
 
   // final _testLocations = [
   //   Location(id: 0, name: "Paris", image: "sample_timeline1.jpg", day: 1, description: 'Sáng: Ăn sáng tại khách sạn. Xe đưa Quý khách tham quan Bảo tàng Louvre – nơi trưng bày các kiệt tác của nhân loại về hội họa, điêu khắc, bức tranh Mona Lisa nổi tiếng.',from: '6:00 AM', to: '9:00 AM', tour_id: 1),
@@ -42,6 +44,7 @@ class ScheduleScreenController extends GetxController {
     super.onInit();
 
     final response = await _service.getScheduleList(_listRequest);
+    startDate = response.startDate;
 
     // locationMap.value = groupBy(_testLocations, (Location item) => item.day);
     locationMap.value = groupBy(response.locations, (Location item) => item.day!);

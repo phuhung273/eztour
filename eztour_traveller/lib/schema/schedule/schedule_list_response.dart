@@ -6,6 +6,9 @@ part 'schedule_list_response.g.dart';
 @JsonSerializable()
 class ScheduleListResponse {
 
+  @JsonKey(name: 'name')
+  String name;
+
   @JsonKey(name: 'max_day')
   int maxDay;
 
@@ -16,6 +19,7 @@ class ScheduleListResponse {
   String startDate;
 
   ScheduleListResponse({
+    required this.name,
     required this.maxDay,
     required this.locations,
     required this.startDate,

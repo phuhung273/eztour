@@ -18,7 +18,10 @@ class TimeTest extends TestCase
         $this->assertTrue(TimeHelper::isNotConflictWithHisRange('6:00 am', '9:00 am', '09:00:00', '15:00:00'));
         $this->assertTrue(TimeHelper::isNotConflictWithHisRange('9:00 am', '12:00 pm', '06:00:00', '09:00:00'));
         $this->assertFalse(TimeHelper::isNotConflictWithHisRange('6:00 am', '9:00 am', '06:00:00', '15:00:00'));
+        $this->assertFalse(TimeHelper::isNotConflictWithHisRange('6:00 am', '12:00 pm', '06:00:00', '15:00:00'));
+        $this->assertTrue(TimeHelper::isNotConflictWithHisRange('6:00 am', '12:00 pm', '12:00:00', '15:00:00'));
         $this->assertFalse(TimeHelper::isNotConflictWithHisRange('9:00 am', '12:00 pm', '06:00:00', '15:00:00'));
         $this->assertFalse(TimeHelper::isNotConflictWithHisRange('9:00 am', '12:00 pm', '06:00:00', '12:00:00'));
+        $this->assertTrue(TimeHelper::isNotConflictWithHisRange('9:00 am', '3:00 pm', '18:00:00', '21:00:00'));
     }
 }

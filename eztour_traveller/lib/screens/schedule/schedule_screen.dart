@@ -32,13 +32,16 @@ class ScheduleScreen extends StatelessWidget {
 
             final day = index + 1;
 
-            final position = _findSuitablePosition(_controller.locationMap[day]!);
+            final position = _findSuitablePosition(_controller.locationMap[day]!, day);
+            final image = position == -1
+                ? '$HOST_URL/storage/img/locations/${_controller.locationMap[day]![0].image}'
+                : '$HOST_URL/storage/img/locations/${_controller.locationMap[day]![position].image}';
 
             return CustomScrollView(
               slivers: [
                 SliverAppBar(
                   floating: true,
-                  title: Text("Day $day: San Francisco"),
+                  title: Text("Day $day"),
                 ),
                 SliverToBoxAdapter(
                   child: Column(
@@ -49,9 +52,7 @@ class ScheduleScreen extends StatelessWidget {
                         decoration: BoxDecoration(
                             color: Colors.transparent,
                             image: DecorationImage(
-                              image: NetworkImage(
-                                "$HOST_URL/storage/img/locations/${_controller.locationMap[day]![position].image}",
-                              ),
+                              image: NetworkImage(image),
                               fit: BoxFit.cover,
                             ),
                             borderRadius: BorderRadius.circular(32.0)
@@ -70,17 +71,6 @@ class ScheduleScreen extends StatelessWidget {
         ),
       ),
     );
-              // ElevatedButton(
-              //   onPressed: (){
-              //     showScheduledNotification(
-              //       title: 'This is title',
-              //       body: 'This is body',
-              //       payload: 'this is payload',
-              //       time: const Time(21, 47)
-              //     );
-              //   },
-              //   child: const Text('Click me'),
-              // )
   }
 
   Widget _buildTimeline(List<Location> locations, int position) {
@@ -102,6 +92,8 @@ class ScheduleScreen extends StatelessWidget {
         contentsBuilder: (context, index) {
           final location = locations[index];
 
+          final time = DateTime.parse('${_controller.startDate}');
+
           return Container(
             padding: const EdgeInsets.only(left: 8.0, bottom: 24.0),
             child: Column(
@@ -109,8 +101,7 @@ class ScheduleScreen extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  // location.name,
-                  'test a',
+                  location.name!,
                   style: const TextStyle(
                       fontSize: 24.0
                   )
@@ -124,26 +115,33 @@ class ScheduleScreen extends StatelessWidget {
                       fontSize: 16.0
                     ),
                   ),
-                  trailing: Container(
-                    width: 64.0,
-                    padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
-                    decoration: ShapeDecoration(
-                      color: Colors.lightBlue,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12.0)
-                      )
+                  trailing: InkWell(
+                    onTap: () => showTimeScheduledNotification(
+                      title:  'Eztour Remind',
+                      body: _controller.name,
+                      payload: 'this is payload',
+                      time: const Time(21, 47)
                     ),
-                    child: const Icon(
-                      Icons.notifications,
-                      color: Colors.white,
-                      size: 18.0,
+                    child: Container(
+                      width: 64.0,
+                      padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
+                      decoration: ShapeDecoration(
+                        color: Colors.lightBlue,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12.0)
+                        )
+                      ),
+                      child: const Icon(
+                        Icons.notifications,
+                        color: Colors.white,
+                        size: 18.0,
+                      ),
                     ),
                   ),
                 ),
                 Container(
                   padding: const EdgeInsets.symmetric(vertical: 8.0),
-                  // child: Text(location.description),
-                  child: Text('location.description'),
+                  child: Text(location.description!),
                 )
               ],
             ),
@@ -170,9 +168,12 @@ class ScheduleScreen extends StatelessWidget {
     );
   }
 
-  int _findSuitablePosition(List<Location> locations){
+  int _findSuitablePosition(List<Location> locations, int day){
     final now = DateTime.now();
     final dateNow = getDateNow();
+
+    if(now.isBefore(string2DateTime(_controller.startDate).add(Duration(days: day - 1)))
+        || _controller.startDate.isEmpty) return -1;
 
     // debugPrint(DateTime.parse('$dateNow ${locations.first.from}').toString());
     // debugPrint(DateTime.parse('$dateNow ${locations.last.to}').toString());

@@ -128,10 +128,11 @@ class Team extends JetstreamTeam
                         ->get();
         }
 
+        $fromHis = TimeHelper::gia2his($from);
+        $toHis = TimeHelper::gia2his($to);
+
         if (!isset($existingTime) || $existingTimes->isEmpty()) {
-            if ($from >= $to) {
-                return true;
-            }
+            return $fromHis >= $toHis;
         }
         
         foreach ($existingTimes as $existingTime){
