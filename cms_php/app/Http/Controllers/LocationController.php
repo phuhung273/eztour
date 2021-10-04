@@ -55,14 +55,23 @@ class LocationController extends Controller
     {
         $this->validateViewingTeam();
 
-        $input = $this->validateInput($request, self::MODE_CREATE);
+        $request->validate([
+            'image' => 'required|image|max:1024',
+            'name' => 'required|min:4',
+            'description' => 'required|min:20',
+            'day' => 'required',
+            'from' => 'required',
+            'to' => 'required',
+        ]);
 
-        if (!isset($input)) {
+        if ($this->viewingTeam->isTimeInvalid($request->from, $request->to, $request->day)) {
             return back()->withErrors([
                 'from' => 'Invalid time',
                 'to' => 'Invalid time',
             ])->withInput();
         }
+
+        $input = $this->validateInput($request);
 
         $this->viewingTeam->locations()->create($input);
             
@@ -104,14 +113,23 @@ class LocationController extends Controller
     public function update(Request $request, Location $location)
     {
         $this->validateViewingTeam();
-        $input = $this->validateInput($request, self::MODE_UPDATE, $location->id);
 
-        if (!isset($input)) {
+        $request->validate([
+            'name' => 'required|min:4',
+            'description' => 'required|min:20',
+            'day' => 'required',
+            'from' => 'required',
+            'to' => 'required',
+        ]);
+
+        if ($this->viewingTeam->isTimeInvalid($request->from, $request->to, $request->day, $location->id)) {
             return back()->withErrors([
                 'from' => 'Invalid time',
                 'to' => 'Invalid time',
             ])->withInput();
         }
+
+        $input = $this->validateInput($request);
     
         $location->update($input);
         
@@ -135,37 +153,7 @@ class LocationController extends Controller
                             ->with('success', 'Location deleted');
     }
 
-    private function validateInput(Request $request, string $mode, $id=null){
-        if ($mode == self::MODE_CREATE) {
-            $request->validate([
-                'image' => 'required|image|max:1024',
-                'name' => 'required|min:4',
-                'description' => 'required|min:20',
-                'day' => 'required',
-                'from' => 'required',
-                'to' => 'required',
-            ]);
-
-            if ($this->viewingTeam->isTimeInvalid($request->from, $request->to, $request->day)) {
-                return null;
-            }
-        } elseif ($mode = self::MODE_UPDATE && isset($id)) {
-            if (isset($id)) {
-                return null;
-            }
-            
-            $request->validate([
-                'name' => 'required|min:4',
-                'description' => 'required|min:20',
-                'day' => 'required',
-                'from' => 'required',
-                'to' => 'required',
-            ]);
-
-            if ($this->viewingTeam->isTimeInvalid($request->from, $request->to, $request->day, $id)) {
-                return null;
-            }
-        }
+    private function validateInput(Request $request){
   
         $input = $request->all();
   

@@ -20,7 +20,7 @@
             <div class="mt-8">
                 <a href="{{ route('locations.edit', $location) }}">
                     <x-app-button scheme="success" text="Update" />
-                </a>
+                </a>    
                 <x-app-button scheme="danger" text="Delete" onclick="modalDelete('{{ $location->id }}')" />
             </div>
         </div>
