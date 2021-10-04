@@ -92,7 +92,7 @@ class ScheduleScreen extends StatelessWidget {
         contentsBuilder: (context, index) {
           final location = locations[index];
 
-          final time = DateTime.parse('${_controller.startDate}');
+          // final time = DateTime.parse('${_controller.startDate} ${location.from}').add(Duration(days: location.day! - 1));
 
           return Container(
             padding: const EdgeInsets.only(left: 8.0, bottom: 24.0),
@@ -115,29 +115,29 @@ class ScheduleScreen extends StatelessWidget {
                       fontSize: 16.0
                     ),
                   ),
-                  trailing: InkWell(
-                    onTap: () => showTimeScheduledNotification(
-                      title:  'Eztour Remind',
-                      body: _controller.name,
-                      payload: 'this is payload',
-                      time: const Time(21, 47)
-                    ),
-                    child: Container(
-                      width: 64.0,
-                      padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
-                      decoration: ShapeDecoration(
-                        color: Colors.lightBlue,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12.0)
-                        )
-                      ),
-                      child: const Icon(
-                        Icons.notifications,
-                        color: Colors.white,
-                        size: 18.0,
-                      ),
-                    ),
-                  ),
+                  // trailing: InkWell(
+                  //   onTap: () => showDateTimeScheduledNotification(
+                  //     title:  'Eztour Remind',
+                  //     body: _controller.name,
+                  //     payload: location.name,
+                  //     time: time.subtract(const Duration(days: 1))
+                  //   ),
+                  //   child: Container(
+                  //     width: 64.0,
+                  //     padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
+                  //     decoration: ShapeDecoration(
+                  //       color: Colors.lightBlue,
+                  //       shape: RoundedRectangleBorder(
+                  //         borderRadius: BorderRadius.circular(12.0)
+                  //       )
+                  //     ),
+                  //     child: const Icon(
+                  //       Icons.notifications,
+                  //       color: Colors.white,
+                  //       size: 18.0,
+                  //     ),
+                  //   ),
+                  // ),
                 ),
                 Container(
                   padding: const EdgeInsets.symmetric(vertical: 8.0),
