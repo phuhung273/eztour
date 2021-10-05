@@ -11,11 +11,14 @@
                 <x-forms.image-upload id="image" label="Image"
                     url="{{ asset('storage/img/discoveries/' . $discovery->image) }}" />
 
-                <x-forms.input-text id="title" label="Title" placeholder="At least 4 characters" value="{{ $discovery->title }}" />
+                <x-forms.input-text id="title" label="Title" placeholder="At least 4 characters"
+                    value="{{ $discovery->title }}" />
 
-                <x-forms.input-text id="place" label="Place" placeholder="At least 4 characters" value="{{ $discovery->place }}" />
+                <x-forms.input-text id="place" label="Place" placeholder="At least 4 characters"
+                    value="{{ $discovery->place }}" />
 
-                <x-forms.input-text id="addresss" label="Address" placeholder="At least 4 characters" value="{{ $discovery->address }}" />
+                <x-forms.input-text id="address" label="Address" placeholder="At least 4 characters"
+                    value="{{ $discovery->address }}" />
 
                 <x-forms.textarea id="about" label="About" value="{{ $discovery->about }}" />
 

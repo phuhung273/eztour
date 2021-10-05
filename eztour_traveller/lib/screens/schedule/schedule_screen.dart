@@ -34,8 +34,8 @@ class ScheduleScreen extends StatelessWidget {
 
             final position = _findSuitablePosition(_controller.locationMap[day]!, day);
             final image = position == -1
-                ? '$HOST_URL/storage/img/locations/${_controller.locationMap[day]![0].image}'
-                : '$HOST_URL/storage/img/locations/${_controller.locationMap[day]![position].image}';
+                ? _controller.locationMap[day]![0].image
+                : _controller.locationMap[day]![position].image;
 
             return CustomScrollView(
               slivers: [
@@ -52,7 +52,7 @@ class ScheduleScreen extends StatelessWidget {
                         decoration: BoxDecoration(
                             color: Colors.transparent,
                             image: DecorationImage(
-                              image: NetworkImage(image),
+                              image: NetworkImage(image!),
                               fit: BoxFit.cover,
                             ),
                             borderRadius: BorderRadius.circular(32.0)
