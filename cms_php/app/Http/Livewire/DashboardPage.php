@@ -59,7 +59,7 @@ class DashboardPage extends BaseComponent
             'image' => 'required',
         ]);
 
-        $image_name = $this->image->getClientOriginalName();
+        $image_name = date("Ymdhys")."_".$this->image->getClientOriginalName();
         $this->image->storeAs(self::IMAGE_STORAGE_DIRECTORY, $image_name);
 
         $user = Auth::user();

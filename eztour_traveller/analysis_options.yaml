@@ -2,6 +2,7 @@ include: package:lint/analysis_options.yaml
 
 linter:
   rules:
+    prefer_single_quotes: true
     sort_pub_dependencies: false
     constant_identifier_names: false
     avoid_setters_without_getters: false

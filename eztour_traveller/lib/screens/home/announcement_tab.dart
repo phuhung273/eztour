@@ -18,6 +18,8 @@ class AnnouncementTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.separated(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
       itemCount: min(ANNOUNCEMENT_LIMIT, categories.length),
       itemBuilder: (BuildContext context, int index) {
         final category = categories[index];

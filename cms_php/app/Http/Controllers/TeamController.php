@@ -80,7 +80,7 @@ class TeamController extends Controller
         $input = $request->all();
 
         if ($image = $request->file('image')) {
-            $image_name = $image->getClientOriginalName();
+            $image_name = date("Ymdhys")."_".$image->getClientOriginalName();
             $image->storeAs(self::IMAGE_STORAGE_DIRECTORY, $image_name);
             $input['image'] = $image_name;
         }else{

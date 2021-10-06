@@ -30,14 +30,10 @@ final roundedRectangleShape = RoundedRectangleBorder(
   borderRadius: roundedRectangleBorderRadius,
 );
 
-// const HOST_URL = 'http://157.245.60.30';
-// const CHAT_HOST_URL = 'http://157.245.60.30';
-// const CHAT_PUBLIC_URL = 'http://157.245.60.30/chat_public';
+const HOST_URL = 'http://157.245.60.30';
+const CHAT_HOST_URL = 'http://157.245.60.30';
+const CHAT_PUBLIC_URL = 'http://157.245.60.30/chat_public';
 
 // const HOST_URL = 'http://10.0.2.2:8000';
 // const CHAT_HOST_URL = 'http://10.0.2.2:3000';
 // const CHAT_PUBLIC_URL = 'http://10.0.2.2:3000/public';
-
-const HOST_URL = 'http://10.0.2.2';
-const CHAT_HOST_URL = 'http://10.0.2.2';
-const CHAT_PUBLIC_URL = 'http://10.0.2.2/chat_public';

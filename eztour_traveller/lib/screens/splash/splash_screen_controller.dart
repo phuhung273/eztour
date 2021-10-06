@@ -11,7 +11,6 @@ import 'package:eztour_traveller/schema/auth/credential_login_request.dart';
 import 'package:eztour_traveller/screens/main/main_screen.dart';
 import 'package:get/get.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:socket_io_client/socket_io_client.dart';
 
 class SplashScreenBinding implements Bindings{
   @override

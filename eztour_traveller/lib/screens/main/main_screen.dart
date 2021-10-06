@@ -59,7 +59,7 @@ class MainScreen extends StatelessWidget {
         child: const Icon(Icons.event),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: _buildBottomNavigationBar(),
+      bottomNavigationBar: MyBottomNavigationBar(),
     );
   }
 
@@ -95,10 +95,10 @@ class MainScreen extends StatelessWidget {
   void _toDiscoveryScreen() => _controller.changeTab(DISCOVERY_SCREEN_INDEX);
 }
 
-class _buildBottomNavigationBar extends StatelessWidget {
+class MyBottomNavigationBar extends StatelessWidget {
   final MainScreenController _controller = Get.find();
 
-  _buildBottomNavigationBar({Key? key}) : super(key: key);
+  MyBottomNavigationBar({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

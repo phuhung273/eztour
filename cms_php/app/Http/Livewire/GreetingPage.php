@@ -16,7 +16,7 @@ class GreetingPage extends BaseComponent
     
 
     public function mount() {
-        $this->data = Greeting::all();
+        $this->data = Greeting::orderBy('alarm_time')->get();
         foreach ($this->data as $row) {
             $row->alarm_time = TimeHelper::his2gia($row->alarm_time);
         }

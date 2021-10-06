@@ -193,6 +193,8 @@ class ChatScreen extends StatelessWidget {
 
     if(message.type == EnumToString.convertToString(MessageType.IMAGE)){
       return 'Image';
+    } else if(message.type == EnumToString.convertToString(MessageType.LOCATION)){
+      return 'Location';
     }
     return message.content;
   }

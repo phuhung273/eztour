@@ -18,7 +18,10 @@ class AnnouncementPage extends BaseTeamPage
 
     protected function init() {
         if ($this->viewingTeam) {
-            $this->data = $this->viewingTeam->announcements()->with('announcementCategory')->get();
+            $this->data = $this->viewingTeam->announcements()
+                                            ->with('announcementCategory')
+                                            ->get()
+                                            ->sortBy('announcementCategory.name');
         }else {
             $this->data = collect();
         }

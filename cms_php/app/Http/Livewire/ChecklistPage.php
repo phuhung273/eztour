@@ -17,7 +17,10 @@ class ChecklistPage extends BaseTeamPage
 
     protected function init() {
         if ($this->viewingTeam) {
-            $this->data = $this->viewingTeam->todos()->with('todoCategory')->get();
+            $this->data = $this->viewingTeam->todos()
+                                            ->with('todoCategory')
+                                            ->get()
+                                            ->sortBy('todoCategory.name');
         }else {
             $this->data = collect();
         }
