@@ -73,7 +73,7 @@ class TodoCategoryCard extends StatelessWidget {
             margin: EdgeInsets.zero,
             elevation: 2.0,
             child: Container(
-              height: 120.0,
+              // height: 120.0,
               margin: const EdgeInsets.only(left: RIBBON_WIDTH + defaultPadding),
               padding: const EdgeInsets.all(defaultPadding),
               child: Column(

@@ -37,18 +37,22 @@ class DiscoveryDetailScreen extends GetView<DiscoveryScreenController> {
                     children: [
                       Text(
                           discovery.title,
-                          style: theme.textTheme.headline6!.copyWith(
+                          style: theme.textTheme.headline4?.copyWith(
                               color: Colors.white
                           )
                       ),
                       Text(
                         discovery.place,
-                        style: theme.textTheme.subtitle1!.copyWith(
+                        style: theme.textTheme.subtitle1?.copyWith(
                             color: Colors.white
                         ),
                       ),
+                      const SizedBox(height: defaultSpacing),
                       Text(
-                          discovery.about ?? ''
+                        discovery.about ?? '',
+                        style: theme.textTheme.bodyText1?.copyWith(
+                            color: Colors.white
+                        ),
                       ),
                     ],
                   ),
