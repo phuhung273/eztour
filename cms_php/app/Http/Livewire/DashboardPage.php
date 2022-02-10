@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\Image;
 use App\Models\Team;
 use Exception;
 use Livewire\WithFileUploads;
@@ -35,7 +36,7 @@ class DashboardPage extends BaseComponent
         $this->viewingTeamId = session(config('app.viewing_team_session_key'));
 
         $this->data = $teamList->map(fn($e) => $this->parseRow($e, $user, $this->viewingTeamId))->all();
-        
+
         $this->date = date("Y-m-d");
     }
 
@@ -43,7 +44,7 @@ class DashboardPage extends BaseComponent
         return [
             'id' => $team->id,
             'name' => $team->name,
-            'image' => $team->image,
+            'image' => $team->image()->first()['src'],
             'current' => $this->currentTeam ? $user->isCurrentTeam($team) : false,
             'viewing' => $viewingTeamId == $team->id,
             'start_date' => $team->start_date,
@@ -67,8 +68,10 @@ class DashboardPage extends BaseComponent
             'name' => $this->name,
             'personal_team' => false,
             'start_date' => $this->date,
-            'image' => $image_name,
         ]);
+
+        $img['src'] = $image_name;
+        $newTeam->image()->save(new Image($img));
 
         $this->data[] = $this->parseRow($newTeam, $user, $this->viewingTeamId);
 
@@ -84,7 +87,7 @@ class DashboardPage extends BaseComponent
         session([config('app.viewing_team_session_key') => $team->id]);
         $this->viewingTeamId = $team->id;
 
-        $this->data = array_map(function ($row) use ($team) { 
+        $this->data = array_map(function ($row) use ($team) {
             $row['viewing'] =  $row['id'] == $team->id;
             return $row;
         }, $this->data);
@@ -98,12 +101,12 @@ class DashboardPage extends BaseComponent
         if ($user->isTeamMember($team)) {
 
             if ($user->switchTeam($team)) {
-            
-                $this->data = array_map(function ($row) use ($team) { 
+
+                $this->data = array_map(function ($row) use ($team) {
                     $row['current'] = $row['id'] == $team->id;
                     return $row;
                 }, $this->data);
-    
+
                 $this->modalSuccess('Default tour changed!');
             }
         } else {
@@ -118,7 +121,7 @@ class DashboardPage extends BaseComponent
         if ($item->id == $this->viewingTeamId) {
             session(config('app.viewing_team_session_key'), null);
         }
-        
+
         $this->modalSuccess('Deleted!');
     }
 

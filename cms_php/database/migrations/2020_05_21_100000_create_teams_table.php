@@ -19,7 +19,6 @@ class CreateTeamsTable extends Migration
             $table->string('name');
             $table->boolean('personal_team');
             $table->date('start_date')->nullable();
-            $table->string('image')->nullable();
             $table->timestamps();
         });
     }

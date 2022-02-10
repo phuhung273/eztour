@@ -33,7 +33,6 @@ class Team extends JetstreamTeam
         'name',
         'personal_team',
         'start_date',
-        'image',
     ];
 
     /**
@@ -67,6 +66,11 @@ class Team extends JetstreamTeam
      * @var array
      */
     protected $guarded = [];
+
+    public function image(): \Illuminate\Database\Eloquent\Relations\MorphOne
+    {
+        return $this->morphOne(Image::class,'imageable');
+    }
 
     public function locations(){
         return $this->hasMany(Location::class);
@@ -102,7 +106,7 @@ class Team extends JetstreamTeam
         $this->users()->attach($user);
         $user->switchTeam($this);
     }
-    
+
     public function overallLocations(){
         DB::statement("SET SQL_MODE=''");
         return $this->locations()
@@ -134,7 +138,7 @@ class Team extends JetstreamTeam
         if (!isset($existingTime) || $existingTimes->isEmpty()) {
             return $fromHis >= $toHis;
         }
-        
+
         foreach ($existingTimes as $existingTime){
             if (!TimeHelper::isNotConflictWithHisRange($from, $to, $existingTime->from, $existingTime->to)) {
                 return true;

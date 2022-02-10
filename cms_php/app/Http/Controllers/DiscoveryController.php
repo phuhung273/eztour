@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\DiscoveryResource;
+use App\Models\Image;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Discovery;
@@ -17,11 +18,11 @@ class DiscoveryController extends Controller
 
     private $viewingTeam;
 
-    
+
     public function mobileIndex()
     {
         $team = Auth::user()->currentTeam;
-        
+
         $discoveries = $team->discoveries()->get();
 
         return DiscoveryResource::collection($discoveries)->response();
@@ -61,6 +62,7 @@ class DiscoveryController extends Controller
      */
     public function store(Request $request)
     {
+
         $this->validateViewingTeam();
 
         $request->validate([
@@ -71,7 +73,7 @@ class DiscoveryController extends Controller
         ]);
 
         $input = $request->all();
-        
+
         if ($image = $request->file('image')) {
             $image_name = date("Ymdhys")."_".$image->getClientOriginalName();
             $image->storeAs(self::IMAGE_STORAGE_DIRECTORY, $image_name);
@@ -80,7 +82,9 @@ class DiscoveryController extends Controller
             unset($input['image']);
         }
 
-        $this->viewingTeam->discoveries()->create($input);
+        $team = $this->viewingTeam->discoveries()->create($input);
+        $img['src'] = $input['image'];
+        $team->image()->save(new Image($img));
         return redirect()->route('discoveries.index')
                         ->with('success','Discovery created successfully');
     }
@@ -127,9 +131,9 @@ class DiscoveryController extends Controller
         ]);
 
         $input = $this->validateInput($request);
-    
+
         $discovery->update($input);
-        
+
         return redirect()->route('discoveries.index')
                         ->with('success','Discovery updated successfully');
     }
@@ -162,9 +166,9 @@ class DiscoveryController extends Controller
     }
 
     private function validateInput(Request $request){
-  
+
         $input = $request->all();
-  
+
         if ($image = $request->file('image')) {
             $image_name = date("Ymdhys")."_".$image->getClientOriginalName();
             $image->storeAs(self::IMAGE_STORAGE_DIRECTORY, $image_name);

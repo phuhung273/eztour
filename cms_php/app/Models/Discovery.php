@@ -9,7 +9,12 @@ class Discovery extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['title', 'image', 'address', 'about', 'place'];
+    protected $fillable = ['title', 'address', 'about', 'place'];
+
+    public function image(): \Illuminate\Database\Eloquent\Relations\MorphOne
+    {
+        return $this->morphOne(Image::class,'imageable');
+    }
 
     public function teams(){
         return $this->belongsToMany(Team::class);

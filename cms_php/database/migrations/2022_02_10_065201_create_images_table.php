@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateDiscoveriesTable extends Migration
+class CreateImagesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,10 @@ class CreateDiscoveriesTable extends Migration
      */
     public function up()
     {
-        Schema::create('discoveries', function (Blueprint $table) {
-            $table->uuid('id')->primary();
-            $table->string('title');
-            $table->string('place');
-            $table->string('address')->nullable();
-            $table->longText('about')->nullable();
+        Schema::create('images', function (Blueprint $table) {
+            $table->id();
+            $table->string('src');
+            $table->uuidMorphs('imageable');
             $table->timestamps();
         });
     }
@@ -30,6 +28,6 @@ class CreateDiscoveriesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('discoveries');
+        Schema::dropIfExists('images');
     }
 }
