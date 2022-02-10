@@ -7,9 +7,14 @@
             <form action="{{ route('discoveries.update', $discovery) }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
+                <div class="w-full inline-flex">
+                    @foreach($discovery->image()->get() as $key=>$images)
+                    <x-forms.image-upload id="image" label="Image {{$key+1}}"
+                                          url="{{ asset('storage/img/discoveries/' . $images->src) }}"  />
+                    @endforeach
+                </div>
 
-                <x-forms.image-upload id="image" label="Image"
-                    url="{{ asset('storage/img/discoveries/' . $discovery->image()->first()['src']) }}" />
+
 
                 <x-forms.input-text id="title" label="Title" placeholder="At least 4 characters"
                     value="{{ $discovery->title }}" />

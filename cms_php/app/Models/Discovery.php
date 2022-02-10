@@ -11,9 +11,9 @@ class Discovery extends Model
 
     protected $fillable = ['title', 'address', 'about', 'place'];
 
-    public function image(): \Illuminate\Database\Eloquent\Relations\MorphOne
+    public function image(): \Illuminate\Database\Eloquent\Relations\MorphMany
     {
-        return $this->morphOne(Image::class,'imageable');
+        return $this->morphMany(Image::class,'imageable');
     }
 
     public function teams(){
