@@ -17,7 +17,7 @@ class UserSeeder extends Seeder
     {
         User::firstOrCreate([
             'name' => 'Admin',
-            'email' => 'admin@gmail.com',
+            'email' => 'admin@email.com',
             'password' => Hash::make(config('app.seed_pwd')),
             'is_admin' => true,
         ]);
