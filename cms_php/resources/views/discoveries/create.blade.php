@@ -6,8 +6,11 @@
 
             <form action="{{ route('discoveries.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
-
-                <x-forms.image-upload id="image" label="Image" url="{{ asset('img/placeholder-image.png') }}" />
+                <div class="w-full inline-flex">
+                    @for($i = 0; $i<=3; $i++)
+                        <x-forms.image-upload id="image[{{$i}}]" label="Image {{$i+1}}" url="{{ asset('img/placeholder-image.png') }}" />
+                    @endfor
+                </div>
 
                 <x-forms.input-text id="title" label="Title" value="{{ old('title') }}" />
 

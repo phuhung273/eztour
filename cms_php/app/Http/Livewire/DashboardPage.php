@@ -44,7 +44,7 @@ class DashboardPage extends BaseComponent
         return [
             'id' => $team->id,
             'name' => $team->name,
-            'image' => $team->image()->first()['src'],
+            'image' => $team->image()->first()['src']??'',
             'current' => $this->currentTeam ? $user->isCurrentTeam($team) : false,
             'viewing' => $viewingTeamId == $team->id,
             'start_date' => $team->start_date,

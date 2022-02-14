@@ -2,7 +2,7 @@
     <div class="bg-gray-100 grid md:grid-cols-3 rounded-lg">
         <div class="md:col-span-1">
             <div class="h-full bg-center bg-cover rounded-lg"
-                style="background-image:url('{{ asset('storage/img/discoveries/' . $discovery->image()->first()['src']) }}')">
+                style="background-image:url('{{ asset('storage/img/discoveries/' . $discovery->images()->first()['src'] ?? '')}}')">
             </div>
         </div>
         <div class="md:col-span-2 py-6 px-6">

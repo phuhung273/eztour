@@ -66,7 +66,7 @@ class DiscoveryController extends Controller
         $this->validateViewingTeam();
 
         $request->validate([
-            'image' => 'required|image|max:1024',
+//            'image' => 'required|image|max:1024',
             'title' => 'required|min:4',
             'address' => 'required|min:4',
             'place' => 'required|min:4',
@@ -74,17 +74,19 @@ class DiscoveryController extends Controller
 
         $input = $request->all();
 
-        if ($image = $request->file('image')) {
-            $image_name = date("Ymdhys")."_".$image->getClientOriginalName();
-            $image->storeAs(self::IMAGE_STORAGE_DIRECTORY, $image_name);
-            $input['image'] = $image_name;
-        }else{
-            unset($input['image']);
-        }
-
         $team = $this->viewingTeam->discoveries()->create($input);
-        $img['src'] = $input['image'];
-        $team->image()->save(new Image($img));
+
+        foreach ($request->file('image') as $key=>$value){
+            if ($image = $value) {
+                $image_name = date("Ymdhys")."_".$image->getClientOriginalName();
+                $image->storeAs(self::IMAGE_STORAGE_DIRECTORY, $image_name);
+                $input['image'] = $image_name;
+            }else{
+                unset($input['image']);
+            }
+            $img['src'] = $input['image'];
+            $team->images()->save(new Image($img));
+        }
         return redirect()->route('discoveries.index')
                         ->with('success','Discovery created successfully');
     }
@@ -122,6 +124,8 @@ class DiscoveryController extends Controller
      */
     public function update(Request $request, Discovery $discovery)
     {
+//        dd($request->all());
+
         $this->validateViewingTeam();
 
         $request->validate([
@@ -130,10 +134,28 @@ class DiscoveryController extends Controller
             'address' => 'required|min:4',
         ]);
 
-        $input = $this->validateInput($request);
-
+//        $input = $this->validateInput($request);
+        $input = $request->all();
         $discovery->update($input);
 
+        if ($images = $request->file('images')) {
+            foreach ($images as $key=>$image){
+                $image_name = date("Ymdhys")."_".$image->getClientOriginalName();
+                $image->storeAs(self::IMAGE_STORAGE_DIRECTORY, $image_name);
+                $discovery_image = $discovery->images()->find($key);
+                $discovery_image->src = $image_name;
+                $discovery_image->save();
+            }
+        }
+        if($images = $request->file('new_images')){
+//            dd('new');
+            foreach ($images as $image){
+                $image_name = date("Ymdhys")."_".$image->getClientOriginalName();
+                $image->storeAs(self::IMAGE_STORAGE_DIRECTORY, $image_name);
+                $img['src'] = $image_name;
+                $discovery->images()->save(new Image($img));
+            }
+        }
         return redirect()->route('discoveries.index')
                         ->with('success','Discovery updated successfully');
     }
@@ -165,18 +187,18 @@ class DiscoveryController extends Controller
         $this->viewingTeam = $viewingTeam;
     }
 
-    private function validateInput(Request $request){
-
-        $input = $request->all();
-
-        if ($image = $request->file('image')) {
-            $image_name = date("Ymdhys")."_".$image->getClientOriginalName();
-            $image->storeAs(self::IMAGE_STORAGE_DIRECTORY, $image_name);
-            $input['image'] = $image_name;
-        }else{
-            unset($input['image']);
-        }
-
-        return $input;
-    }
+//    private function validateInput(Request $request){
+//
+//        $input = $request->all();
+//
+//        if ($image = $request->file('images')) {
+//            $image_name = date("Ymdhys")."_".$image->getClientOriginalName();
+//            $image->storeAs(self::IMAGE_STORAGE_DIRECTORY, $image_name);
+//            $input['image'] = $image_name;
+//        }else{
+//            unset($input['image']);
+//        }
+//
+//        return $input;
+//    }
 }
