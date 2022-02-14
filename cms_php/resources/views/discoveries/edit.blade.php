@@ -8,9 +8,10 @@
                 @csrf
                 @method('PUT')
                 <div class="w-full inline-flex">
+
                     @php($images = $discovery->images()->get())
                     @foreach($images as $key=>$image)
-                        <x-forms.image-upload id="images[{{$image->id}}]" label="Image {{$image->id}}"
+                        <x-forms.image-upload id="images[{{$image->id}}]" label="Image {{$key+1}}"
                                               url="{{ asset('storage/img/discoveries/' . $image->src) }}"/>
                     @endforeach
 
